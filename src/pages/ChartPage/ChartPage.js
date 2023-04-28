@@ -20,7 +20,7 @@ export const ChartPage = () => {
   return (
     <Container>
       <h1>Carrinho de Compras</h1>
-      <ListGroup
+      <ListGroup 
         items={state.chart?.products.map((product) => (
           { 
             key: product.id,

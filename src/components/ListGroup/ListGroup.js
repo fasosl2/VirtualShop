@@ -12,16 +12,15 @@ export const ListGroup = ({ items = [] }) => {
   };
   
   return (<>
-    <ListGroupBS>
+    <ListGroupBS style={{height:'70vh'}}>
       {items.map((item) => (
-        <ListGroupBS.Item key={item.id}>
+        <ListGroupBS.Item key={item.id} >
           <noscript>{total+=(item.value * item.total)}</noscript>
-          <Row>
-            <Col xs={8}>
+          <Row className="g-4">
+            <Col xs={8} md={6}>
               {'Cod. ' + item.id + ' - ' + item.title}
               </Col>
-            <Col xs={4} className="text-end">
-            ${' '+ String(item.value.toFixed(2)) + ' '}
+            <Col xs={13} md={3} >
             <ButtonGroup className="mb-2">
           <Button
             variant={item.total ? "danger" : "primary"}
@@ -56,8 +55,10 @@ export const ListGroup = ({ items = [] }) => {
           )}
         </ButtonGroup>
         
+            </Col>              
+            <Col xs={12} md={3}>
         {' $ '+ String((item.value * item.total).toFixed(2)) + ' '}
-            </Col>
+              </Col>
           </Row>
         </ListGroupBS.Item>
       ))}

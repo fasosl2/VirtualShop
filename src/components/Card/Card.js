@@ -5,6 +5,8 @@ import {
   Card as CardBS,
   ButtonGroup,
   Spinner,
+  Col,
+  Row,
 } from "react-bootstrap";
 
 export const Card = ({ id, image, title, total, onClick, price }) => {
@@ -18,9 +20,13 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
 
   return (
     <CardBS>
-      <CardBS.Img src={image} alt="Card image" />
-      <CardBS.ImgOverlay></CardBS.ImgOverlay>
       <CardBS.Body>
+        <Row>
+        <Col>
+      <CardBS.Img src={image} alt="Card image" style={{maxHeight:'6em', maxWidth:'6em'}}/>
+      <CardBS.ImgOverlay></CardBS.ImgOverlay>
+      </Col>
+      <Col>
         <CardBS.Title>{title}</CardBS.Title>
         <CardBS.Title>${String(price.toFixed(2))}</CardBS.Title>
 
@@ -57,6 +63,7 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
             ""
           )}
         </ButtonGroup>
+        </Col></Row>
       </CardBS.Body>
     </CardBS>
   );

@@ -55,9 +55,9 @@ total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
         />
       )}
       <Container fluid>
-        <Row>
+        <Row >
         {productsTotalized.map((product) =>(
-          <Col key={product.id} xs={6} md={2}>
+          <Col key={product.id} xs={13} md={4} style={{marginTop:'1em'}}>
             <CardContainer
               {...product}
             />
