@@ -15,13 +15,13 @@ export const ListGroup = ({ items = [] }) => {
     <ListGroupBS>
       {items.map((item) => (
         <ListGroupBS.Item key={item.id}>
-          {total+=item.value}
+          <noscript>{total+=(item.value * item.total)}</noscript>
           <Row>
             <Col xs={8}>
               {'Cod. ' + item.id + ' - ' + item.title}
               </Col>
             <Col xs={4} className="text-end">
-            {item.value + ' '}
+            ${' '+ String(item.value.toFixed(2)) + ' '}
             <ButtonGroup className="mb-2">
           <Button
             variant={item.total ? "danger" : "primary"}
@@ -55,12 +55,14 @@ export const ListGroup = ({ items = [] }) => {
             ""
           )}
         </ButtonGroup>
+        
+        {' $ '+ String((item.value * item.total).toFixed(2)) + ' '}
             </Col>
           </Row>
         </ListGroupBS.Item>
       ))}
     </ListGroupBS>
-    <h1>Total: {total}</h1>
+    <h1>Total: $ {total.toFixed(2)}</h1>
   </>
   );
 };

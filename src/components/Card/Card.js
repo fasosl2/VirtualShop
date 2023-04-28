@@ -22,7 +22,7 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
       <CardBS.ImgOverlay></CardBS.ImgOverlay>
       <CardBS.Body>
         <CardBS.Title>{title}</CardBS.Title>
-        <CardBS.Title>{price}</CardBS.Title>
+        <CardBS.Title>${String(price.toFixed(2))}</CardBS.Title>
 
         <ButtonGroup className="mb-2">
           <Button
