@@ -1,107 +1,69 @@
 import { saveChart, getChart } from "./chartServices";
-import { generateId, /* getStoredTable, */ saveStoredTable } from "./localStorageAPI";
+import {saveStoredTable} from "./localStorageAPI";
 
 export const getProducts = async () => {
-  //const products = await getStoredTable("products");
-  return /* products || */ [
-    {
-       "id":1,
-       "title":"Jaleco",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":60.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":2,
-       "title":"Avental",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":30.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":3,
-       "title":"Touca",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":10.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":4,
-       "title":"Fronha",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":20.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":5,
-       "title":"Embalagem",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":1.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":6,
-       "title":"Porta talher",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":10.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    },
-    {
-       "id":7,
-       "title":"Porta absorvente",
-       "description":"Jaleco de alta qualidade fabricado para atender aos clientes mais exigentes",
-       "price":20.00,
-       "available":true,
-       image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100)
-    }
- ];
-};
+  
+  let requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" }
+  };
 
+  const products = fetch("https://base-api.glitch.me/api/products", requestOptions)
+    .then((response) => response.json())
+    .then((productList) => productList.map(ele => ({...ele,id:ele['_id']})));
+  return await products;
+};
 
 export const saveProducts = async (products) => {
   await saveStoredTable(products, "products");
 };
 
-
-export const saveProduct = async (productName) => {
-  var products = await getProducts();
-
-  const id = generateId(products);
+export const saveProduct = async (productData) => {
 
   const newProduct = {
-    id: id,
-    title: productName,
     image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100),
-    total: 0,
+    ...productData
   };
 
-  products.push(newProduct);
-  await saveStoredTable(products, "products");
+  let requestOptions = {
+   method: "POST",
+   headers: { "Content-Type": "application/json" },
+   body: JSON.stringify(newProduct)
+ };
+ await fetch("https://base-api.glitch.me/api/products", requestOptions)
+   .then((response) => response.json());
   return newProduct;
 };
 
 export const saveProductInChart = async (product) => {
   const chart = await getChart();
-  var prod = chart?.products.find(elem => elem.id === product.id);
-  prod ? prod.count++ : (chart && chart.products.push({...product, count:1}));
+  var prod = chart?.products.find((elem) => elem.id === product.id);
+  prod ? prod.count++ : chart && chart.products.push({ ...product, count: 1 });
   await saveChart(chart);
   return chart ? { ...chart } : {};
 };
 
-
 export const deleteProductFromChart = async (product, negativeValue) => {
-   const chart = await getChart();
-   var prodIndex = chart?.products?.findIndex(elem => elem.id === product.id);
-   if(chart?.products?.length && prodIndex != null && prodIndex !== -1){
-      chart.products[prodIndex].count > negativeValue ? chart.products[prodIndex].count-=negativeValue : (chart && chart?.products.splice(prodIndex,1));
-   }
+  const chart = await getChart();
+  var prodIndex = chart?.products?.findIndex((elem) => elem.id === product.id);
+  if (chart?.products?.length && prodIndex != null && prodIndex !== -1) {
+    chart.products[prodIndex].count > negativeValue
+      ? (chart.products[prodIndex].count -= negativeValue)
+      : chart && chart?.products.splice(prodIndex, 1);
+  }
 
-   await saveChart(chart);
-   return chart ? { ...chart } : {};
+  await saveChart(chart);
+  return chart ? { ...chart } : {};
 };
+
+export const deleteProduct = async (productId) => {
+
+   let requestOptions = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" }
+  };
+  await fetch("https://base-api.glitch.me/api/products/" + productId, requestOptions)
+    .then((response) => response.json());
+
+   return await getProducts();
+ };

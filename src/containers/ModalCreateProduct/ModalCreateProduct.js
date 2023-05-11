@@ -3,26 +3,35 @@ import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { closeModalsAction, saveProductsAction } from "../../storage/actions";
-import { saveProductsInitType, saveProductsSuccessType } from "../../storage/types";
+import {
+  saveProductsInitType,
+  saveProductsSuccessType,
+} from "../../storage/types";
 
 export const ModalCreateProduct = ({ open }) => {
-    const [productName,setProductName] = useState('');
-    const { state, dispatch } = useAppContext();
-    const handleSubmit = (e) =>{
-        e.preventDefault();
-        saveProductsAction(dispatch,productName)
+  const initialProduct = {
+    title: "",
+    description: "",
+    price: null,
+    stock: null,
+  }
+  const [productData, setProductData] = useState(initialProduct);
+  const { state, dispatch } = useAppContext();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    saveProductsAction(dispatch, productData);
+  };
+  useEffect(() => {
+    if (state.type === saveProductsSuccessType) {
+      setProductData(initialProduct);
+      dispatch(closeModalsAction());
     }
-    useEffect(() => {
-      if (state.type === saveProductsSuccessType) {
-        setProductName('');
-        dispatch(closeModalsAction());
-      }
-    }, [state.type,dispatch]);
+  }, [state.type, dispatch,initialProduct]);
 
-    const handleChange = (e) => setProductName(e.target.value);
+  const handleChange = (e,field) => setProductData(prevState => ({...prevState,[field]:e.target.value}));
   return (
     <Modal
-      title="Criar Product"
+      title="Criar Produto"
       open={open}
       controls={[
         {
@@ -31,15 +40,40 @@ export const ModalCreateProduct = ({ open }) => {
           loading: state.type === saveProductsInitType,
           variant: "secondary",
           type: "submit",
-          form: "form-criar-pasta",
+          form: "create-product-form",
           onClick: () => {},
         },
       ]}
     >
-      <Form onSubmit={handleSubmit} id="form-criar-pasta">
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Nome do Product</Form.Label>
-          <Form.Control type="text" placeholder="Ex: Trigonometria" value={productName} onChange={handleChange}/>
+      <Form onSubmit={handleSubmit} id="create-product-form">
+        <Form.Group className="mb-3" controlId="formCreateProduct">
+          <Form.Control
+            type="text" required
+            placeholder="Nome do Produto"
+            value={productData?.title}
+            onChange={(e) =>handleChange(e,'title')}
+          />
+          <br/>
+          <Form.Control
+            type="text" required
+            placeholder="Descrição"
+            value={productData?.description}
+            onChange={(e) =>handleChange(e,'description')}
+          />
+          <br/>
+          <Form.Control
+            type="number" required
+            placeholder="Preço do Producto"
+            value={productData?.price}
+            onChange={(e) =>handleChange(e,'price')}
+          />
+          <br/>
+          <Form.Control
+            type="number" required
+            placeholder="Quantidade em Estoque"
+            value={productData?.stock}
+            onChange={(e) =>handleChange(e,'stock')}
+          />
         </Form.Group>
       </Form>
     </Modal>

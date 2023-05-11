@@ -1,4 +1,4 @@
-import { deleteProductFromChart, getProducts, saveProduct, saveProductInChart } from "../services/productServices";
+import { deleteProduct, deleteProductFromChart, getProducts, saveProduct, saveProductInChart } from "../services/productServices";
 import { deleteChart, getChart, postChart } from "../services/chartServices";
 import {
   closeModalsType,
@@ -6,6 +6,8 @@ import {
   deleteChartSuccessType,
   deleteProductFromChartInitType,
   deleteProductFromChartSuccessType,
+  deleteProductInitType,
+  deleteProductSuccessType,
   fetchChartsInitType,
   fetchChartsSuccessType,
   fetchProductsInitType,
@@ -147,9 +149,25 @@ export const saveProductsSuccessAction = (products) => ({
   payload: products
 });
 
-export const saveProductsAction = async (dispatch,productName) => {
+export const saveProductsAction = async (dispatch,productData) => {
   dispatch(saveProductsInitAction());
   await sleep(1000);
-  const newProduct = await saveProduct(productName);
+  const newProduct = await saveProduct(productData);
   dispatch(saveProductsSuccessAction(newProduct));
+};
+
+export const deleteProductInitAction = () => ({
+  type: deleteProductInitType,
+});
+
+export const deleteProductSuccessAction = ({pins,folders}) => ({
+  type: deleteProductSuccessType,
+  payload: {pins, folders}
+});
+
+export const deleteProductAction = async (dispatch,productId) => {
+  dispatch(deleteProductInitAction());
+  await sleep(1000);
+  const products = await deleteProduct(productId);
+  dispatch(deleteProductSuccessAction(products));
 };

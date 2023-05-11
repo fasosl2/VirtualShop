@@ -1,4 +1,5 @@
 import { HomePage } from "./pages/Home/HomePage";
+import { Products } from "./pages/Products";
 import { ChartPage } from "./pages/ChartPage/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial/Headerpartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -22,6 +23,7 @@ function App() {
           <HeaderPartial />
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/produtos" element={<Products />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>
         </AppContext>

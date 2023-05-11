@@ -21,5 +21,8 @@ export const saveProductInChartSuccessType = 'saveProductInChartSuccess';
 export const deleteProductFromChartInitType = 'deleteProductFromChartInit';
 export const deleteProductFromChartSuccessType = 'deleteProductFromChartSuccess';
 
+export const deleteProductInitType = 'deleteProductInit';
+export const deleteProductSuccessType = 'deleteProductSuccess';
+
 export const fetchProductsInitType = 'fetchProductsInit';
 export const fetchProductsSuccessType = 'fetchProductsSuccess';

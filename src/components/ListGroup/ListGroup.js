@@ -44,11 +44,11 @@ export const ListGroup = ({ items = [] }) => {
           </Button>
           {item.total ? (
             <>
-              <Button onClick={() => handleClick(item, 0,item.onClick)}>˄</Button>
-              <Button>
+              <Button onClick={() => handleClick(item, 0,item.onClick)} variant='light'>˄</Button>
+              <Button  variant='light'>
                 <Badge bg="secondary">{item.total}</Badge>
               </Button>
-              <Button onClick={() => handleClick(item, 1,item.onClick)}>˅</Button>
+              <Button onClick={() => handleClick(item, 1,item.onClick)} variant='light'>˅</Button>
             </>
           ) : (
             ""
@@ -57,13 +57,13 @@ export const ListGroup = ({ items = [] }) => {
         
             </Col>              
             <Col xs={12} md={3}>
-        {' $ '+ String((item.value * item.total).toFixed(2)) + ' '}
+        {' $ '+ String((Number(item.value) * Number(item.total)).toFixed(2)) + ' '}
               </Col>
           </Row>
         </ListGroupBS.Item>
       ))}
     </ListGroupBS>
-    <h1>Total: $ {total.toFixed(2)}</h1>
+    <h1>Total: $ {Number(total).toFixed(2)}</h1>
   </>
   );
 };

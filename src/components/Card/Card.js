@@ -14,8 +14,12 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
 
   const [itemLoading, setItemLoading] = useState(false);
 
-  const handleClick = async (product, total) => {
-    await onClick(product, total, setItemLoading);
+  const handleChartClick = async (product, total) => {
+    await onClick.chart(product, total, setItemLoading);
+  };
+
+  const handleDeleteClick = async (productId) => {
+    await onClick.delete(productId, setItemLoading);
   };
 
   return (
@@ -24,16 +28,15 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
         <Row>
         <Col>
       <CardBS.Img src={image} alt="Card image" style={{maxHeight:'6em', maxWidth:'6em'}}/>
-      <CardBS.ImgOverlay></CardBS.ImgOverlay>
+      
       </Col>
       <Col>
         <CardBS.Title>{title}</CardBS.Title>
-        <CardBS.Title>${String(price.toFixed(2))}</CardBS.Title>
-
+        <CardBS.Title>${String(Number(price).toFixed(2))}</CardBS.Title>     
         <ButtonGroup className="mb-2">
           <Button
             variant={total ? "danger" : "primary"}
-            onClick={() => handleClick(product, total)}
+            onClick={() => handleChartClick(product, total)}
           >
             {total ? "Remove" : "Compra"}
             {itemLoading ? "ndo" : "r"}{" "}
@@ -53,16 +56,20 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
           </Button>
           {total ? (
             <>
-              <Button onClick={() => handleClick(product)}>˄</Button>
-              <Button>
+              <Button onClick={() => handleChartClick(product)} variant='light'>˄</Button>
+              <Button variant='light'>
                 <Badge bg="secondary">{total}</Badge>
               </Button>
-              <Button onClick={() => handleClick(product, 1)}>˅</Button>
+              <Button onClick={() => handleChartClick(product, 1)}  variant='light'>˅</Button>
             </>
           ) : (
             ""
           )}
         </ButtonGroup>
+        <br/>
+        <Button enable variant="danger" onClick={() => handleDeleteClick(id)}>
+          Excluir
+        </Button>
         </Col></Row>
       </CardBS.Body>
     </CardBS>

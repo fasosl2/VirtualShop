@@ -2,6 +2,7 @@ import {
   closeModalsType,
   deleteChartSuccessType,
   deleteProductFromChartSuccessType,
+  deleteProductSuccessType,
   fetchChartsSuccessType,
   fetchProductsSuccessType,
   openModalCreateProductType,
@@ -44,6 +45,9 @@ export function reducer(state, action) {
     case deleteProductFromChartSuccessType:
       stateAction.chart = action.payload;
       break;
+      case deleteProductSuccessType:
+        stateAction = { ...stateAction, products: action.payload }
+        break;
     case deleteChartSuccessType:
       stateAction.chart = action.payload;
       break;
