@@ -160,14 +160,14 @@ export const deleteProductInitAction = () => ({
   type: deleteProductInitType,
 });
 
-export const deleteProductSuccessAction = ({pins,folders}) => ({
+export const deleteProductSuccessAction = (products) => ({
   type: deleteProductSuccessType,
-  payload: {pins, folders}
+  payload: products
 });
 
-export const deleteProductAction = async (dispatch,productId) => {
+export const deleteProductAction = async (dispatch,product) => {
   dispatch(deleteProductInitAction());
   await sleep(1000);
-  const products = await deleteProduct(productId);
+  const products = await deleteProduct(product);
   dispatch(deleteProductSuccessAction(products));
 };

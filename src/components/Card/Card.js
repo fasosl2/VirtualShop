@@ -67,7 +67,7 @@ export const Card = ({ id, image, title, total, onClick, price }) => {
           )}
         </ButtonGroup>
         <br/>
-        <Button enable variant="danger" onClick={() => handleDeleteClick(id)}>
+        <Button variant="danger" onClick={() => handleDeleteClick(id)}>
           Excluir
         </Button>
         </Col></Row>

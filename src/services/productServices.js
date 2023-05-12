@@ -64,6 +64,6 @@ export const deleteProduct = async (productId) => {
   };
   await fetch("https://base-api.glitch.me/api/products/" + productId, requestOptions)
     .then((response) => response.json());
-
+  await deleteProductFromChart({id:productId},99999999999);
    return await getProducts();
  };

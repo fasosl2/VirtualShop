@@ -42,36 +42,6 @@ total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
 
   return (
     <>
-  <header className="cabecalho">
-    <Container>
-      <span className="cabeçalho_logo" />
-      <img
-        src="imgs/Logo.svg"
-        alt="Logo da Cozinha Solidaria"
-        className="logo"
-      />
-    </Container>
-    <Container>
-      <a href="#">
-        <img src="imgs/Botão +.svg" alt="Botão de menu" className="menu" />
-      </a>
-    </Container>
-    <Container>
-      <img
-        src="imgs/Alimente a mudança.svg"
-        alt="frase alimente a mudança"
-        className="frase1"
-      />
-    </Container>
-    <Container>
-      <a className="btn" href="catalogo.html">
-        <button type="button" className="button1">
-          contrate a gente
-        </button>
-      </a>
-      &gt;
-    </Container>
-  </header>
   <section className="apresentacao">
     <h2 className="apresentacao__titulo">Cozinha Solidária</h2>
     <h3 className="apresentacao__subtitulo">Sérgio Pereira</h3>
