@@ -8,7 +8,7 @@ export const getProducts = async () => {
     headers: { "Content-Type": "application/json" }
   };
 
-  const products = fetch("https://base-api.glitch.me/api/products", requestOptions)
+  const products = fetch(process.env.REACT_APP_API + "products", requestOptions)
     .then((response) => response.json())
     .then((productList) => productList.map(ele => ({...ele,id:ele['_id']})));
   return await products;
