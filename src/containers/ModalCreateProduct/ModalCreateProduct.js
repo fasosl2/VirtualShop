@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
@@ -7,20 +7,29 @@ import {
   saveProductsInitType,
   saveProductsSuccessType,
 } from "../../storage/types";
+import utilService from "../../services/utilService";
 
 export const ModalCreateProduct = ({ open }) => {
-  const initialProduct = {
+  const initialProduct = useMemo(()=>({
     title: "",
     description: "",
-    price: null,
-    stock: null,
-  }
+    price: '',
+    stock: '',
+    image: ''
+  }),[]);
   const [productData, setProductData] = useState(initialProduct);
   const { state, dispatch } = useAppContext();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    saveProductsAction(dispatch, productData);
+    let base64Image = await utilService.imageAsBase64(productData.image);
+
+    setProductData(prevState => ({...prevState, image: base64Image}));
+    saveProductsAction(dispatch, {...productData, image: base64Image});
+
+    console.log(base64Image);
   };
+
   useEffect(() => {
     if (state.type === saveProductsSuccessType) {
       setProductData(initialProduct);
@@ -28,7 +37,8 @@ export const ModalCreateProduct = ({ open }) => {
     }
   }, [state.type, dispatch,initialProduct]);
 
-  const handleChange = (e,field) => setProductData(prevState => ({...prevState,[field]:e.target.value}));
+  const handleChange = (e,field) => setProductData(prevState => ({...prevState,[field]: e.target?.files?.length ? e.target.files[0] : e.target.value}));
+  
   return (
     <Modal
       title="Criar Produto"
@@ -73,6 +83,13 @@ export const ModalCreateProduct = ({ open }) => {
             placeholder="Quantidade em Estoque"
             value={productData?.stock}
             onChange={(e) =>handleChange(e,'stock')}
+          />
+          <br/>
+          <Form.Control
+            type="file" required
+            placeholder="Imagem do Produto"
+            // value={productData?.image}
+            onChange={(e) =>handleChange(e,'image')}
           />
         </Form.Group>
       </Form>

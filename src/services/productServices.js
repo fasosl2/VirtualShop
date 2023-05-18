@@ -1,38 +1,13 @@
 import { saveChart, getChart } from "./chartServices";
-import {saveStoredTable} from "./localStorageAPI";
-
+import api from "./apiService";
 export const getProducts = async () => {
-  
-  let requestOptions = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  };
-
-  const products = fetch(process.env.REACT_APP_API + "products", requestOptions)
-    .then((response) => response.json())
-    .then((productList) => productList.map(ele => ({...ele,id:ele['_id']})));
-  return await products;
+  return await api.get("products");
 };
 
-export const saveProducts = async (products) => {
-  await saveStoredTable(products, "products");
-};
 
 export const saveProduct = async (productData) => {
-
-  const newProduct = {
-    image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100),
-    ...productData
-  };
-
-  let requestOptions = {
-   method: "POST",
-   headers: { "Content-Type": "application/json" },
-   body: JSON.stringify(newProduct)
- };
- await fetch("https://base-api.glitch.me/api/products", requestOptions)
-   .then((response) => response.json());
-  return newProduct;
+  await api.post("products", productData)
+  return productData;
 };
 
 export const saveProductInChart = async (product) => {
@@ -57,13 +32,8 @@ export const deleteProductFromChart = async (product, negativeValue) => {
 };
 
 export const deleteProduct = async (productId) => {
-
-   let requestOptions = {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" }
-  };
-  await fetch("https://base-api.glitch.me/api/products/" + productId, requestOptions)
-    .then((response) => response.json());
+  await api.delete("products", productId);
   await deleteProductFromChart({id:productId},99999999999);
+
    return await getProducts();
  };

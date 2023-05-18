@@ -14,9 +14,9 @@ export const Products = () => {
   const { state,dispatch } = useAppContext();
   const [showFeedback, setShowFeedback] = useState(false);
 
-const productsTotalized = state.products.map(product => ({...product,
-total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
-}));
+  const productsTotalized = state.products.map(product => ({...product,
+    total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
+  }));
 
   useEffect(() => {
     fetchProductsAction(dispatch);

@@ -15,6 +15,7 @@ import {
 
 export function reducer(state, action) {
   let stateAction = {type: action?.type};
+
   switch (action?.type) {
     case openModalSaveProductType:
       stateAction.mode = "saveProduct";
