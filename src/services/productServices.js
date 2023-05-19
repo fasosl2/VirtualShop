@@ -1,14 +1,20 @@
 import { saveChart, getChart } from "./chartServices";
 import api from "./apiService";
-export const getProducts = async () => {
-  return await api.get("products");
-};
 
+export const getProducts = async () => {
+  return await api.read({route: "products"});
+};
 
 export const saveProduct = async (productData) => {
   await api.post("products", productData)
   return productData;
 };
+
+export const deleteProduct = async (productId) => {
+  await api.delete("products", productId);
+  await deleteProductFromChart({id:productId},99999999999);
+  return await getProducts();
+ };
 
 export const saveProductInChart = async (product) => {
   const chart = await getChart();
@@ -30,10 +36,3 @@ export const deleteProductFromChart = async (product, negativeValue) => {
   await saveChart(chart);
   return chart ? { ...chart } : {};
 };
-
-export const deleteProduct = async (productId) => {
-  await api.delete("products", productId);
-  await deleteProductFromChart({id:productId},99999999999);
-
-   return await getProducts();
- };

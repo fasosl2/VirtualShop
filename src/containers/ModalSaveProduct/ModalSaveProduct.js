@@ -5,9 +5,9 @@ import { useAppContext } from "../../storage/AppContext";
 import { useEffect, useState } from "react";
 import {
   fetchChartsAction,
-  saveProductInChartAction,
+  saveProductsInChartAction,
   openModalSaveChartAction,
-  deleteProductFromChartAction,
+  deleteProductsFromChartAction,
 } from "../../storage/actions";
 
 export const ModalSaveProduct = ({ open }) => {
@@ -20,13 +20,13 @@ export const ModalSaveProduct = ({ open }) => {
 
   const handleSaveProductClick = async (chartId) => {
     setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await saveProductInChartAction(dispatch, chartId, state.activeProductId);
+    await saveProductsInChartAction(dispatch, chartId, state.activeProductId);
     setItensLoading(prevState => ({...prevState,[chartId]:false}))
   };
 
   const handleDeleteProductClick = async (chartId) => {
     setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await deleteProductFromChartAction(dispatch, chartId, state.activeProductId);
+    await deleteProductsFromChartAction(dispatch, chartId, state.activeProductId);
     setItensLoading(prevState => ({...prevState,[chartId]:false}))
   };
 

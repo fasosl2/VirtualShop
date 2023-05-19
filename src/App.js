@@ -1,7 +1,7 @@
 import { HomePage } from "./pages/Home/HomePage";
 import { Products } from "./pages/Products";
 import { ChartPage } from "./pages/ChartPage/ChartPage";
-import { HeaderPartial } from "./partials/HeaderPartial/Headerpartial";
+import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 
@@ -12,7 +12,8 @@ const initialState = {
     products: []
   },
   type: null,
-  products: []
+  products: [],
+  currentUser: null
 };
 
 function App() {

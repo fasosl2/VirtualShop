@@ -15,14 +15,29 @@ export const saveChartsSuccessType = 'saveChartsSuccess';
 export const deleteChartInitType = 'deleteChartInit';
 export const deleteChartSuccessType = 'deleteChartSuccess';
 
-export const saveProductInChartInitType = 'saveProductInChartInit';
-export const saveProductInChartSuccessType = 'saveProductInChartSuccess';
+export const saveProductsInChartInitType = 'saveProductsInChartInit';
+export const saveProductsInChartSuccessType = 'saveProductsInChartSuccess';
 
-export const deleteProductFromChartInitType = 'deleteProductFromChartInit';
-export const deleteProductFromChartSuccessType = 'deleteProductFromChartSuccess';
+export const deleteProductsFromChartInitType = 'deleteProductsFromChartInit';
+export const deleteProductsFromChartSuccessType = 'deleteProductsFromChartSuccess';
 
-export const deleteProductInitType = 'deleteProductInit';
-export const deleteProductSuccessType = 'deleteProductSuccess';
+export const deleteProductsInitType = 'deleteProductsInit';
+export const deleteProductsSuccessType = 'deleteProductsSuccess';
 
 export const fetchProductsInitType = 'fetchProductsInit';
 export const fetchProductsSuccessType = 'fetchProductsSuccess';
+
+export const saveUsersInitType = 'saveUsersInit';
+export const saveUsersSuccessType = 'saveUsersSuccess';
+
+export const deleteUsersInitType = 'deleteUserInit';
+export const deleteUsersSuccessType = 'deleteUserSuccess';
+
+export const fetchUsersInitType = 'fetchUsersInit';
+export const fetchUsersSuccessType = 'fetchUsersSuccess';
+
+export const loginUsersInitType = 'loginUsersInit';
+export const loginUsersSuccessType = 'loginUsersSuccess';
+
+export const authUsersInitType = 'authUsersInit';
+export const authUsersSuccessType = 'loginUsersSuccess';

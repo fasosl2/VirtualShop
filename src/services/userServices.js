@@ -1,69 +1,37 @@
-import { saveChart, getChart } from "./chartServices";
-import {saveStoredTable} from "./localStorageAPI";
+import api from "./apiService";
 
-export const getProducts = async () => {
-  
-  let requestOptions = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  };
-
-  const products = fetch(process.env.REACT_APP_API + "products", requestOptions)
-    .then((response) => response.json())
-    .then((productList) => productList.map(ele => ({...ele,id:ele['_id']})));
-  return await products;
+export const getUsers = async () => {
+  return await api.read({route: "users"});
 };
 
-export const saveProducts = async (products) => {
-  await saveStoredTable(products, "products");
+export const saveUser = async (userData) => {
+  await api.post("users", userData)
+  return userData;
 };
 
-export const saveProduct = async (productData) => {
-
-  const newProduct = {
-    image: "https://picsum.photos/200/200?" + Math.floor(Math.random() * 100),
-    ...productData
-  };
-
-  let requestOptions = {
-   method: "POST",
-   headers: { "Content-Type": "application/json" },
-   body: JSON.stringify(newProduct)
+export const deleteUser = async (userId) => {
+  await api.delete("users", userId);
+  return await getUsers();
  };
- await fetch("https://base-api.glitch.me/api/products", requestOptions)
-   .then((response) => response.json());
-  return newProduct;
-};
+ 
+ export const getUserToken = () => {
+  return localStorage.getItem("x-access-token") || '';
+ }
+ 
+ export const setUserToken = (token) => {
+  return localStorage.setItem("x-access-token",token);
+ }
 
-export const saveProductInChart = async (product) => {
-  const chart = await getChart();
-  var prod = chart?.products.find((elem) => elem.id === product.id);
-  prod ? prod.count++ : chart && chart.products.push({ ...product, count: 1 });
-  await saveChart(chart);
-  return chart ? { ...chart } : {};
-};
-
-export const deleteProductFromChart = async (product, negativeValue) => {
-  const chart = await getChart();
-  var prodIndex = chart?.products?.findIndex((elem) => elem.id === product.id);
-  if (chart?.products?.length && prodIndex != null && prodIndex !== -1) {
-    chart.products[prodIndex].count > negativeValue
-      ? (chart.products[prodIndex].count -= negativeValue)
-      : chart && chart?.products.splice(prodIndex, 1);
+export const userLogin = async (loginData) => {
+  const response = await api.get({route: "users/login", params: [loginData.email,loginData.password]});
+  if (response?.auth){
+    setUserToken(response.token);
+    return response.user;
   }
-
-  await saveChart(chart);
-  return chart ? { ...chart } : {};
+  return {error: 'falha no login!'}
 };
 
-export const deleteProduct = async (productId) => {
-
-   let requestOptions = {
-    method: "DELETE",
-    headers: { "Content-Type": "application/json" }
-  };
-  await fetch("https://base-api.glitch.me/api/products/" + productId, requestOptions)
-    .then((response) => response.json());
-  await deleteProductFromChart({id:productId},99999999999);
-   return await getProducts();
- };
+export const userAuth = async () => {
+  const token = getUserToken();
+  return await api.get({route: "auth", header:{ 'x-access-token': token}});
+};

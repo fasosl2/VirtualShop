@@ -26,8 +26,6 @@ export const ModalCreateProduct = ({ open }) => {
 
     setProductData(prevState => ({...prevState, image: base64Image}));
     saveProductsAction(dispatch, {...productData, image: base64Image});
-
-    console.log(base64Image);
   };
 
   useEffect(() => {

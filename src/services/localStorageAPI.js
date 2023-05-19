@@ -9,3 +9,12 @@ export const saveStoredTable = async (table,tableName)=>{
 export const getStoredTable = async (table,defaultObject) => {
     return JSON.parse(localStorage.getItem(table)) || (defaultObject ? defaultObject : []);
 }
+
+
+export const getStoredItem = async (itemName) => {
+    return localStorage.getItem(itemName);
+}
+
+export const setStoredItem = async (itemName,item) => {
+    return localStorage.setItem(itemName,JSON.stringify(item));
+}

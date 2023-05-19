@@ -1,6 +1,6 @@
 import { Card } from "../../components/Card/Card";
 import { useAppContext } from "../../storage/AppContext";
-import { deleteProductAction, deleteProductFromChartAction, saveProductInChartAction } from "../../storage/actions";
+import { deleteProductAction, deleteProductsFromChartAction, saveProductsInChartAction } from "../../storage/actions";
 export const CardContainer = (props) => {
     const {dispatch} = useAppContext();
     
@@ -12,7 +12,7 @@ export const CardContainer = (props) => {
         },
         chart: async (product,negativeValue,setItemLoading) => {
         setItemLoading(true);
-        dispatch(negativeValue ? await deleteProductFromChartAction(dispatch,product,negativeValue) : await saveProductInChartAction(dispatch,product))
+        dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,product,negativeValue) : await saveProductsInChartAction(dispatch,product))
         setItemLoading(false);
     }
 }

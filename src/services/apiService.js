@@ -1,15 +1,22 @@
+import { getUserToken } from "./userServices";
+
 const api = {
-  get: async (route) => {
+  read: async ({route}) => {
+    const response = await api.get({route});
+    return response.map((ele) => ({ ...ele, id: ele["_id"] }));
+  },
+  get: async ({route, params, header}) => {
+    const token = getUserToken();
     let requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        'Content-Type': 'application/json',
+      'x-access-token': token,
+      ...header },
     };
 
-    const response = fetch(process.env.REACT_APP_API + route, requestOptions)
-      .then((response) => response.json())
-      .then((itemsList) =>
-        itemsList.map((ele) => ({ ...ele, id: ele["_id"] }))
-      );
+    const response = fetch(process.env.REACT_APP_API + route + (params ? '/' + params.join('/') : ''), requestOptions)
+      .then((response) => response.json());
 
     return await response;
   },

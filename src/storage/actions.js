@@ -1,27 +1,38 @@
-import { deleteProduct, deleteProductFromChart, getProducts, saveProduct, saveProductInChart } from "../services/productServices";
+import { deleteProduct, deleteProductFromChart as deleteProductsFromChart, getProducts, saveProduct, saveProductInChart } from "../services/productServices";
 import { deleteChart, getChart, postChart } from "../services/chartServices";
 import {
+  authUsersInitType,
+  authUsersSuccessType,
   closeModalsType,
   deleteChartInitType,
   deleteChartSuccessType,
-  deleteProductFromChartInitType,
-  deleteProductFromChartSuccessType,
-  deleteProductInitType,
-  deleteProductSuccessType,
+  deleteProductsFromChartInitType,
+  deleteProductsFromChartSuccessType,
+  deleteProductsInitType,
+  deleteProductsSuccessType,
+  deleteUsersInitType,
+  deleteUsersSuccessType,
   fetchChartsInitType,
   fetchChartsSuccessType,
   fetchProductsInitType,
   fetchProductsSuccessType,
+  fetchUsersInitType,
+  fetchUsersSuccessType,
+  loginUsersInitType,
+  loginUsersSuccessType,
   openModalCreateProductType,
   openModalSaveChartType,
   openModalSaveProductType,
   saveChartsInitType,
   saveChartsSuccessType,
-  saveProductInChartInitType,
-  saveProductInChartSuccessType,
+  saveProductsInChartInitType,
+  saveProductsInChartSuccessType,
   saveProductsInitType,
   saveProductsSuccessType,
+  saveUsersInitType,
+  saveUsersSuccessType,
 } from "./types";
+import { deleteUser, getUsers, saveUser, userLogin } from "../services/userServices";
 
 export const sleep = (time) => (
   new Promise(resolve =>{
@@ -76,20 +87,20 @@ export const saveChartsAction = async (dispatch,chartName,productId) => {
   dispatch(saveChartsSuccessAction(resultChart));
 };
 
-export const saveProductInChartInitAction = () => ({
-  type: saveProductInChartInitType,
+export const saveProductsInChartInitAction = () => ({
+  type: saveProductsInChartInitType,
 });
 
-export const saveProductInChartSuccessAction = (charts) => ({
-  type: saveProductInChartSuccessType,
+export const saveProductsInChartSuccessAction = (charts) => ({
+  type: saveProductsInChartSuccessType,
   payload: charts
 });
 
-export const saveProductInChartAction = async (dispatch,product) => {
-  dispatch(saveProductInChartInitAction());
+export const saveProductsInChartAction = async (dispatch,product) => {
+  dispatch(saveProductsInChartInitAction());
   await sleep(1000);
   const chart = await saveProductInChart(product);
-  dispatch(saveProductInChartSuccessAction(chart));
+  dispatch(saveProductsInChartSuccessAction(chart));
 };
 
 export const fetchProductsInitAction = () => ({
@@ -107,20 +118,20 @@ export const fetchProductsAction = async (dispatch) => {
   dispatch(fetchProductsSuccessAction(products));
 };
 
-export const deleteProductFromChartInitAction = () => ({
-  type: deleteProductFromChartInitType,
+export const deleteProductsFromChartInitAction = () => ({
+  type: deleteProductsFromChartInitType,
 });
 
-export const deleteProductFromChartSuccessAction = (charts) => ({
-  type: deleteProductFromChartSuccessType,
+export const deleteProductsFromChartSuccessAction = (charts) => ({
+  type: deleteProductsFromChartSuccessType,
   payload: charts
 });
 
-export const deleteProductFromChartAction = async (dispatch,product,negativeValue) => {
-  dispatch(deleteProductFromChartInitAction());
+export const deleteProductsFromChartAction = async (dispatch,product,negativeValue) => {
+  dispatch(deleteProductsFromChartInitAction());
   await sleep(1000);
-  const chart = await deleteProductFromChart(product,negativeValue);
-  dispatch(deleteProductFromChartSuccessAction(chart));
+  const chart = await deleteProductsFromChart(product,negativeValue);
+  dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 
 export const deleteChartInitAction = () => ({
@@ -139,7 +150,6 @@ export const deleteChartAction = async (dispatch,chartId) => {
   dispatch(deleteChartSuccessAction(charts));
 };
 
-
 export const saveProductsInitAction = () => ({
   type: saveProductsInitType,
 });
@@ -157,11 +167,11 @@ export const saveProductsAction = async (dispatch,productData) => {
 };
 
 export const deleteProductInitAction = () => ({
-  type: deleteProductInitType,
+  type: deleteProductsInitType,
 });
 
 export const deleteProductSuccessAction = (products) => ({
-  type: deleteProductSuccessType,
+  type: deleteProductsSuccessType,
   payload: products
 });
 
@@ -170,4 +180,85 @@ export const deleteProductAction = async (dispatch,product) => {
   await sleep(1000);
   const products = await deleteProduct(product);
   dispatch(deleteProductSuccessAction(products));
+};
+
+
+
+
+export const fetchUsersInitAction = () => ({
+  type: fetchUsersInitType,
+});
+
+export const fetchUsersSuccessAction = (users) => ({
+  type: fetchUsersSuccessType,
+  payload: users
+});
+
+export const fetchUsersAction = async (dispatch) => {
+  dispatch(fetchUsersInitAction());
+  const users = await getUsers();
+  dispatch(fetchUsersSuccessAction(users));
+};
+export const saveUsersInitAction = () => ({
+  type: saveUsersInitType,
+});
+
+export const saveUsersSuccessAction = (users) => ({
+  type: saveUsersSuccessType,
+  payload: users
+});
+
+export const saveUsersAction = async (dispatch,userData) => {
+  dispatch(saveUsersInitAction());
+  await sleep(1000);
+  const newUser = await saveUser(userData);
+  dispatch(saveUsersSuccessAction(newUser));
+};
+
+export const deleteUsersInitAction = () => ({
+  type: deleteUsersInitType,
+});
+
+export const deleteUsersSuccessAction = (users) => ({
+  type: deleteUsersSuccessType,
+  payload: users
+});
+
+export const deleteUserAction = async (dispatch,user) => {
+  dispatch(deleteUsersInitAction());
+  await sleep(1000);
+  const users = await deleteUser(user);
+  dispatch(deleteUsersSuccessAction(users));
+};
+
+export const authUsersInitAction = () => ({
+  type: authUsersInitType,
+});
+
+export const authUsersSuccessAction = (users) => ({
+  type: authUsersSuccessType,
+  payload: users
+});
+
+export const authUsersAction = async (dispatch,user) => {
+  dispatch(authUsersInitAction());
+  await sleep(1000);
+  const users = await deleteUser(user);
+  dispatch(authUsersSuccessAction(users));
+};
+
+export const loginUsersInitAction = () => ({
+  type: loginUsersInitType,
+});
+
+export const loginUsersSuccessAction = (users) => ({
+  type: loginUsersSuccessType,
+  payload: users
+});
+
+export const loginUsersAction = async (dispatch,user) => {
+  dispatch(loginUsersInitAction());
+  await sleep(1000);
+  const users = await userLogin(user);
+  dispatch(loginUsersSuccessAction(users));
 };

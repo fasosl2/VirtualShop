@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import { ListGroup } from "../../components/ListGroup/ListGroup";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
-import { deleteProductFromChartAction, fetchChartsAction, saveProductInChartAction } from "../../storage/actions";
+import { deleteProductsFromChartAction, fetchChartsAction, saveProductsInChartAction } from "../../storage/actions";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
@@ -10,7 +10,7 @@ export const ChartPage = () => {
   
   const handleClick = async (product,negativeValue,setItensLoading) => {
     setItensLoading(prevState => ({...prevState,[product.id]:true}))
-    dispatch(negativeValue ? await deleteProductFromChartAction(dispatch,product,negativeValue) : await saveProductInChartAction(dispatch,product))
+    dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,product,negativeValue) : await saveProductsInChartAction(dispatch,product))
     setItensLoading(prevState => ({...prevState,[product.id]:false}))
   }
   useEffect(() => {

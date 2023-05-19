@@ -1,20 +1,25 @@
 import {
+  authUsersSuccessType,
   closeModalsType,
   deleteChartSuccessType,
-  deleteProductFromChartSuccessType,
-  deleteProductSuccessType,
+  deleteProductsFromChartSuccessType,
+  deleteProductsSuccessType,
+  deleteUsersSuccessType,
   fetchChartsSuccessType,
   fetchProductsSuccessType,
+  fetchUsersSuccessType,
+  loginUsersSuccessType,
   openModalCreateProductType,
   openModalSaveChartType,
   openModalSaveProductType,
   saveChartsSuccessType,
-  saveProductInChartSuccessType,
+  saveProductsInChartSuccessType,
   saveProductsSuccessType,
+  saveUsersSuccessType,
 } from "./types";
 
 export function reducer(state, action) {
-  let stateAction = {type: action?.type};
+  let stateAction = { type: action?.type };
 
   switch (action?.type) {
     case openModalSaveProductType:
@@ -37,23 +42,38 @@ export function reducer(state, action) {
     case saveChartsSuccessType:
       stateAction.chart = [...state.chart, action.payload];
       break;
-    case saveProductsSuccessType:
-      stateAction.products = [...state.products, action.payload];
-      break;
-    case saveProductInChartSuccessType:
-      stateAction.chart = action.payload;
-      break;
-    case deleteProductFromChartSuccessType:
-      stateAction.chart = action.payload;
-      break;
-      case deleteProductSuccessType:
-        stateAction = { ...stateAction, products: action.payload }
-        break;
     case deleteChartSuccessType:
       stateAction.chart = action.payload;
       break;
+    case saveProductsInChartSuccessType:
+      stateAction.chart = action.payload;
+      break;
+    case saveProductsSuccessType:
+      stateAction.products = [...state.products, action.payload];
+      break;
+    case deleteProductsFromChartSuccessType:
+      stateAction.chart = action.payload;
+      break;
+    case deleteProductsSuccessType:
+      stateAction.products= action.payload;
+      break;
     case fetchProductsSuccessType:
       stateAction.products = [...action.payload];
+      break;
+    case fetchUsersSuccessType:
+      stateAction.products = [...action.payload];
+      break;
+    case saveUsersSuccessType:
+      stateAction.users = [...state.users, action.payload];
+      break;
+    case deleteUsersSuccessType:
+      stateAction.users = action.payload;
+      break;
+    case loginUsersSuccessType:
+      stateAction.currentUser = action.payload;
+      break;
+    case authUsersSuccessType:
+      stateAction.users = [...action.payload];
       break;
     default:
       break;
