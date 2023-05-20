@@ -22,7 +22,7 @@ export const ModalCreateProduct = ({ open }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let base64Image = await utilService.imageAsBase64(productData.image);
+    let base64Image = await utilService.imageToCompressedBase64(productData.image);
 
     setProductData(prevState => ({...prevState, image: base64Image}));
     saveProductsAction(dispatch, {...productData, image: base64Image});
