@@ -3,7 +3,7 @@ import { Dropdown, Form } from "react-bootstrap";
 import { Button } from "../../components/Button/Button";
 import { Container } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
-import { loginUsersAction } from "../../storage/actions";
+import { authUsersAction, loginUsersAction } from "../../storage/actions";
 import { loginUsersSuccessType } from "../../storage/types";
 
 export const LoginContainer = () => {
@@ -27,6 +27,11 @@ export const LoginContainer = () => {
       setLoginData(initialLoginData);
     }
   }, [state.type, dispatch, initialLoginData]);
+
+  
+  useEffect(() => {
+    authUsersAction(dispatch);
+  }, []);
 
   const handleChange = (e, field) =>
     setLoginData((prevState) => ({

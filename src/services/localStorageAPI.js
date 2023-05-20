@@ -10,9 +10,8 @@ export const getStoredTable = async (table,defaultObject) => {
     return JSON.parse(localStorage.getItem(table)) || (defaultObject ? defaultObject : []);
 }
 
-
 export const getStoredItem = async (itemName) => {
-    return localStorage.getItem(itemName);
+    return JSON.parse(localStorage.getItem(itemName));
 }
 
 export const setStoredItem = async (itemName,item) => {

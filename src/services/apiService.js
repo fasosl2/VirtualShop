@@ -6,12 +6,12 @@ const api = {
     return response.map((ele) => ({ ...ele, id: ele["_id"] }));
   },
   get: async ({route, params, header}) => {
-    const token = getUserToken();
+    const user = await getUserToken() || '';
     let requestOptions = {
       method: "GET",
       headers: { 
         'Content-Type': 'application/json',
-      'x-access-token': token,
+      'x-access-token': user.token,
       ...header },
     };
 

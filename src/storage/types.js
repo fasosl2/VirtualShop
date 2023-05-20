@@ -41,3 +41,6 @@ export const loginUsersSuccessType = 'loginUsersSuccess';
 
 export const authUsersInitType = 'authUsersInit';
 export const authUsersSuccessType = 'loginUsersSuccess';
+
+export const getUsersTokenInitType = 'getUsersTokenInit';
+export const getUsersTokenSuccessType = 'getUsersTokenSuccess';

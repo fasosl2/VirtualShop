@@ -8,6 +8,7 @@ import {
   fetchChartsSuccessType,
   fetchProductsSuccessType,
   fetchUsersSuccessType,
+  getUsersTokenSuccessType,
   loginUsersSuccessType,
   openModalCreateProductType,
   openModalSaveChartType,
@@ -73,7 +74,7 @@ export function reducer(state, action) {
       stateAction.currentUser = action.payload;
       break;
     case authUsersSuccessType:
-      stateAction.users = [...action.payload];
+      stateAction.currentUser = [...action.payload];
       break;
     default:
       break;

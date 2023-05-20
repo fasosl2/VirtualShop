@@ -1,4 +1,5 @@
 import api from "./apiService";
+import { getStoredItem, setStoredItem } from "./localStorageAPI";
 
 export const getUsers = async () => {
   return await api.read({route: "users"});
@@ -15,23 +16,28 @@ export const deleteUser = async (userId) => {
  };
  
  export const getUserToken = () => {
-  return localStorage.getItem("x-access-token") || '';
+  return getStoredItem("user") || null;
  }
  
  export const setUserToken = (token) => {
-  return localStorage.setItem("x-access-token",token);
+  return setStoredItem("user",token);
  }
 
 export const userLogin = async (loginData) => {
   const response = await api.get({route: "users/login", params: [loginData.email,loginData.password]});
   if (response?.auth){
-    setUserToken(response.token);
+    setUserToken({...response.user, token: response.token});
     return response.user;
   }
   return {error: 'falha no login!'}
 };
 
 export const userAuth = async () => {
-  const token = getUserToken();
-  return await api.get({route: "auth", header:{ 'x-access-token': token}});
+  const user = await getUserToken();
+  if(!user){
+    return null;
+  }
+  const response = await api.get({route: "auth"});
+  
+  return response?.auth ? user : null;
 };

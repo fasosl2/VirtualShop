@@ -18,6 +18,8 @@ import {
   fetchProductsSuccessType,
   fetchUsersInitType,
   fetchUsersSuccessType,
+  getUsersTokenInitType,
+  getUsersTokenSuccessType,
   loginUsersInitType,
   loginUsersSuccessType,
   openModalCreateProductType,
@@ -32,7 +34,7 @@ import {
   saveUsersInitType,
   saveUsersSuccessType,
 } from "./types";
-import { deleteUser, getUsers, saveUser, userLogin } from "../services/userServices";
+import { deleteUser, getUserToken, getUsers, saveUser, userAuth, userLogin } from "../services/userServices";
 
 export const sleep = (time) => (
   new Promise(resolve =>{
@@ -240,10 +242,10 @@ export const authUsersSuccessAction = (users) => ({
   payload: users
 });
 
-export const authUsersAction = async (dispatch,user) => {
+export const authUsersAction = async (dispatch) => {
   dispatch(authUsersInitAction());
   await sleep(1000);
-  const users = await deleteUser(user);
+  const users = await userAuth();
   dispatch(authUsersSuccessAction(users));
 };
 
@@ -262,3 +264,12 @@ export const loginUsersAction = async (dispatch,user) => {
   const users = await userLogin(user);
   dispatch(loginUsersSuccessAction(users));
 };
+
+export const getUsersTokenInitAction = () => ({
+  type: getUsersTokenInitType,
+});
+
+export const getUsersTokenSuccessAction = (users) => ({
+  type: getUsersTokenSuccessType,
+  payload: users
+});
