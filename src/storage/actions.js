@@ -1,4 +1,10 @@
-import { deleteProduct, deleteProductFromChart as deleteProductsFromChart, getProducts, saveProduct, saveProductInChart } from "../services/productServices";
+import {
+  deleteProduct,
+  deleteProductFromChart as deleteProductsFromChart,
+  getProducts,
+  saveProduct,
+  saveProductInChart,
+} from "../services/productServices";
 import { deleteChart, getChart, postChart } from "../services/chartServices";
 import {
   authUsersInitType,
@@ -18,10 +24,10 @@ import {
   fetchProductsSuccessType,
   fetchUsersInitType,
   fetchUsersSuccessType,
-  getUsersTokenInitType,
-  getUsersTokenSuccessType,
   loginUsersInitType,
   loginUsersSuccessType,
+  logoutUsersInitType,
+  logoutUsersSuccessType,
   openModalCreateProductType,
   openModalSaveChartType,
   openModalSaveProductType,
@@ -34,19 +40,25 @@ import {
   saveUsersInitType,
   saveUsersSuccessType,
 } from "./types";
-import { deleteUser, getUserToken, getUsers, saveUser, userAuth, userLogin } from "../services/userServices";
+import {
+  deleteUser,
+  getUsers,
+  saveUser,
+  userAuth,
+  userLogin,
+  userLogout,
+} from "../services/userServices";
 
-export const sleep = (time) => (
-  new Promise(resolve =>{
-    setTimeout(resolve,time)
-  })
-);
+export const sleep = (time) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
 export const openModalCreateProductAction = () => ({
-  type: openModalCreateProductType
+  type: openModalCreateProductType,
 });
 export const openModalSaveProductAction = (productId) => ({
   type: openModalSaveProductType,
-  payload: productId
+  payload: productId,
 });
 
 export const openModalSaveChartAction = () => ({
@@ -63,7 +75,7 @@ export const fetchChartsInitAction = () => ({
 
 export const fetchChartsSuccessAction = (charts) => ({
   type: fetchChartsSuccessType,
-  payload: charts
+  payload: charts,
 });
 
 export const fetchChartsAction = async (dispatch) => {
@@ -78,14 +90,14 @@ export const saveChartsInitAction = () => ({
 
 export const saveChartsSuccessAction = (charts) => ({
   type: saveChartsSuccessType,
-  payload: charts
+  payload: charts,
 });
 
-export const saveChartsAction = async (dispatch,chartName,productId) => {
+export const saveChartsAction = async (dispatch, chartName, productId) => {
   dispatch(saveChartsInitAction());
   await sleep(1000);
   const newChart = await postChart(chartName);
-  const resultChart = await saveProductInChart(newChart.id,productId);
+  const resultChart = await saveProductInChart(newChart.id, productId);
   dispatch(saveChartsSuccessAction(resultChart));
 };
 
@@ -95,10 +107,10 @@ export const saveProductsInChartInitAction = () => ({
 
 export const saveProductsInChartSuccessAction = (charts) => ({
   type: saveProductsInChartSuccessType,
-  payload: charts
+  payload: charts,
 });
 
-export const saveProductsInChartAction = async (dispatch,product) => {
+export const saveProductsInChartAction = async (dispatch, product) => {
   dispatch(saveProductsInChartInitAction());
   await sleep(1000);
   const chart = await saveProductInChart(product);
@@ -111,7 +123,7 @@ export const fetchProductsInitAction = () => ({
 
 export const fetchProductsSuccessAction = (products) => ({
   type: fetchProductsSuccessType,
-  payload: products
+  payload: products,
 });
 
 export const fetchProductsAction = async (dispatch) => {
@@ -126,13 +138,17 @@ export const deleteProductsFromChartInitAction = () => ({
 
 export const deleteProductsFromChartSuccessAction = (charts) => ({
   type: deleteProductsFromChartSuccessType,
-  payload: charts
+  payload: charts,
 });
 
-export const deleteProductsFromChartAction = async (dispatch,product,negativeValue) => {
+export const deleteProductsFromChartAction = async (
+  dispatch,
+  product,
+  negativeValue
+) => {
   dispatch(deleteProductsFromChartInitAction());
   await sleep(1000);
-  const chart = await deleteProductsFromChart(product,negativeValue);
+  const chart = await deleteProductsFromChart(product, negativeValue);
   dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 
@@ -142,10 +158,10 @@ export const deleteChartInitAction = () => ({
 
 export const deleteChartSuccessAction = (charts) => ({
   type: deleteChartSuccessType,
-  payload: charts
+  payload: charts,
 });
 
-export const deleteChartAction = async (dispatch,chartId) => {
+export const deleteChartAction = async (dispatch, chartId) => {
   dispatch(deleteChartInitAction());
   await sleep(1000);
   const charts = await deleteChart(chartId);
@@ -158,10 +174,10 @@ export const saveProductsInitAction = () => ({
 
 export const saveProductsSuccessAction = (products) => ({
   type: saveProductsSuccessType,
-  payload: products
+  payload: products,
 });
 
-export const saveProductsAction = async (dispatch,productData) => {
+export const saveProductsAction = async (dispatch, productData) => {
   dispatch(saveProductsInitAction());
   await sleep(1000);
   const newProduct = await saveProduct(productData);
@@ -174,18 +190,15 @@ export const deleteProductInitAction = () => ({
 
 export const deleteProductSuccessAction = (products) => ({
   type: deleteProductsSuccessType,
-  payload: products
+  payload: products,
 });
 
-export const deleteProductAction = async (dispatch,product) => {
+export const deleteProductAction = async (dispatch, product) => {
   dispatch(deleteProductInitAction());
   await sleep(1000);
   const products = await deleteProduct(product);
   dispatch(deleteProductSuccessAction(products));
 };
-
-
-
 
 export const fetchUsersInitAction = () => ({
   type: fetchUsersInitType,
@@ -193,7 +206,7 @@ export const fetchUsersInitAction = () => ({
 
 export const fetchUsersSuccessAction = (users) => ({
   type: fetchUsersSuccessType,
-  payload: users
+  payload: users,
 });
 
 export const fetchUsersAction = async (dispatch) => {
@@ -207,10 +220,10 @@ export const saveUsersInitAction = () => ({
 
 export const saveUsersSuccessAction = (users) => ({
   type: saveUsersSuccessType,
-  payload: users
+  payload: users,
 });
 
-export const saveUsersAction = async (dispatch,userData) => {
+export const saveUsersAction = async (dispatch, userData) => {
   dispatch(saveUsersInitAction());
   await sleep(1000);
   const newUser = await saveUser(userData);
@@ -223,10 +236,10 @@ export const deleteUsersInitAction = () => ({
 
 export const deleteUsersSuccessAction = (users) => ({
   type: deleteUsersSuccessType,
-  payload: users
+  payload: users,
 });
 
-export const deleteUserAction = async (dispatch,user) => {
+export const deleteUserAction = async (dispatch, user) => {
   dispatch(deleteUsersInitAction());
   await sleep(1000);
   const users = await deleteUser(user);
@@ -239,7 +252,7 @@ export const authUsersInitAction = () => ({
 
 export const authUsersSuccessAction = (users) => ({
   type: authUsersSuccessType,
-  payload: users
+  payload: users,
 });
 
 export const authUsersAction = async (dispatch) => {
@@ -255,21 +268,28 @@ export const loginUsersInitAction = () => ({
 
 export const loginUsersSuccessAction = (users) => ({
   type: loginUsersSuccessType,
-  payload: users
+  payload: users,
 });
 
-export const loginUsersAction = async (dispatch,user) => {
+export const loginUsersAction = async (dispatch, user) => {
   dispatch(loginUsersInitAction());
   await sleep(1000);
   const users = await userLogin(user);
   dispatch(loginUsersSuccessAction(users));
 };
 
-export const getUsersTokenInitAction = () => ({
-  type: getUsersTokenInitType,
+export const logoutUsersInitAction = () => ({
+  type: logoutUsersInitType,
 });
 
-export const getUsersTokenSuccessAction = (users) => ({
-  type: getUsersTokenSuccessType,
-  payload: users
+export const logoutUsersSuccessAction = (users) => ({
+  type: logoutUsersSuccessType,
+  payload: users,
 });
+
+export const logoutUsersAction = async (dispatch) => {
+  dispatch(logoutUsersInitAction());
+  await sleep(1000);
+  const users = await userLogout();
+  dispatch(logoutUsersSuccessAction(users));
+};

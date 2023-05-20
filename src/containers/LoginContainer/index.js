@@ -3,7 +3,7 @@ import { Dropdown, Form } from "react-bootstrap";
 import { Button } from "../../components/Button/Button";
 import { Container } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
-import { authUsersAction, loginUsersAction } from "../../storage/actions";
+import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../storage/actions";
 import { loginUsersSuccessType } from "../../storage/types";
 
 export const LoginContainer = () => {
@@ -17,9 +17,14 @@ export const LoginContainer = () => {
   const [loginData, setLoginData] = useState(initialLoginData);
   const { state, dispatch } = useAppContext();
 
-  const handleSubmit = async (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
     loginUsersAction(dispatch, { ...loginData });
+  };
+  
+  const handleLogoutSubmit = async (e) => {
+    e.preventDefault();
+    logoutUsersAction(dispatch);
   };
 
   useEffect(() => {
@@ -55,12 +60,12 @@ export const LoginContainer = () => {
               variant="primary"
               type="submit"
               form="login-form"
-              onClick={() => {}}
+              onClick={handleLogoutSubmit}
             />
           </Container>
         ) : (
           <Container>
-            <Form onSubmit={handleSubmit} id="login-form">
+            <Form onSubmit={handleLoginSubmit} id="login-form">
               <Form.Group className="mb-3" controlId="loginForm">
                 <br />
                 <Form.Control

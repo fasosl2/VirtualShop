@@ -32,6 +32,15 @@ export const userLogin = async (loginData) => {
   return {error: 'falha no login!'}
 };
 
+export const userLogout = async () => {
+  const response = await api.get({ route: "logout" });
+  if (response?.auth === false){
+    setUserToken(null);
+    return null;
+  }
+  return {error: 'falha no logout!'}
+};
+
 export const userAuth = async () => {
   const user = await getUserToken();
   if(!user){

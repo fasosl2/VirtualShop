@@ -40,7 +40,7 @@ export const loginUsersInitType = 'loginUsersInit';
 export const loginUsersSuccessType = 'loginUsersSuccess';
 
 export const authUsersInitType = 'authUsersInit';
-export const authUsersSuccessType = 'loginUsersSuccess';
+export const authUsersSuccessType = 'authUsersSuccess';
 
-export const getUsersTokenInitType = 'getUsersTokenInit';
-export const getUsersTokenSuccessType = 'getUsersTokenSuccess';
+export const logoutUsersInitType = 'logoutUsersInit';
+export const logoutUsersSuccessType = 'logoutUsersSuccess';

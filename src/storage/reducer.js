@@ -1,3 +1,4 @@
+
 import {
   authUsersSuccessType,
   closeModalsType,
@@ -8,8 +9,8 @@ import {
   fetchChartsSuccessType,
   fetchProductsSuccessType,
   fetchUsersSuccessType,
-  getUsersTokenSuccessType,
   loginUsersSuccessType,
+  logoutUsersSuccessType,
   openModalCreateProductType,
   openModalSaveChartType,
   openModalSaveProductType,
@@ -70,11 +71,12 @@ export function reducer(state, action) {
     case deleteUsersSuccessType:
       stateAction.users = action.payload;
       break;
+      case logoutUsersSuccessType:
+        stateAction.currentUser = null;
+        break;
     case loginUsersSuccessType:
-      stateAction.currentUser = action.payload;
-      break;
     case authUsersSuccessType:
-      stateAction.currentUser = [...action.payload];
+      stateAction.currentUser = action.payload;
       break;
     default:
       break;
