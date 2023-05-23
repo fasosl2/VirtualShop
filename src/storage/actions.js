@@ -29,6 +29,7 @@ import {
   logoutUsersInitType,
   logoutUsersSuccessType,
   openModalCreateProductType,
+  openModalCreateUserType,
   openModalSaveChartType,
   openModalSaveProductType,
   saveChartsInitType,
@@ -53,9 +54,12 @@ export const sleep = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
   });
-export const openModalCreateProductAction = () => ({
-  type: openModalCreateProductType,
-});
+  export const openModalCreateProductAction = () => ({
+    type: openModalCreateProductType,
+  });
+  export const openModalCreateUserAction = () => ({
+    type: openModalCreateUserType,
+  });
 export const openModalSaveProductAction = (productId) => ({
   type: openModalSaveProductType,
   payload: productId,
@@ -112,7 +116,7 @@ export const saveProductsInChartSuccessAction = (charts) => ({
 
 export const saveProductsInChartAction = async (dispatch, product) => {
   dispatch(saveProductsInChartInitAction());
-  await sleep(1000);
+  await sleep(100);
   const chart = await saveProductInChart(product);
   dispatch(saveProductsInChartSuccessAction(chart));
 };
@@ -147,8 +151,8 @@ export const deleteProductsFromChartAction = async (
   negativeValue
 ) => {
   dispatch(deleteProductsFromChartInitAction());
-  await sleep(1000);
   const chart = await deleteProductsFromChart(product, negativeValue);
+  await sleep(100);
   dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 

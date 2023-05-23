@@ -1,5 +1,6 @@
 export const openModalSaveProductType = 'modalSaveProduct';
 export const openModalCreateProductType = 'modalCreateProduct';
+export const openModalCreateUserType = 'modalCreateUser';
 export const openModalSaveChartType = 'modalCreateChart';
 export const closeModalsType = 'closeModals';
 

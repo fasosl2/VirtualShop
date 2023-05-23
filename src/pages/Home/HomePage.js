@@ -1,44 +1,24 @@
 import { useAppContext } from "../../storage/AppContext";
-import { useEffect, useState } from "react";
-import { fetchChartsAction, fetchProductsAction, sleep } from "../../storage/actions";
-import { saveChartsSuccessType } from "../../storage/types";
-import { Container, Row, Col } from "react-bootstrap";
-import { CardContainer } from "../../containers/CardContainer/CardContainer";
-import { Notification } from "../../components/Notification/Notification";
-// import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
-// import { ModalCreateProduct } from "../../containers/ModalCreateProduct/ModalCreateProduct";
-// import { ModalCreateChart } from "../../containers/ModalCreateChart/ModalCreateChart";
-// import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import { useEffect } from "react";
+import { fetchChartsAction, fetchProductsAction } from "../../storage/actions";
+import { Navbar } from "react-bootstrap";
+
 
 export const HomePage = () => {
-  const { state,dispatch } = useAppContext();
-  const [showFeedback, setShowFeedback] = useState(false);
-
-const productsTotalized = state.products.map(product => ({...product,
-total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
-}));
+  const { dispatch } = useAppContext();
 
   useEffect(() => {
     fetchProductsAction(dispatch);
     fetchChartsAction(dispatch);
   }, [dispatch]);
-
-  const handleShowFeedback = async () => {
-      setShowFeedback(true);
-      await sleep(5000);
-      setShowFeedback(false);
-  }
-
   
 /*   const handlePlusButtonClick = (productId) => {
     dispatch(openModalCreateProductAction())
 } */
 
   useEffect(() => {
-    if (state.type === saveChartsSuccessType) {
-      handleShowFeedback();
-    }
-  }, [state.type]);
+
+  }, []);
 
   return (
     <>
@@ -247,15 +227,16 @@ total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
       </div>
     </div>
   </section>
+  <Navbar bg="light" expand="lg">
   <footer className="rodape">
-    <a href="">
+    <a href="/">
       <img
         src="imgs/instagram.svg"
         alt="logo do instagram"
         className="logoinsta"
       />
     </a>
-    <a href="">
+    <a href="/">
       <img
         src="imgs/facebook.svg"
         alt="logo do facebook"
@@ -265,12 +246,13 @@ total: state.chart?.products?.find(chart=> chart.id === product.id)?.count
     <h2 className="logo_footer">Cozinha Solidária</h2>
     <h3 className="logo2_footer">Sérgio Pereira</h3>
     <p className="texto_footer">
-      E-mail: gtp@gtp.org.br <br />
-      Telefone: +55 81 3231.0905 <br />
+      E-mail: gtp@gtp.org.br <br/>
+      Telefone: +55 81 3231.0905 <br/>
       Endereço: Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife, <br />{" "}
       Pernambuco, Brasil. CEP: 50070-000
     </p>
   </footer>
+  </Navbar>
 </>
 
   );

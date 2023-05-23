@@ -36,7 +36,7 @@ export const LoginContainer = () => {
   
   useEffect(() => {
     authUsersAction(dispatch);
-  }, []);
+  }, [dispatch]);
 
   const handleChange = (e, field) =>
     setLoginData((prevState) => ({
@@ -46,11 +46,11 @@ export const LoginContainer = () => {
 
   return (
     <Dropdown id={"dropdown"}>
-      <Dropdown.Toggle variant="light">{state.currentUser?.nome || 'Login'}</Dropdown.Toggle>
+      <Dropdown.Toggle variant="light">{state.currentUser?.name || 'Login'}</Dropdown.Toggle>
       <Dropdown.Menu align="end">
         {state?.currentUser ? (
           <Container>
-            {["email", "nome", "tipo"].map((ele) => (
+            {["email", "name", "tipo"].map((ele) => (
               <p key={'user-' + ele}>{ele + ": " + state.currentUser[ele]}</p>
             ))}
             <Button

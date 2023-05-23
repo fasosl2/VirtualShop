@@ -1,4 +1,4 @@
-import {Button as ButtonBS, Spinner} from 'react-bootstrap';
+import {Badge, Button as ButtonBS, Spinner} from 'react-bootstrap';
 
 export const Button = ({loading, label, loadingLabel, ...buttonProps}) => {
   return (
@@ -15,7 +15,9 @@ export const Button = ({loading, label, loadingLabel, ...buttonProps}) => {
             </Spinner>{' '}
         </>)
         }
-        {loading ? loadingLabel : label}
+        {buttonProps.badge ? 
+        (<Badge bg={buttonProps.badge}>{loading ? loadingLabel : label}</Badge>)
+        : loading ? loadingLabel : label}
       </ButtonBS>
   );
 }

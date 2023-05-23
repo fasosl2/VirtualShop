@@ -1,5 +1,6 @@
 import { HomePage } from "./pages/Home/HomePage";
 import { Products } from "./pages/Products";
+import { Users } from "./pages/Users";
 import { ChartPage } from "./pages/ChartPage/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -13,7 +14,8 @@ const initialState = {
   },
   type: null,
   products: [],
-  currentUser: null
+  currentUser: null,
+  users: []
 };
 
 function App() {
@@ -25,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/produtos" element={<Products />} />
+            <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>
         </AppContext>

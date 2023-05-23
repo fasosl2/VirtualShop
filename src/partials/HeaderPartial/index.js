@@ -1,9 +1,7 @@
-import { Dropdown, DropdownButton, Form, NavDropdown } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
-import { Button } from "../../components/Button/Button";
 import { LoginContainer } from "../../containers/LoginContainer";
 
 export const HeaderPartial = () => {
@@ -19,6 +17,9 @@ export const HeaderPartial = () => {
             </Link>
             <Link className="nav-link" to="/produtos">
               Produtos
+            </Link>
+            <Link className="nav-link" to="/usuarios">
+              Usuários
             </Link>
           </Nav>
           <Nav className="justify-content-end">

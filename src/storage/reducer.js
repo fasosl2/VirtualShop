@@ -12,7 +12,7 @@ import {
   loginUsersSuccessType,
   logoutUsersSuccessType,
   openModalCreateProductType,
-  openModalSaveChartType,
+  openModalCreateUserType,
   openModalSaveProductType,
   saveChartsSuccessType,
   saveProductsInChartSuccessType,
@@ -28,11 +28,9 @@ export function reducer(state, action) {
       stateAction.mode = "saveProduct";
       stateAction.activeProductId = action.payload;
       break;
-    case openModalSaveChartType:
-      stateAction.mode = "createChart";
-      break;
     case openModalCreateProductType:
-      stateAction.mode = "createProduct";
+    case openModalCreateUserType:
+      stateAction.mode = action.type;
       break;
     case closeModalsType:
       stateAction.mode = null;
@@ -63,7 +61,7 @@ export function reducer(state, action) {
       stateAction.products = [...action.payload];
       break;
     case fetchUsersSuccessType:
-      stateAction.products = [...action.payload];
+      stateAction.users = [...action.payload];
       break;
     case saveUsersSuccessType:
       stateAction.users = [...state.users, action.payload];
