@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { getUserToken } from "./userServices";
 
 const checkAuth = (response) => {
-  if (response.message === "No Auth") {
+  if (response?.message === "Autentication failed") {
     window.location.href = window.location.origin;
     return null;  
 } 
