@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { Button } from "../../components/Button/Button";
-import { Container } from "./styles";
+import { Container, LoginImage } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
 import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../storage/actions";
 import { loginUsersSuccessType } from "../../storage/types";
@@ -50,7 +50,8 @@ export const LoginContainer = () => {
       <Dropdown.Menu align="end">
         {state?.currentUser ? (
           <Container>
-            {["email", "name", "tipo"].map((ele) => (
+            <LoginImage src={state.currentUser?.image} alt="no image"/>
+            {["email", "name", "type"].map((ele) => (
               <p key={'user-' + ele}>{ele + ": " + state.currentUser[ele]}</p>
             ))}
             <Button

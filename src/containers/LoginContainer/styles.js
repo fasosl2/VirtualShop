@@ -7,3 +7,10 @@ width: 95vw;
     width: 20vw;
 }
 `;
+
+export const LoginImage = styled.img`
+width: 50px;
+// @media screen and (min-width: 750px) {     
+//     width: 20vw;
+// }
+`;
