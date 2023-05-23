@@ -15,7 +15,7 @@ export const ModalCreateUser = ({ open }) => {
       name: "",
       email: "",
       password: "",
-      type: "",
+      type: "Cliente",
       image: "",
     }),
     []
