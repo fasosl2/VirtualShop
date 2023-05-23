@@ -81,7 +81,7 @@ export const ModalCreateUser = ({ open }) => {
           <Form.Control
             type="password"
             required
-            placeholder="E-mail"
+            placeholder="Senha"
             value={userData?.password}
             onChange={(e) => handleChange(e, "password")}
           />
