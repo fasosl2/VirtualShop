@@ -8,6 +8,7 @@ const checkAuth = (response) => {
 } 
   return response;
 };
+const user = (await getUserToken()) || "";
 
 const api = {
   read: async ({ route }) => {
@@ -15,7 +16,6 @@ const api = {
     return response ? response.map((ele) => ({ ...ele, id: ele["_id"] })) : [];
   },
   get: async ({ route, params, header }) => {
-    const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "GET",
       headers: {
@@ -37,7 +37,10 @@ const api = {
   post: async (route, body) => {
     let requestOptions = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "x-access-token": user.token,
+      },
       body: JSON.stringify(body),
       keepalive: false,
     };
@@ -52,7 +55,10 @@ const api = {
   delete: async (route, id) => {
     let requestOptions = {
       method: "DELETE",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "x-access-token": user.token
+       },
     };
 
     const response = await fetch(

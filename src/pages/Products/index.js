@@ -57,7 +57,9 @@ export const Products = () => {
   return (
     <div>
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
-      <FloatingPillButton label="+" onClick={handlePlusButtonClick} />
+      {['Master','Gestor'].includes(state?.currentUser?.type) && 
+            (<FloatingPillButton label="+" onClick={handlePlusButtonClick} />) }
+      
       {showFeedback && (
         <Notification
           message="Criado com sucesso"

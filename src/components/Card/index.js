@@ -6,6 +6,7 @@ import {
   Col,
   Row,
 } from "react-bootstrap";
+import { useAppContext } from "../../storage/AppContext";
 
 export const Card = ({
   id,
@@ -21,6 +22,7 @@ export const Card = ({
   const product = { id, image, title, total, price };
 
   const [itemsLoading, setItemsLoading] = useState({});
+  const { state, dispatch } = useAppContext();
 
   const handleItemLoading = async (field, onClick) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
@@ -87,6 +89,7 @@ export const Card = ({
 
         {controls
           ? controls.map((button, index) => (
+            (button.freeShow || ['Master','Gestor'].includes(state?.currentUser?.type)) &&
               <Button
                 key={button.label + id}
                 variant={button.variant}

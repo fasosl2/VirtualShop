@@ -3,8 +3,10 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 import { LoginContainer } from "../../containers/LoginContainer";
+import { useAppContext } from "../../storage/AppContext";
 
 export const HeaderPartial = () => {
+  const { state } = useAppContext();
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -18,9 +20,10 @@ export const HeaderPartial = () => {
             <Link className="nav-link" to="/produtos">
               Produtos
             </Link>
-            <Link className="nav-link" to="/usuarios">
-              Usuários
-            </Link>
+            {state?.currentUser?.type === 'Master' && 
+            (<Link className="nav-link" to="/usuarios">
+            Usuários
+          </Link>) }
           </Nav>
           <Nav className="justify-content-end">
             <Link className="nav-link" to="chart">
