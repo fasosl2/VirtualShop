@@ -1,8 +1,9 @@
-import { getUserToken } from "./userServices";
+import { getUserToken, userLogout } from "./userServices";
 
-const checkAuth = (response) => {
+const checkAuth = async (response) => {
   if (response?.message === "Autentication failed") {
     window.location.href = window.location.origin;
+    await userLogout();
     return null;  
 } 
   return response;

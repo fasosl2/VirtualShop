@@ -22,7 +22,7 @@ export const Card = ({
   const product = { id, image, title, total, price };
 
   const [itemsLoading, setItemsLoading] = useState({});
-  const { state, dispatch } = useAppContext();
+  const { state } = useAppContext();
 
   const handleItemLoading = async (field, onClick) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));

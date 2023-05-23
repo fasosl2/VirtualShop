@@ -277,7 +277,7 @@ export const loginUsersSuccessAction = (users) => ({
 
 export const loginUsersAction = async (dispatch, user) => {
   dispatch(loginUsersInitAction());
-  await sleep(1000);
+  await sleep(100);
   const users = await userLogin(user);
   dispatch(loginUsersSuccessAction(users));
 };
