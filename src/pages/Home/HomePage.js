@@ -8,7 +8,6 @@ export const HomePage = () => {
   const { dispatch } = useAppContext();
 
   useEffect(() => {
-    fetchProductsAction(dispatch);
     fetchChartsAction(dispatch);
   }, [dispatch]);
   

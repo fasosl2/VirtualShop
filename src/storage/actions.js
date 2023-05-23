@@ -261,7 +261,7 @@ export const authUsersSuccessAction = (users) => ({
 
 export const authUsersAction = async (dispatch) => {
   dispatch(authUsersInitAction());
-  await sleep(1000);
+  await sleep(50);
   const users = await userAuth();
   dispatch(authUsersSuccessAction(users));
 };

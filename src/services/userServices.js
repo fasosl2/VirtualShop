@@ -46,7 +46,7 @@ export const userAuth = async () => {
   if(!user){
     return null;
   }
-  const response = await api.get({route: "auth"});
+  //const response = await api.get({route: "auth"});
   
-  return response?.auth ? user : null;
+  return user; //response?.auth ? user : null;
 };
