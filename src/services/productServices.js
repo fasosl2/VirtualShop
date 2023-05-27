@@ -6,8 +6,12 @@ export const getProducts = async () => {
 };
 
 export const saveProduct = async (productData) => {
-  await api.post("products", productData)
-  return productData;
+  if(productData.id){
+    await api.put({body: productData, route: "products", params: [productData.id]})
+  } else {
+    await api.post("products", productData)
+  }
+  return await getProducts();
 };
 
 export const deleteProduct = async (productId) => {

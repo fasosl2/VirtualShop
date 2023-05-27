@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 
 const initialState = {
-  activeProductId: null,
+  activeProduct: null,
   mode: null,
   chart: {
     products: []

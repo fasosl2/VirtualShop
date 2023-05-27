@@ -26,7 +26,7 @@ export const deleteUser = async (userId) => {
 export const userLogin = async (loginData) => {
   const response = await api.get({route: "users/login", params: [loginData.email,loginData.password]});
   if (response?.auth){
-    setUserToken({...response.user, token: response.token});
+    await setUserToken({...response.user, token: response.token});
     return response.user;
   }
   return {error: 'falha no login!'}

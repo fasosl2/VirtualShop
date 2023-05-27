@@ -11,11 +11,11 @@ import {
   fetchProductsAction,
   openModalCreateProductAction,
   saveProductsInChartAction,
-  /* openModalCreateProductAction,  */ sleep,
+  sleep,
 } from "../../storage/actions";
 // import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
-import { ModalCreateProduct } from "../../containers/ModalCreateProduct/ModalCreateProduct";
 // import { ModalCreateChart } from "../../containers/ModalCreateChart/ModalCreateChart";
+import { ModalCreateProduct } from "../../containers/ModalCreateProduct/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 
 export const Products = () => {
@@ -44,8 +44,8 @@ export const Products = () => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
   }
 
-  const handlePlusButtonClick = (productId) => {
-    dispatch(openModalCreateProductAction());
+  const handleCreateOrEdit = (product) => {
+    dispatch(openModalCreateProductAction(product));
   };
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export const Products = () => {
     <div>
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
-            (<FloatingPillButton label="+" onClick={handlePlusButtonClick} />) }
+            (<FloatingPillButton label="+" onClick={handleCreateOrEdit} />) }
       
       {showFeedback && (
         <Notification
@@ -69,7 +69,7 @@ export const Products = () => {
         />
       )}
       <Container fluid>
-        <Row>
+          <Row>
           {productsTotalized.map((product) => (
             <Col key={product.id} xs={13} md={4} style={{ marginTop: "1em" }}>
               <Card
@@ -77,13 +77,20 @@ export const Products = () => {
                   ...product,
                   subTitle: "R$ " + String(Number(product.price).toFixed(2)),
                   controls: [{
-                    label: 'Excluir',
-                    loadingLabel: 'Excluindo',
-                    variant: 'danger',
-                    onClick: async () => {
-                      await deleteProductAction(dispatch, product.id);
-                    }
-                  }
+                      label: 'Editar',
+                      loadingLabel: 'Editando',
+                      variant: 'warning',
+                      onClick: async () => {
+                        handleCreateOrEdit(product);
+                      }
+                    },{
+                      label: 'Excluir',
+                      loadingLabel: 'Excluindo',
+                      variant: 'danger',
+                      onClick: async () => {
+                        await deleteProductAction(dispatch, product.id);
+                      }
+                  },
                 ],
                   groupControls: {
                     onClick: handleChartClick

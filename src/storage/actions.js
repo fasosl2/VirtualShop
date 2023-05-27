@@ -54,8 +54,9 @@ export const sleep = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
   });
-  export const openModalCreateProductAction = () => ({
+  export const openModalCreateProductAction = (product) => ({
     type: openModalCreateProductType,
+    activeProduct: product
   });
   export const openModalCreateUserAction = () => ({
     type: openModalCreateUserType,

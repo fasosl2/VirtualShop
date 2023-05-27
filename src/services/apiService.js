@@ -8,7 +8,6 @@ const checkAuth = async (response) => {
 } 
   return response;
 };
-const user = (await getUserToken()) || "";
 
 const api = {
   read: async ({ route }) => {
@@ -16,6 +15,7 @@ const api = {
     return response ? response.map((ele) => ({ ...ele, id: ele["_id"] })) : [];
   },
   get: async ({ route, params, header }) => {
+    const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "GET",
       headers: {
@@ -35,6 +35,7 @@ const api = {
     return checkAuth(response);
   },
   post: async (route, body) => {
+    const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "POST",
       headers: { 
@@ -52,7 +53,28 @@ const api = {
 
     return checkAuth(response);
   },
+  put: async ({route, body, params}) => {
+    const user = (await getUserToken()) || "";
+    let requestOptions = {
+      method: "PUT",
+      headers: { 
+        "Content-Type": "application/json",
+        "x-access-token": user.token,
+      },
+      body: JSON.stringify(body),
+      keepalive: false,
+    };
+
+    const response = await fetch(
+      process.env.REACT_APP_API + route +
+      (params ? "/" + params.join("/") : ""),
+      requestOptions
+    ).then((response) => response.json());
+
+    return checkAuth(response);
+  },
   delete: async (route, id) => {
+    const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "DELETE",
       headers: { 

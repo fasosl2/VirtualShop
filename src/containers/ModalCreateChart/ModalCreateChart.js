@@ -10,7 +10,7 @@ export const ModalCreateChart = ({ open }) => {
     const { state, dispatch } = useAppContext();
     const handleSubmit = (e) =>{
         e.preventDefault();
-        saveChartsAction(dispatch,chartName,state.activeProductId)
+        saveChartsAction(dispatch,chartName,state.activeProduct)
     }
     useEffect(() => {
       if (state.type === saveChartsSuccessType) {

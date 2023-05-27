@@ -20,13 +20,13 @@ export const ModalSaveProduct = ({ open }) => {
 
   const handleSaveProductClick = async (chartId) => {
     setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await saveProductsInChartAction(dispatch, chartId, state.activeProductId);
+    await saveProductsInChartAction(dispatch, chartId, state.activeProduct);
     setItensLoading(prevState => ({...prevState,[chartId]:false}))
   };
 
   const handleDeleteProductClick = async (chartId) => {
     setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await deleteProductsFromChartAction(dispatch, chartId, state.activeProductId);
+    await deleteProductsFromChartAction(dispatch, chartId, state.activeProduct);
     setItensLoading(prevState => ({...prevState,[chartId]:false}))
   };
 
@@ -50,7 +50,7 @@ export const ModalSaveProduct = ({ open }) => {
     >
       <ListGroup variant="flush">
         {state?.chart?.map((chart, chartIndex) => {
-          let productSaved = chart?.products?.find(product => product === state.activeProductId)
+          let productSaved = chart?.products?.find(product => product === state.activeProduct)
           return (
           <ListGroup.Item key={chartIndex}>
             <Row>

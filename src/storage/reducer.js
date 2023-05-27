@@ -26,15 +26,16 @@ export function reducer(state, action) {
   switch (action?.type) {
     case openModalSaveProductType:
       stateAction.mode = "saveProduct";
-      stateAction.activeProductId = action.payload;
+      stateAction.activeProduct = action.payload;
       break;
     case openModalCreateProductType:
     case openModalCreateUserType:
       stateAction.mode = action.type;
+      stateAction.activeProduct = action.activeProduct;
       break;
     case closeModalsType:
       stateAction.mode = null;
-      stateAction.activeProductId = null;
+      stateAction.activeProduct = null;
       break;
     case fetchChartsSuccessType:
       stateAction.chart = action.payload;
@@ -49,7 +50,7 @@ export function reducer(state, action) {
       stateAction.chart = action.payload;
       break;
     case saveProductsSuccessType:
-      stateAction.products = [...state.products, action.payload];
+      stateAction.products = action.payload;
       break;
     case deleteProductsFromChartSuccessType:
       stateAction.chart = action.payload;
