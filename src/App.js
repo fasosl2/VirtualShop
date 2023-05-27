@@ -8,6 +8,7 @@ import { AppContext } from "./storage/AppContext";
 
 const initialState = {
   activeProduct: null,
+  activeUser: null,
   mode: null,
   chart: {
     products: []

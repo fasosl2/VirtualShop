@@ -1,67 +1,89 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { closeModalsAction, saveUsersAction } from "../../storage/actions";
 import {
-  saveProductsInitType,
+  closeModalsType,
+  saveUsersInitType,
   saveUsersSuccessType,
 } from "../../storage/types";
 import utilService from "../../services/utilService";
+import userLogo from "../../assets/user-logo.png"
 
 export const ModalCreateUser = ({ open }) => {
-  const initialUser = useMemo(
-    () => ({
+  const { state, dispatch } = useAppContext();
+  const [image , setImage ] = useState(userLogo);
+  const initialUser = useRef({
       name: "",
       email: "",
       password: "",
       type: "Cliente",
       image: "",
-    }),
-    []
-  );
-  const [userData, setUserData] = useState(initialUser);
-  const { state, dispatch } = useAppContext();
+    });
+  const [userData, setUserData] = useState(initialUser.current);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let base64Image = await utilService.imageToCompressedBase64(userData.image);
 
-    setUserData((prevState) => ({ ...prevState, image: base64Image }));
-    saveUsersAction(dispatch, { ...userData, image: base64Image });
+    saveUsersAction(dispatch, { ...userData, image: image });
   };
 
   useEffect(() => {
     if (state.type === saveUsersSuccessType) {
-      setUserData(initialUser);
       dispatch(closeModalsAction());
+      setUserData(initialUser.current);
     }
-  }, [state.type, dispatch, initialUser]);
+    if (state.type === closeModalsType) {
+      setImage(userLogo);
+      setUserData(initialUser.current);
+    }
+    if (state?.activeUser?.id && userData === initialUser.current) {
+      setUserData((prevState) => ({ ...prevState, ...state.activeUser }));
+    }
+    
+    if(userData?.image?.name) {
+      const newPreview = async () =>{
+        const preview = await utilService.imageToCompressedBase64(userData.image);
+        setImage(preview);
+      } 
+      newPreview();
+    } else if (userData?.image?.length){
+      setImage(userData?.image);
+    }else{
+      setImage(userLogo);
+    }
+  }, [state.type, state.activeUser, dispatch, userData.image]);
 
-  const handleChange = (e, field) =>
-    setUserData((prevState) => ({
-      ...prevState,
-      [field]: e.target?.files?.length ? e.target.files[0] : e.target.value,
-    }));
+  const handleChange = (e, field) => setUserData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
 
   return (
     <Modal
-      title="Criar Produto"
+      title={(state?.activeUser?.id ? "Editar" : "Criar") + " Usuário"}
       open={open}
       controls={[
         {
-          label: "Criar e Salvar",
+          label: (state?.activeUser?.id ? "Editar" : "Criar") + " e Salvar",
           loadingLabel: "Criando",
-          loading: state.type === saveProductsInitType,
+          loading: state.type === saveUsersInitType,
           variant: "secondary",
           type: "submit",
-          form: "create-product-form",
+          form: "create-user-form",
           onClick: () => {},
         },
       ]}
     >
-      <Form onSubmit={handleSubmit} id="create-product-form">
-        <Form.Group className="mb-3" controlId="formCreateProduct">
+      <Form onSubmit={handleSubmit} id="create-user-form">
+        <Form.Group className="mb-3" controlId="formCreateUser"
+        style={{display:'grid', justifyItems:'center'}}>
+          <img src={image} alt="" style={{height:'20vh'}}/>
+          <br />
+          <br />
+          <Form.Control
+            type="file"
+            onChange={(e) => handleChange(e, "image")}
+          />
+          <br />
           <Form.Control
             type="text"
             required
@@ -75,12 +97,14 @@ export const ModalCreateUser = ({ open }) => {
             required
             placeholder="E-mail"
             value={userData?.email}
+            disabled={state?.activeUser?.id ? true : false}
             onChange={(e) => handleChange(e, "email")}
           />
           <br />
           <Form.Control
             type="password"
-            required
+            required={state?.activeUser?.id ? false : true}
+            disabled={state?.activeUser?.id ? true : false}
             placeholder="Senha"
             value={userData?.password}
             onChange={(e) => handleChange(e, "password")}
@@ -95,14 +119,6 @@ export const ModalCreateUser = ({ open }) => {
             <option>Gestor</option>
             <option>Cliente</option>
           </Form.Select>
-          <br />
-          <Form.Control
-            type="file"
-            required
-            placeholder="Imagem do Produto"
-            // value={productData?.image}
-            onChange={(e) => handleChange(e, "image")}
-          />
         </Form.Group>
       </Form>
     </Modal>

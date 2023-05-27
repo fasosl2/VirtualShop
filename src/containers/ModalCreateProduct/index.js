@@ -10,6 +10,7 @@ import {
 } from "../../storage/types";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
+
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
   const [image , setImage ] = useState(userLogo);
@@ -25,7 +26,6 @@ export const ModalCreateProduct = ({ open }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setProductData((prevState) => ({ ...prevState }));
     saveProductsAction(dispatch, { ...productData, image: image });
   };
 
@@ -74,14 +74,14 @@ export const ModalCreateProduct = ({ open }) => {
       ]}
     >
       <Form onSubmit={handleSubmit} id="create-product-form">
-        <Form.Group className="mb-3" controlId="formCreateProduct" style={{display:'grid', justifyItems:'center'}}>
+        <Form.Group className="mb-3" controlId="formCreateProduct" 
+        style={{display:'grid', justifyItems:'center'}}>
           <img src={image} alt="" style={{height:'20vh'}}/>
           <br />
           <br />
           <Form.Control
             type="file"
             onChange={(e) => handleChange(e, "image")}
-            // value={productData?.image}
           />
           <br />
           <Form.Control

@@ -6,8 +6,12 @@ export const getUsers = async () => {
 };
 
 export const saveUser = async (userData) => {
-  await api.post("users", userData)
-  return userData;
+  if(userData.id){
+    await api.put({body: userData, route: "users", params: [userData.id]})
+  } else {
+    await api.post("users", userData)
+  }
+  return await getUsers();
 };
 
 export const deleteUser = async (userId) => {

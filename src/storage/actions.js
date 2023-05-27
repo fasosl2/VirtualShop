@@ -58,8 +58,9 @@ export const sleep = (time) =>
     type: openModalCreateProductType,
     activeProduct: product
   });
-  export const openModalCreateUserAction = () => ({
+  export const openModalCreateUserAction = (user) => ({
     type: openModalCreateUserType,
+    activeUser: user
   });
 export const openModalSaveProductAction = (productId) => ({
   type: openModalSaveProductType,
@@ -230,9 +231,9 @@ export const saveUsersSuccessAction = (users) => ({
 
 export const saveUsersAction = async (dispatch, userData) => {
   dispatch(saveUsersInitAction());
-  await sleep(1000);
-  const newUser = await saveUser(userData);
-  dispatch(saveUsersSuccessAction(newUser));
+  await sleep(500);
+  const users = await saveUser(userData);
+  dispatch(saveUsersSuccessAction(users));
 };
 
 export const deleteUsersInitAction = () => ({

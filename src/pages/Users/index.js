@@ -30,6 +30,11 @@ export const Users = () => {
     dispatch(openModalCreateUserAction())
   }
 
+  
+  const handleCreateOrUpdate = (product) => {
+    dispatch(openModalCreateUserAction(product));
+  };
+
   useEffect(() => {
     if (state.type === saveChartsSuccessType) {
       handleShowFeedback();
@@ -61,6 +66,13 @@ export const Users = () => {
                   title: user.name,
                   subTitle: user.email,
                   controls: [{
+                    label: 'Editar',
+                    loadingLabel: 'Editando',
+                    variant: 'warning',
+                    onClick: async () => {
+                      handleCreateOrUpdate(user);
+                    }
+                  },{
                     label: 'Excluir',
                     loadingLabel: 'Excluindo',
                     variant: 'danger',

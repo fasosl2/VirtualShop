@@ -15,7 +15,7 @@ import {
 } from "../../storage/actions";
 // import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
 // import { ModalCreateChart } from "../../containers/ModalCreateChart/ModalCreateChart";
-import { ModalCreateProduct } from "../../containers/ModalCreateProduct/ModalCreateProduct";
+import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 
 export const Products = () => {
@@ -44,7 +44,7 @@ export const Products = () => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
   }
 
-  const handleCreateOrEdit = (product) => {
+  const handleCreateOrUpdate = (product) => {
     dispatch(openModalCreateProductAction(product));
   };
 
@@ -58,7 +58,7 @@ export const Products = () => {
     <div>
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
-            (<FloatingPillButton label="+" onClick={handleCreateOrEdit} />) }
+            (<FloatingPillButton label="+" onClick={handleCreateOrUpdate} />) }
       
       {showFeedback && (
         <Notification
@@ -81,7 +81,7 @@ export const Products = () => {
                       loadingLabel: 'Editando',
                       variant: 'warning',
                       onClick: async () => {
-                        handleCreateOrEdit(product);
+                        handleCreateOrUpdate(product);
                       }
                     },{
                       label: 'Excluir',
