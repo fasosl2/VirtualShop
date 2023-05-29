@@ -2,10 +2,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 
 import { Card } from "../../components/Card";
-import { logoutUsersSuccessType, openModalCreateUserType, saveChartsSuccessType } from "../../storage/types";
+import { logoutUsersSuccessType, openModalCreateUserType, saveUsersSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
-import { deleteUserAction, fetchUsersAction, openModalCreateUserAction, /* openModalCreateProductAction,  */sleep } from "../../storage/actions";
+import { deleteUserAction, fetchUsersAction, sleep } from "../../storage/actions";
+import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
 
@@ -36,7 +37,7 @@ export const Users = () => {
   };
 
   useEffect(() => {
-    if (state.type === saveChartsSuccessType) {
+    if (state.type === saveUsersSuccessType) {
       handleShowFeedback();
     } else if (state.type === logoutUsersSuccessType) {
       window.location.href = window.location.origin;

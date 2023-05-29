@@ -9,7 +9,6 @@ import { deleteChart, getChart, postChart } from "../services/chartServices";
 import {
   authUsersInitType,
   authUsersSuccessType,
-  closeModalsType,
   deleteChartInitType,
   deleteChartSuccessType,
   deleteProductsFromChartInitType,
@@ -28,10 +27,6 @@ import {
   loginUsersSuccessType,
   logoutUsersInitType,
   logoutUsersSuccessType,
-  openModalCreateProductType,
-  openModalCreateUserType,
-  openModalSaveChartType,
-  openModalSaveProductType,
   saveChartsInitType,
   saveChartsSuccessType,
   saveProductsInChartInitType,
@@ -54,26 +49,6 @@ export const sleep = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
   });
-  export const openModalCreateProductAction = (product) => ({
-    type: openModalCreateProductType,
-    activeProduct: product
-  });
-  export const openModalCreateUserAction = (user) => ({
-    type: openModalCreateUserType,
-    activeUser: user
-  });
-export const openModalSaveProductAction = (productId) => ({
-  type: openModalSaveProductType,
-  payload: productId,
-});
-
-export const openModalSaveChartAction = () => ({
-  type: openModalSaveChartType,
-});
-
-export const closeModalsAction = () => ({
-  type: closeModalsType,
-});
 
 export const fetchChartsInitAction = () => ({
   type: fetchChartsInitType,
@@ -107,6 +82,22 @@ export const saveChartsAction = async (dispatch, chartName, productId) => {
   dispatch(saveChartsSuccessAction(resultChart));
 };
 
+export const deleteChartInitAction = () => ({
+  type: deleteChartInitType,
+});
+
+export const deleteChartSuccessAction = (charts) => ({
+  type: deleteChartSuccessType,
+  payload: charts,
+});
+
+export const deleteChartAction = async (dispatch, chartId) => {
+  dispatch(deleteChartInitAction());
+  await sleep(1000);
+  const charts = await deleteChart(chartId);
+  dispatch(deleteChartSuccessAction(charts));
+};
+
 export const saveProductsInChartInitAction = () => ({
   type: saveProductsInChartInitType,
 });
@@ -121,21 +112,6 @@ export const saveProductsInChartAction = async (dispatch, product) => {
   await sleep(100);
   const chart = await saveProductInChart(product);
   dispatch(saveProductsInChartSuccessAction(chart));
-};
-
-export const fetchProductsInitAction = () => ({
-  type: fetchProductsInitType,
-});
-
-export const fetchProductsSuccessAction = (products) => ({
-  type: fetchProductsSuccessType,
-  payload: products,
-});
-
-export const fetchProductsAction = async (dispatch) => {
-  dispatch(fetchProductsInitAction());
-  const products = await getProducts();
-  dispatch(fetchProductsSuccessAction(products));
 };
 
 export const deleteProductsFromChartInitAction = () => ({
@@ -158,20 +134,19 @@ export const deleteProductsFromChartAction = async (
   dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 
-export const deleteChartInitAction = () => ({
-  type: deleteChartInitType,
+export const fetchProductsInitAction = () => ({
+  type: fetchProductsInitType,
 });
 
-export const deleteChartSuccessAction = (charts) => ({
-  type: deleteChartSuccessType,
-  payload: charts,
+export const fetchProductsSuccessAction = (products) => ({
+  type: fetchProductsSuccessType,
+  payload: products,
 });
 
-export const deleteChartAction = async (dispatch, chartId) => {
-  dispatch(deleteChartInitAction());
-  await sleep(1000);
-  const charts = await deleteChart(chartId);
-  dispatch(deleteChartSuccessAction(charts));
+export const fetchProductsAction = async (dispatch) => {
+  dispatch(fetchProductsInitAction());
+  const products = await getProducts();
+  dispatch(fetchProductsSuccessAction(products));
 };
 
 export const saveProductsInitAction = () => ({

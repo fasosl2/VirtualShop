@@ -1,18 +1,20 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
-import { openModalCreateProductType, saveChartsSuccessType } from "../../storage/types";
+import { openModalCreateProductType, saveProductsSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {
   deleteProductAction,
   deleteProductsFromChartAction,
   fetchChartsAction,
-  fetchProductsAction,
-  openModalCreateProductAction,
   saveProductsInChartAction,
+  fetchProductsAction,
   sleep,
 } from "../../storage/actions";
+import {
+  openModalCreateProductAction,
+} from "../../actions/modalsActions";
 // import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
 // import { ModalCreateChart } from "../../containers/ModalCreateChart/ModalCreateChart";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
@@ -49,7 +51,7 @@ export const Products = () => {
   };
 
   useEffect(() => {
-    if (state.type === saveChartsSuccessType) {
+    if (state.type === saveProductsSuccessType) {
       handleShowFeedback();
     }
   }, [state.type]);

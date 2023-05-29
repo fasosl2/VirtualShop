@@ -1,20 +1,25 @@
-
 import {
   authUsersSuccessType,
   closeModalsType,
   deleteChartSuccessType,
+  deleteItemsFromProductSuccessType,
+  deleteItemsSuccessType,
   deleteProductsFromChartSuccessType,
   deleteProductsSuccessType,
   deleteUsersSuccessType,
   fetchChartsSuccessType,
+  fetchItemsSuccessType,
   fetchProductsSuccessType,
   fetchUsersSuccessType,
   loginUsersSuccessType,
   logoutUsersSuccessType,
+  openModalCreateItemType,
   openModalCreateProductType,
   openModalCreateUserType,
   openModalSaveProductType,
   saveChartsSuccessType,
+  saveItemsInProductSuccessType,
+  saveItemsSuccessType,
   saveProductsInChartSuccessType,
   saveProductsSuccessType,
   saveUsersSuccessType,
@@ -32,6 +37,10 @@ export function reducer(state, action) {
       stateAction.mode = action.type;
       stateAction.activeProduct = action.activeProduct;
       break;
+    case openModalCreateItemType:
+      stateAction.mode = action.type;
+      stateAction.activeItem = action.activeItem;
+      break;
     case openModalCreateUserType:
       stateAction.mode = action.type;
       stateAction.activeUser = action.activeUser;
@@ -40,6 +49,7 @@ export function reducer(state, action) {
       stateAction.mode = null;
       stateAction.activeProduct = null;
       stateAction.activeUser = null;
+      stateAction.activeItem = null;
       break;
     case fetchChartsSuccessType:
       stateAction.chart = action.payload;
@@ -74,13 +84,29 @@ export function reducer(state, action) {
     case deleteUsersSuccessType:
       stateAction.users = action.payload;
       break;
-      case logoutUsersSuccessType:
-        stateAction.currentUser = null;
-        break;
+    case logoutUsersSuccessType:
+      stateAction.currentUser = null;
+      break;
     case loginUsersSuccessType:
     case authUsersSuccessType:
       stateAction.currentUser = action.payload;
       break;
+    case saveItemsSuccessType:
+      stateAction.items = action.payload;
+      break;
+    case saveItemsInProductSuccessType:
+      stateAction.products = action.payload;
+      break;
+    case deleteItemsFromProductSuccessType:
+      stateAction.products = action.payload;
+      break;
+    case deleteItemsSuccessType:
+      stateAction.items = action.payload;
+      break;
+    case fetchItemsSuccessType:
+      stateAction.items = [...action.payload];
+      break;
+    
     default:
       break;
   }

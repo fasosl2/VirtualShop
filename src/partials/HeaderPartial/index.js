@@ -20,6 +20,10 @@ export const HeaderPartial = () => {
             <Link className="nav-link" to="/produtos">
               Produtos
             </Link>
+            {['Master','Gestor'].includes(state?.currentUser?.type) && 
+            (<Link className="nav-link" to="/itens">
+            Itens
+          </Link>) }
             {state?.currentUser?.type === 'Master' && 
             (<Link className="nav-link" to="/usuarios">
             Usuários

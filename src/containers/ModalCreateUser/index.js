@@ -2,12 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { closeModalsAction, saveUsersAction } from "../../storage/actions";
+import { saveUsersAction } from "../../storage/actions";
 import {
   closeModalsType,
   saveUsersInitType,
   saveUsersSuccessType,
 } from "../../storage/types";
+import {
+  closeModalsAction,
+} from "../../actions/modalsActions";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
 

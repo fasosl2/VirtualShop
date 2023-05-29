@@ -5,6 +5,7 @@ import { ChartPage } from "./pages/ChartPage/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
+import { Items } from "./pages/Items";
 
 const initialState = {
   activeProduct: null,
@@ -15,8 +16,9 @@ const initialState = {
   },
   type: null,
   products: [],
+  users: [],
+  items: [],
   currentUser: null,
-  users: []
 };
 
 function App() {
@@ -28,6 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/produtos" element={<Products />} />
+            <Route path="/itens" element={<Items />} />
             <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>

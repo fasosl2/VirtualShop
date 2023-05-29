@@ -1,7 +1,7 @@
 import { Modal as ModalBS} from "react-bootstrap";
 import { Button } from "../Button/Button";
 import { useAppContext } from "../../storage/AppContext";
-import { closeModalsAction } from "../../storage/actions";
+import { closeModalsAction, } from "../../actions/modalsActions";
 
 export const Modal = ({title, children, open, onHide, controls = []}) => {
 

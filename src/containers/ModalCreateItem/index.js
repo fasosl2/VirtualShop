@@ -2,82 +2,81 @@ import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { saveProductsAction } from "../../storage/actions";
+import { saveItemsAction } from "../../actions/itemsAction";
 import {
   closeModalsAction,
 } from "../../actions/modalsActions";
 import {
   closeModalsType,
-  saveProductsInitType,
-  saveProductsSuccessType,
+  saveItemsInitType,
+  saveItemsSuccessType,
 } from "../../storage/types";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
 
-export const ModalCreateProduct = ({ open }) => {
+export const ModalCreateItem = ({ open }) => {
   const { state, dispatch } = useAppContext();
   const [image , setImage ] = useState(userLogo);
-  const initialProduct = useRef({
+  const initialItem = useRef({
     title: "",
     description: "",
-    price: "",
     stock: "",
     image: ""
   });
-  const [productData, setProductData] = useState(initialProduct.current);
+  const [itemData, setItemData] = useState(initialItem.current);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    saveProductsAction(dispatch, { ...productData, image: image });
+    saveItemsAction(dispatch, { ...itemData, image: image });
   };
 
   useEffect(() => {
-    if (state.type === saveProductsSuccessType) {
+    if (state.type === saveItemsSuccessType) {
       dispatch(closeModalsAction());
-      setProductData(initialProduct.current);
+      setItemData(initialItem.current);
     }
     if (state.type === closeModalsType) {
       setImage(userLogo);
-      setProductData(initialProduct.current);
+      setItemData(initialItem.current);
     }
-    if (state?.activeProduct?.id && productData === initialProduct.current) {
-      setProductData((prevState) => ({ ...prevState, ...state.activeProduct }));
+    if (state?.activeItem?.id && itemData === initialItem.current) {
+      setItemData((prevState) => ({ ...prevState, ...state.activeItem }));
     }
     
-    if(productData?.image?.name) {
+    if(itemData?.image?.name) {
       const newPreview = async () =>{
-        const preview = await utilService.imageToCompressedBase64(productData.image);
+        const preview = await utilService.imageToCompressedBase64(itemData.image);
         setImage(preview);
       } 
       newPreview();
-    } else if (productData?.image?.length){
-      setImage(productData?.image);
+    } else if (itemData?.image?.length){
+      setImage(itemData?.image);
     }else{
       setImage(userLogo);
     }
-  }, [state.type, state.activeProduct, dispatch, productData.image]);
+  }, [state.type, state.activeItem, dispatch, itemData.image]);
 
-  const handleChange = (e, field) => setProductData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
+  const handleChange = (e, field) => setItemData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
 
   return (
     <Modal
-      title={(state?.activeProduct?.id ? "Editar" : "Criar") + " Produto"}
+      title={(state?.activeItem?.id ? "Editar" : "Criar") + " Item"}
       open={open}
       controls={[
         {
-          label: (state?.activeProduct?.id ? "Editar" : "Criar") + " e Salvar",
+          label: (state?.activeItem?.id ? "Editar" : "Criar") + " e Salvar",
           loadingLabel: "Criando",
-          loading: state.type === saveProductsInitType,
+          loading: state.type === saveItemsInitType,
           variant: "secondary",
           type: "submit",
-          form: "create-product-form",
+          form: "create-item-form",
           onClick: () => {},
         },
       ]}
     >
-      <Form onSubmit={handleSubmit} id="create-product-form">
-        <Form.Group className="mb-3" controlId="formCreateProduct" 
+      <Form onSubmit={handleSubmit} id="create-item-form">
+        <Form.Group className="mb-3" controlId="formCreateItem" 
         style={{display:'grid', justifyItems:'center'}}>
           <img src={image} alt="" style={{height:'20vh'}}/>
           <br />
@@ -90,8 +89,8 @@ export const ModalCreateProduct = ({ open }) => {
           <Form.Control
             type="text"
             required
-            placeholder="Nome do Produto"
-            value={productData?.title}
+            placeholder="Nome do Item"
+            value={itemData?.title}
             onChange={(e) => handleChange(e, "title")}
           />
           <br />
@@ -99,23 +98,15 @@ export const ModalCreateProduct = ({ open }) => {
             type="text"
             required
             placeholder="Descrição"
-            value={productData?.description}
+            value={itemData?.description}
             onChange={(e) => handleChange(e, "description")}
           />
           <br />
           <Form.Control
             type="number"
             required
-            placeholder="Preço do Producto"
-            value={productData?.price}
-            onChange={(e) => handleChange(e, "price")}
-          />
-          <br />
-          <Form.Control
-            type="number"
-            required
             placeholder="Quantidade em Estoque"
-            value={productData?.stock}
+            value={itemData?.stock}
             onChange={(e) => handleChange(e, "stock")}
           />
         </Form.Group>

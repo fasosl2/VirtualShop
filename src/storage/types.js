@@ -1,14 +1,14 @@
+//Modal Types
 export const openModalSaveProductType = 'modalSaveProduct';
 export const openModalCreateProductType = 'modalCreateProduct';
+export const openModalCreateItemType = 'modalCreateItem';
 export const openModalCreateUserType = 'modalCreateUser';
 export const openModalSaveChartType = 'modalCreateChart';
 export const closeModalsType = 'closeModals';
 
+//Chart Types
 export const fetchChartsInitType = 'fetchChartsInit';
 export const fetchChartsSuccessType = 'fetchChartsSuccess';
-
-export const saveProductsInitType = 'saveProductsInit';
-export const saveProductsSuccessType = 'saveProductsSuccess';
 
 export const saveChartsInitType = 'saveChartsInit';
 export const saveChartsSuccessType = 'saveChartsSuccess';
@@ -22,12 +22,17 @@ export const saveProductsInChartSuccessType = 'saveProductsInChartSuccess';
 export const deleteProductsFromChartInitType = 'deleteProductsFromChartInit';
 export const deleteProductsFromChartSuccessType = 'deleteProductsFromChartSuccess';
 
+//Product Types
+export const saveProductsInitType = 'saveProductsInit';
+export const saveProductsSuccessType = 'saveProductsSuccess';
+
 export const deleteProductsInitType = 'deleteProductsInit';
 export const deleteProductsSuccessType = 'deleteProductsSuccess';
 
 export const fetchProductsInitType = 'fetchProductsInit';
 export const fetchProductsSuccessType = 'fetchProductsSuccess';
 
+//User Types
 export const saveUsersInitType = 'saveUsersInit';
 export const saveUsersSuccessType = 'saveUsersSuccess';
 
@@ -45,3 +50,19 @@ export const authUsersSuccessType = 'authUsersSuccess';
 
 export const logoutUsersInitType = 'logoutUsersInit';
 export const logoutUsersSuccessType = 'logoutUsersSuccess';
+
+//Item Types
+export const saveItemsInitType = 'saveItemsInit';
+export const saveItemsSuccessType = 'saveItemsSuccess';
+
+export const deleteItemsInitType = 'deleteItemsInit';
+export const deleteItemsSuccessType = 'deleteItemsSuccess';
+
+export const fetchItemsInitType = 'fetchItemsInit';
+export const fetchItemsSuccessType = 'fetchItemsSuccess';
+
+export const saveItemsInProductInitType = 'saveItemsInProductInit';
+export const saveItemsInProductSuccessType = 'saveItemsInProductSuccess';
+
+export const deleteItemsFromProductInitType = 'deleteItemsFromProductInit';
+export const deleteItemsFromProductSuccessType = 'deleteItemsFromProductSuccess';
