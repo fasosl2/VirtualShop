@@ -1,6 +1,6 @@
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
-import { fetchChartsAction } from "../../storage/actions";
+import { fetchChartsAction } from "../../actions/chartActions";
 import { Navbar } from "react-bootstrap";
 
 

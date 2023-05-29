@@ -16,7 +16,7 @@ import {
   openModalCreateItemType,
   openModalCreateProductType,
   openModalCreateUserType,
-  openModalSaveProductType,
+  openModalSaveItemsType,
   saveChartsSuccessType,
   saveItemsInProductSuccessType,
   saveItemsSuccessType,
@@ -29,7 +29,7 @@ export function reducer(state, action) {
   let stateAction = { type: action?.type };
 
   switch (action?.type) {
-    case openModalSaveProductType:
+    case openModalSaveItemsType:
       stateAction.mode = "saveProduct";
       stateAction.activeProduct = action.payload;
       break;

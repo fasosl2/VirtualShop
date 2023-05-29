@@ -1,5 +1,5 @@
 //Modal Types
-export const openModalSaveProductType = 'modalSaveProduct';
+export const openModalSaveItemsType = 'ModalSaveItems';
 export const openModalCreateProductType = 'modalCreateProduct';
 export const openModalCreateItemType = 'modalCreateItem';
 export const openModalCreateUserType = 'modalCreateUser';

@@ -7,18 +7,18 @@ import { useEffect, useState } from "react";
 import {
   deleteProductAction,
   deleteProductsFromChartAction,
-  fetchChartsAction,
   saveProductsInChartAction,
   fetchProductsAction,
-  sleep,
-} from "../../storage/actions";
+} from "../../actions/productActions";
+
+import { fetchChartsAction } from "../../actions/chartActions";
 import {
   openModalCreateProductAction,
 } from "../../actions/modalsActions";
 // import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
-// import { ModalCreateChart } from "../../containers/ModalCreateChart/ModalCreateChart";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import utilService from "../../services/utilService";
 
 export const Products = () => {
   const { state, dispatch } = useAppContext();
@@ -36,7 +36,7 @@ export const Products = () => {
 
   const handleShowFeedback = async () => {
     setShowFeedback(true);
-    await sleep(5000);
+    await utilService.sleep(5000);
     setShowFeedback(false);
   };
 

@@ -8,12 +8,12 @@ import {
   deleteItemAction,
   fetchItemsAction,
 } from "../../actions/itemsAction";
-import { sleep } from "../../storage/actions";
 import {
   openModalCreateItemAction,
 } from "../../actions/modalsActions";
 import { ModalCreateItem } from "../../containers/ModalCreateItem";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import utilService from "../../services/utilService";
 
 export const Items = () => {
   const { state, dispatch } = useAppContext();
@@ -29,7 +29,7 @@ export const Items = () => {
 
   const handleShowFeedback = async () => {
     setShowFeedback(true);
-    await sleep(5000);
+    await utilService.sleep(5000);
     setShowFeedback(false);
   };
 

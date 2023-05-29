@@ -3,7 +3,7 @@ import { Dropdown, Form } from "react-bootstrap";
 import { Button } from "../../components/Button/Button";
 import { Container, LoginImage } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
-import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../storage/actions";
+import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../actions/userActions";
 import { loginUsersSuccessType } from "../../storage/types";
 
 export const LoginContainer = () => {

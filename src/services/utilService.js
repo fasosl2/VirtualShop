@@ -21,7 +21,11 @@ const utilService = {
     const res = await fetch(dataUrl);
     const blob = await res.blob();
     return new File([blob], fileName, { type: 'image/png' });
-  }
+  },
+  sleep: (time) =>
+    new Promise((resolve) => {
+      setTimeout(resolve, time);
+    })
 };
 
 export default utilService;

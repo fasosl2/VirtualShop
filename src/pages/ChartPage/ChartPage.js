@@ -2,7 +2,8 @@ import { Container } from "react-bootstrap";
 import { ListGroup } from "../../components/ListGroup/ListGroup";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
-import { deleteProductsFromChartAction, fetchChartsAction, saveProductsInChartAction } from "../../storage/actions";
+import { fetchChartsAction } from "../../actions/chartActions";
+import { deleteProductsFromChartAction, saveProductsInChartAction } from "../../actions/productActions";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();

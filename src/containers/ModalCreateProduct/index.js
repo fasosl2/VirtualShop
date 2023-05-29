@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { saveProductsAction } from "../../storage/actions";
+import { saveProductsAction } from "../../actions/productActions";
 import {
   closeModalsAction,
 } from "../../actions/modalsActions";

@@ -5,10 +5,11 @@ import { Card } from "../../components/Card";
 import { logoutUsersSuccessType, openModalCreateUserType, saveUsersSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
-import { deleteUserAction, fetchUsersAction, sleep } from "../../storage/actions";
+import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
+import utilService from "../../services/utilService";
 
 export const Users = () => {
   const { state,dispatch } = useAppContext();
@@ -22,7 +23,7 @@ export const Users = () => {
 
   const handleShowFeedback = async () => {
       setShowFeedback(true);
-      await sleep(5000);
+      await utilService.sleep(5000);
       setShowFeedback(false);
   }
 
