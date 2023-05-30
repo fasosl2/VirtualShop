@@ -3,65 +3,61 @@ import { ListGroup, Row, Col } from "react-bootstrap";
 import { Button } from "../../components/Button/Button";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect, useState } from "react";
-import {
-  fetchChartsAction,
-  saveProductsInChartAction,
-  openModalSaveChartAction,
-  deleteProductsFromChartAction,
-} from "../../storage/actions";
+import { fetchItemsAction, removeItemsAction, selectItemsAction } from "../../actions/itemsAction";
+import { openModalCreateProductAction } from "../../actions/modalsActions";
 
-export const ModalSaveProduct = ({ open }) => {
+export const ModalSaveItems = ({ open }) => {
   const { state, dispatch } = useAppContext();
   const [itensLoading,setItensLoading] = useState({});
 
-  const handleClickCreateChart = () => {
-    dispatch(openModalSaveChartAction());
+  const handleClickSaveItems = () => {
+    dispatch(openModalCreateProductAction());
   };
 
-  const handleSaveProductClick = async (chartId) => {
-    setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await saveProductsInChartAction(dispatch, chartId, state.activeProduct);
-    setItensLoading(prevState => ({...prevState,[chartId]:false}))
+  const handleSelectItemClick = async (item) => {
+    setItensLoading(prevState => ({...prevState,[item.id]:true}))
+    await selectItemsAction({dispatch,selectedItems:state.selectedItems,item});
+    setItensLoading(prevState => ({...prevState,[item.id]:false}))
   };
 
-  const handleDeleteProductClick = async (chartId) => {
-    setItensLoading(prevState => ({...prevState,[chartId]:true}))
-    await deleteProductsFromChartAction(dispatch, chartId, state.activeProduct);
-    setItensLoading(prevState => ({...prevState,[chartId]:false}))
+  const handleRemoveItemClick = async (item,negativeValue) => {
+    setItensLoading(prevState => ({...prevState,[item.id]:true}))
+    await removeItemsAction({dispatch,selectedItems:state.selectedItems,item,negativeValue});
+    setItensLoading(prevState => ({...prevState,[item.id]:false}))
   };
 
   useEffect(() => {
-    fetchChartsAction(dispatch);
+    fetchItemsAction(dispatch)
   }, [dispatch]);
 
   return (
     <Modal
-      title="Salvar Product"
+      title="Adicionar Items"
       open={open}
       controls={[
         {
-          label: "Criar Pasta",
-          loadingLabel: "Criando",
+          label: "Salvar",
+          loadingLabel: "Salvando",
           loading: false,
           variant: "secondary",
-          onClick: handleClickCreateChart,
+          onClick: handleClickSaveItems,
         },
       ]}
     >
       <ListGroup variant="flush">
-        {state?.chart?.map((chart, chartIndex) => {
-          let productSaved = chart?.products?.find(product => product === state.activeProduct)
+        {state?.items?.map((item, itemIndex) => {
+          let itemSaved = state?.selectedItems.find(selectedItem => selectedItem.id === item.id)
           return (
-          <ListGroup.Item key={chartIndex}>
+          <ListGroup.Item key={itemIndex}>
             <Row>
-              <Col xs={8}>{chart.name}</Col>
+              <Col xs={8}>{item.title}</Col>
               <Col xs={4} className="text-end">
                 <Button
-                  variant={productSaved ? 'danger' : 'primary'}
-                  onClick={productSaved ? () => handleDeleteProductClick(chart.id) : () => handleSaveProductClick(chart.id)}
-                  label={productSaved ? 'Remover' : 'Salvar'}
-                  loadingLabel={productSaved ? 'Removendo' : 'Salvando'}
-                  loading={itensLoading[chart.id]}
+                  variant={itemSaved ? 'danger' : 'primary'}
+                  onClick={itemSaved ? () => handleRemoveItemClick(item) : () => handleSelectItemClick(item)}
+                  label={itemSaved ? 'Remover' : 'Salvar'}
+                  loadingLabel={itemSaved ? 'Removendo' : 'Salvando'}
+                  loading={itensLoading[item.id]}
                 />
               </Col>
             </Row>

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveProductsAction } from "../../actions/productActions";
 import {
-  closeModalsAction,
+  closeModalsAction, openModalSaveItemsAction,
 } from "../../actions/modalsActions";
 import {
   closeModalsType,
@@ -22,7 +22,8 @@ export const ModalCreateProduct = ({ open }) => {
     description: "",
     price: "",
     stock: "",
-    image: ""
+    image: "",
+    items: []
   });
   const [productData, setProductData] = useState(initialProduct.current);
 
@@ -56,9 +57,15 @@ export const ModalCreateProduct = ({ open }) => {
     }else{
       setImage(userLogo);
     }
-  }, [state.type, state.activeProduct, dispatch, productData.image]);
+    if (state?.selectedItems?.length) {
+      setProductData((prevState) => ({ ...prevState, items: state.selectedItems }));
+    }
+  }, [state.type, state.activeProduct, dispatch, productData.image, state.selectedItems]);
+
 
   const handleChange = (e, field) => setProductData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
+
+  const handleItemClick = () => dispatch(openModalSaveItemsAction(productData?.items));
 
   return (
     <Modal
@@ -118,6 +125,14 @@ export const ModalCreateProduct = ({ open }) => {
             value={productData?.stock}
             onChange={(e) => handleChange(e, "stock")}
           />
+          <br />
+          <Button variant="light"
+          style={{width:'100%',textAlign:'start',
+          border: '1px solid #ced4da',
+          borderRadius: '0.375rem'}}
+          onClick={handleItemClick}>
+            {productData?.items.length ? productData?.items?.map(ele => <p key={ele.id}>{ele.title}</p>) : "Selecionar Itens"}
+            </Button>
         </Form.Group>
       </Form>
     </Modal>

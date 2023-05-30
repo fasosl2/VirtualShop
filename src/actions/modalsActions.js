@@ -12,9 +12,9 @@ export const openModalCreateProductAction = (product) => ({
     activeItem: item
   });
   
-export const openModalSaveItemsAction = (productId) => ({
+export const openModalSaveItemsAction = (selectedItems) => ({
   type: openModalSaveItemsType,
-  payload: productId,
+  selectedItems: selectedItems
 });
   
 export const openModalCreateUserAction = (user) => ({

@@ -61,8 +61,8 @@ export const deleteItemsSuccessType = 'deleteItemsSuccess';
 export const fetchItemsInitType = 'fetchItemsInit';
 export const fetchItemsSuccessType = 'fetchItemsSuccess';
 
-export const saveItemsInProductInitType = 'saveItemsInProductInit';
-export const saveItemsInProductSuccessType = 'saveItemsInProductSuccess';
+export const selectItemsInitType = 'selectItemsInit';
+export const selectItemsSuccessType = 'selectItemsSuccess';
 
-export const deleteItemsFromProductInitType = 'deleteItemsFromProductInit';
-export const deleteItemsFromProductSuccessType = 'deleteItemsFromProductSuccess';
+export const removeItemsInitType = 'removeItemsInit';
+export const removeItemsSuccessType = 'removeItemsSuccess';

@@ -10,6 +10,8 @@ import { Items } from "./pages/Items";
 const initialState = {
   activeProduct: null,
   activeUser: null,
+  activeItem: null,
+  selectedItems: [],
   mode: null,
   chart: {
     products: []

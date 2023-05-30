@@ -2,10 +2,12 @@ import { saveChart, getChart } from "./chartServices";
 import api from "./apiService";
 
 export const getProducts = async () => {
-  return await api.read({route: "products"});
+  const result = await api.read({route: "products"});
+  return  result.map(prod => ({...prod, items: prod?.items?.length ? JSON.parse(prod.items) : []}));
 };
 
 export const saveProduct = async (productData) => {
+  productData = {...productData, items: productData?.items?.length ? JSON.stringify(productData.items) : '[]'};
   if(productData.id){
     await api.put({body: productData, route: "products", params: [productData.id]})
   } else {

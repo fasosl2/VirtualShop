@@ -2,7 +2,6 @@ import {
   authUsersSuccessType,
   closeModalsType,
   deleteChartSuccessType,
-  deleteItemsFromProductSuccessType,
   deleteItemsSuccessType,
   deleteProductsFromChartSuccessType,
   deleteProductsSuccessType,
@@ -17,8 +16,9 @@ import {
   openModalCreateProductType,
   openModalCreateUserType,
   openModalSaveItemsType,
+  removeItemsSuccessType,
+  selectItemsSuccessType,
   saveChartsSuccessType,
-  saveItemsInProductSuccessType,
   saveItemsSuccessType,
   saveProductsInChartSuccessType,
   saveProductsSuccessType,
@@ -30,8 +30,8 @@ export function reducer(state, action) {
 
   switch (action?.type) {
     case openModalSaveItemsType:
-      stateAction.mode = "saveProduct";
-      stateAction.activeProduct = action.payload;
+      stateAction.mode = openModalSaveItemsType;
+      state.selectedItems = action.selectedItems;
       break;
     case openModalCreateProductType:
       stateAction.mode = action.type;
@@ -50,6 +50,7 @@ export function reducer(state, action) {
       stateAction.activeProduct = null;
       stateAction.activeUser = null;
       stateAction.activeItem = null;
+      stateAction.selectedItems = [];
       break;
     case fetchChartsSuccessType:
       stateAction.chart = action.payload;
@@ -94,11 +95,11 @@ export function reducer(state, action) {
     case saveItemsSuccessType:
       stateAction.items = action.payload;
       break;
-    case saveItemsInProductSuccessType:
-      stateAction.products = action.payload;
+    case selectItemsSuccessType:
+      stateAction.selectedItems = action.payload;
       break;
-    case deleteItemsFromProductSuccessType:
-      stateAction.products = action.payload;
+    case removeItemsSuccessType:
+      stateAction.selectedItems = action.payload;
       break;
     case deleteItemsSuccessType:
       stateAction.items = action.payload;

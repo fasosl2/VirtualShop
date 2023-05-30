@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
-import { openModalCreateProductType, saveProductsSuccessType } from "../../storage/types";
+import { openModalCreateProductType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {
@@ -15,7 +15,7 @@ import { fetchChartsAction } from "../../actions/chartActions";
 import {
   openModalCreateProductAction,
 } from "../../actions/modalsActions";
-// import { ModalSaveProduct } from "../../containers/ModalSaveProduct/ModalSaveProduct";
+import { ModalSaveItems } from "../../containers/ModalSaveItem";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
 import utilService from "../../services/utilService";
@@ -58,7 +58,9 @@ export const Products = () => {
 
   return (
     <div>
+      {state.mode}
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
+      <ModalSaveItems open={state.mode === openModalSaveItemsType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
             (<FloatingPillButton label="+" onClick={handleCreateOrUpdate} />) }
       
