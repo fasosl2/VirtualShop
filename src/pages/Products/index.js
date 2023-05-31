@@ -40,9 +40,9 @@ export const Products = () => {
     setShowFeedback(false);
   };
 
-  const handleChartClick = async ({product,negativeValue, setItemsLoading, field}) => {
+  const handleChartClick = async ({ element,negativeValue, setItemsLoading, field}) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
-    dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,product,negativeValue) : await saveProductsInChartAction(dispatch,product))
+    dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,element,negativeValue) : await saveProductsInChartAction(dispatch,element))
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
   }
 
@@ -58,7 +58,6 @@ export const Products = () => {
 
   return (
     <div>
-      {state.mode}
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       <ModalSaveItems open={state.mode === openModalSaveItemsType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 

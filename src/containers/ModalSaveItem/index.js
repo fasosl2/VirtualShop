@@ -5,6 +5,7 @@ import { useAppContext } from "../../storage/AppContext";
 import { useEffect, useState } from "react";
 import { fetchItemsAction, removeItemsAction, selectItemsAction } from "../../actions/itemsAction";
 import { openModalCreateProductAction } from "../../actions/modalsActions";
+import { CountButtonGroup } from "../../components/CountButtonGroup";
 
 export const ModalSaveItems = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -13,19 +14,13 @@ export const ModalSaveItems = ({ open }) => {
   const handleClickSaveItems = () => {
     dispatch(openModalCreateProductAction());
   };
-
-  const handleSelectItemClick = async (item) => {
-    setItensLoading(prevState => ({...prevState,[item.id]:true}))
-    await selectItemsAction({dispatch,selectedItems:state.selectedItems,item});
-    setItensLoading(prevState => ({...prevState,[item.id]:false}))
-  };
-
-  const handleRemoveItemClick = async (item,negativeValue) => {
-    setItensLoading(prevState => ({...prevState,[item.id]:true}))
-    await removeItemsAction({dispatch,selectedItems:state.selectedItems,item,negativeValue});
-    setItensLoading(prevState => ({...prevState,[item.id]:false}))
-  };
-
+  const handleToggleItemClick = async ({ element,negativeValue, setItemsLoading, field}) => {
+    setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
+    dispatch(negativeValue 
+      ? await removeItemsAction({dispatch,selectedItems:state.selectedItems,item:element,negativeValue}) 
+      : await selectItemsAction({dispatch,selectedItems:state.selectedItems,item:element}))
+    setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
+  }
   useEffect(() => {
     fetchItemsAction(dispatch)
   }, [dispatch]);
@@ -50,14 +45,14 @@ export const ModalSaveItems = ({ open }) => {
           return (
           <ListGroup.Item key={itemIndex}>
             <Row>
-              <Col xs={8}>{item.title}</Col>
+              <Col xs={5}>{item.title}</Col>
               <Col xs={4} className="text-end">
-                <Button
-                  variant={itemSaved ? 'danger' : 'primary'}
-                  onClick={itemSaved ? () => handleRemoveItemClick(item) : () => handleSelectItemClick(item)}
-                  label={itemSaved ? 'Remover' : 'Salvar'}
-                  loadingLabel={itemSaved ? 'Removendo' : 'Salvando'}
-                  loading={itensLoading[item.id]}
+              <CountButtonGroup
+                {...{total: itemSaved?.total || 0,
+                  onClick: handleToggleItemClick, 
+                  element: item,
+                  contentlabel:'Compra', 
+                  emptyLabel:'Exclui'}}
                 />
               </Col>
             </Row>

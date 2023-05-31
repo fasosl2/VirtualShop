@@ -131,7 +131,9 @@ export const ModalCreateProduct = ({ open }) => {
           border: '1px solid #ced4da',
           borderRadius: '0.375rem'}}
           onClick={handleItemClick}>
-            {productData?.items.length ? productData?.items?.map(ele => <p key={ele.id}>{ele.title}</p>) : "Selecionar Itens"}
+            {productData?.items.length 
+            ? productData?.items?.map(ele => <p key={ele.id}>{ele.total} - {ele.title}</p>) 
+            : "Selecionar Itens"}
             </Button>
         </Form.Group>
       </Form>

@@ -7,6 +7,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
+import { CountButtonGroup } from "../CountButtonGroup";
 
 export const Card = ({
   id,
@@ -47,45 +48,15 @@ export const Card = ({
           </Col>
         </Row>
       </CardBS.Body>
-
       <CardBS.Footer>
-        {!props.groupControls ? (
-          ""
-        ) : (
-          <ButtonGroup>
-          <Button
-                variant={total ? "danger" : "primary"}
-                label={total ? "Remover" : "Comprar"}
-                loadingLabel={total ? "Removendo" : "Comprando"}
-                loading={itemsLoading['groupPrimary']}
-                onClick={() => props.groupControls.onClick({product, negativeValue: total, setItemsLoading, field: 'groupPrimary'})}  
-              />
-          {total ? (
-            <>
-            <Button
-                variant='light'
-                label='˄'
-                onClick={() => props.groupControls.onClick({product, negativeValue: null, setItemsLoading,field: 'groupTotal'})}  
-              />
-              
-            <Button
-                label={total}
-                badge="secondary"
-                loadingLabel=''
-                variant='light'
-                loading={itemsLoading['groupTotal']}
-              />
-              <Button
-                variant='light'
-                label='˅'
-                onClick={() => props.groupControls.onClick({product, negativeValue: 1, setItemsLoading,field: 'groupTotal'})}  
-              />
-            </>
-          ) : (
-            ""
-          )}
-        </ButtonGroup>
-        )}
+        
+      {props.groupControls && <CountButtonGroup
+      {...{total,
+        onClick: props.groupControls.onClick, 
+        element: product,
+        contentlabel:'Compra', 
+        emptyLabel:'Exclui'}}
+      />}
 
         {controls
           ? controls.map((button, index) => (
