@@ -1,4 +1,5 @@
-import {Badge, Button as ButtonBS, Spinner} from 'react-bootstrap';
+import {Badge, Spinner} from 'react-bootstrap';
+import { ButtonBS } from './styles';
 
 export const Button = ({loading, label, loadingLabel, ...buttonProps}) => {
   return (

@@ -21,7 +21,7 @@ export const Modal = ({title, children, open, onHide, controls = []}) => {
             {
                 controls.map((control,index) => (
                 
-                <Button key={index} 
+                <Button key={index}
                 {...control}
                 />
                     ))

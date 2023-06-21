@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import FileResizer from "react-image-file-resizer";
 
 const utilService = {
@@ -29,3 +30,28 @@ const utilService = {
 };
 
 export default utilService;
+
+
+export const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+});
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+    });
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, []);
+
+  return windowSize;
+}

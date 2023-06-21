@@ -54,8 +54,8 @@ export const Card = ({
       {...{total,
         onClick: props.groupControls.onClick, 
         element: product,
-        contentlabel:'Compra', 
-        emptyLabel:'Exclui'}}
+        contentlabel:'Compra',
+        emptyLabel:'Remove'}}
       />}
 
         {controls

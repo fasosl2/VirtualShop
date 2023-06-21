@@ -1,4 +1,4 @@
-import { HomePage } from "./pages/Home/HomePage";
+import { HomePage } from "./pages/Home";
 import { Products } from "./pages/Products";
 import { Users } from "./pages/Users";
 import { ChartPage } from "./pages/ChartPage/ChartPage";
@@ -6,6 +6,7 @@ import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 import { Items } from "./pages/Items";
+import { GlobalStyle } from "./styles/global";
 
 const initialState = {
   activeProduct: null,
@@ -25,9 +26,11 @@ const initialState = {
 
 function App() {
   return (
+    
     <BrowserRouter>
       <div className="App">
         <AppContext initialState={initialState}>
+          <GlobalStyle />
           <HeaderPartial />
           <Routes>
             <Route path="/" element={<HomePage />} />
