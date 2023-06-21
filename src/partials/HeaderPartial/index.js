@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 export const HeaderPartial = () => {
   const { state } = useAppContext();
   const location = useLocation();
-  return (
+  return ( 
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/"><img src={navbarLogo} alt="cozinha+"/></Navbar.Brand>
