@@ -1,6 +1,6 @@
 import { Modal } from "../../components/Modal/Modal";
 import { ListGroup, Row, Col } from "react-bootstrap";
-import { Button } from "../../components/Button/Button";
+import { Button } from "../../components/Button";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect, useState } from "react";
 import { fetchItemsAction, removeItemsAction, selectItemsAction } from "../../actions/itemsAction";

@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
-import { Button } from "../../components/Button/Button";
+import { Button } from "../../components/Button";
 import { Container, LoginImage } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
 import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../actions/userActions";
@@ -46,7 +46,7 @@ export const LoginContainer = () => {
 
   return (
     <Dropdown id={"dropdown"}>
-      <Dropdown.Toggle variant="light">{state.currentUser?.name || 'Login'}</Dropdown.Toggle>
+      <Dropdown.Toggle variant="light">{state.currentUser?.name || 'login'}</Dropdown.Toggle>
       <Dropdown.Menu align="end">
         {state?.currentUser ? (
           <Container>

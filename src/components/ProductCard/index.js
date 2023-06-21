@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button } from "../Button";
-import { Card as CardBS } from "react-bootstrap";
+import { Card as CardBS, Col, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
+import { CardButtomContainer, CardHeader, CardPrice } from "./styles";
 
-export const Card = ({
+export const ProductCard = ({
   id,
   image,
   title,
@@ -27,14 +28,29 @@ export const Card = ({
   };
 
   return (
-    <CardBS style={props.style} className={props.classCard}>
-      {image ? <CardBS.Img src={image} alt="Card image" /> : ""}
-      <CardBS.Body style={props.styleBody}  className={props.classBody}>
-        <CardBS.Title className={props.classTitle}>{title}</CardBS.Title>
-        <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
-        {props.children ? props.children : ""}
-      </CardBS.Body>
-      <CardBS.Footer style={props.styleFooter} className={props.classFooter}>
+    <CardBS style={props.style}>
+    <CardHeader>
+      <Row>
+    <Col>
+        <CardBS.Title>{title}</CardBS.Title>
+    </Col>
+    <Col>
+        <CardPrice>{subTitle}</CardPrice>
+    </Col>
+      </Row>
+    </CardHeader>
+      <CardBS.Body style={props.styleBody}>
+      <Row>
+    <Col md={5}>
+      <CardBS.Img src={image} style={{width: '100%'}} alt="Card image" />
+    </Col>
+    <Col md={7}>
+      <Row>
+      <p>{props.description}</p>
+        {props?.items?.length ? props.items.map(item => <p>• {item.title}</p>) : ""}
+      </Row>
+      <Row>
+      <CardButtomContainer>
         {props.groupControls && (
           <CountButtonGroup
             {...{
@@ -53,9 +69,7 @@ export const Card = ({
                 (button.freeShow ||
                   ["Master", "Gestor"].includes(state?.currentUser?.type)) && (
                   <Button
-                    style={props.styleButtom}
-                    className={props.classButtom}
-                    key={button.label + id}
+                    key={button.label + (id || index)}
                     variant={button.variant}
                     loading={itemsLoading[button.label + (id || index)]}
                     {...{
@@ -67,7 +81,12 @@ export const Card = ({
                 )
             )
           : ""}
-      </CardBS.Footer>
+      
+      </CardButtomContainer>
+      </Row>
+    </Col>
+      </Row>
+      </CardBS.Body>
     </CardBS>
   );
 };

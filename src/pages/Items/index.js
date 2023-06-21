@@ -12,7 +12,7 @@ import {
   openModalCreateItemAction,
 } from "../../actions/modalsActions";
 import { ModalCreateItem } from "../../containers/ModalCreateItem";
-import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 
 export const Items = () => {
