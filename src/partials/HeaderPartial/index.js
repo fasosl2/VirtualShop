@@ -13,7 +13,7 @@ export const HeaderPartial = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home"><img src={navbarLogo} alt="cozinha+"/></Navbar.Brand>
+        <Navbar.Brand href="/"><img src={navbarLogo} alt="cozinha+"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
