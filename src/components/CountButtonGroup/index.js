@@ -1,5 +1,5 @@
 import { ButtonGroup } from "react-bootstrap";
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 import { useState } from "react";
 
 

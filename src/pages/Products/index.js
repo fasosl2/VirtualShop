@@ -17,7 +17,7 @@ import {
 } from "../../actions/modalsActions";
 import { ModalSaveItems } from "../../containers/ModalSaveItem";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
-import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 
 export const Products = () => {

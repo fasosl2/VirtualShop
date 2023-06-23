@@ -2,15 +2,17 @@ import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
 import { fetchChartsAction } from "../../actions/chartActions";
 import { Col, Navbar, Row } from "react-bootstrap";
-import feedTheChangeBanner from "../../assets/feed-the-change.png";
-import { BannerImage, ContentSection } from "./styles";
+import { Button } from "../../components/Button";
+  import feedTheChangeBanner from "../../assets/feed-the-change.png";
+import { BannerImage, ContentSection, HomeSwiperContainer } from "./styles";
 import { Frame } from "../../components/Frame";
-import { SwiperContainer } from "../../containers/SwiperContainer";
+import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
 import image1 from "../../assets/home-img1.png";
 import ufpeLogo from "../../assets/client-ufpe-logo.png";
 import metropoleLogo from "../../assets/client-metropole-logo.png";
 import prefeituraRecifeLogo from "../../assets/client-prefeitura-recife-logo.png";
 import unicapLogo from "../../assets/client-unicap-logo.png";
+import { SwiperImage } from "../../components/Swiper/styles";
 
 export const HomePage = () => {
   const { dispatch } = useAppContext();
@@ -26,11 +28,20 @@ export const HomePage = () => {
 
   return (
     <>
-      <BannerImage image={feedTheChangeBanner} />
+      <BannerImage image={feedTheChangeBanner}>
+              <h2 style={{color :'white',fontWeight:'700'}}>alimente a mudança</h2>
+              <Button
+              {...{
+                label: "contrate",
+                variant: "secondary",
+                onClick: () => {}}}
+              />
+      </BannerImage>
       <ContentSection>
         <Row>
           <Col md={5}>
-            <Frame image={image1} />
+            <Frame image={image1}>
+            </Frame>
           </Col>
           <Col>
             <h4>Cozinha+</h4>
@@ -56,30 +67,36 @@ export const HomePage = () => {
         </Row>
       </ContentSection>
       <ContentSection>
-        <h2>Clientes+</h2>
         {
+          <HomeSwiperContainer>
+            <h2>Clientes+</h2>
           <SwiperContainer>
-            <img
-              style={{ width: "90%", margin:'5%' }}
-              src={ufpeLogo}
-              alt={"Universidade Federal de Pernambuco"}
-            />
-            <img
-              style={{  width: "90%", margin:'5%' }}
-              src={metropoleLogo}
-              alt={"Metrópole"}
-            />
-            <img
-              style={{ width: "90%", margin:'5%' }}
-              src={prefeituraRecifeLogo}
-              alt={"Prefeitura do Recife"}
-            />
-            <img
-              style={{ width: "90%", margin:'5%' }}
-              src={unicapLogo}
-              alt={"Universidade Católica de Pernambuco"}
-            />
+            <SwiperSlide>
+              <SwiperImage
+                src={ufpeLogo}
+                alt={"Universidade Federal de Pernambuco"}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperImage
+                src={metropoleLogo}
+                alt={"Metrópole"}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperImage
+                src={prefeituraRecifeLogo}
+                alt={"Prefeitura do Recife"}
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <SwiperImage
+                src={unicapLogo}
+                alt={"Universidade Católica de Pernambuco"}
+              />
+            </SwiperSlide>
           </SwiperContainer>
+          </HomeSwiperContainer>
         }
         {/* Slider main container */}
       </ContentSection>

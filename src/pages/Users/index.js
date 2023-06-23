@@ -7,7 +7,7 @@ import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
-import { FloatingPillButton } from "../../components/FloatingPillButton/FloatingPillButton";
+import { FloatingPillButton } from "../../components/FloatingPillButton";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
 import utilService from "../../services/utilService";
 

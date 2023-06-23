@@ -1,5 +1,5 @@
 import { Modal as ModalBS} from "react-bootstrap";
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 import { useAppContext } from "../../storage/AppContext";
 import { closeModalsAction, } from "../../actions/modalsActions";
 
