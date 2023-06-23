@@ -13,6 +13,7 @@ import metropoleLogo from "../../assets/client-metropole-logo.png";
 import prefeituraRecifeLogo from "../../assets/client-prefeitura-recife-logo.png";
 import unicapLogo from "../../assets/client-unicap-logo.png";
 import { SwiperImage } from "../../components/Swiper/styles";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
   const { dispatch } = useAppContext();
@@ -24,7 +25,7 @@ export const HomePage = () => {
     dispatch(openModalCreateProductAction())
 } */
 
-  useEffect(() => {}, []);
+const navigate = useNavigate();
 
   return (
     <>
@@ -34,7 +35,8 @@ export const HomePage = () => {
               {...{
                 label: "contrate",
                 variant: "secondary",
-                onClick: () => {}}}
+                onClick: async () => {
+                  navigate('/produtos')}}}
               />
       </BannerImage>
       <ContentSection>
