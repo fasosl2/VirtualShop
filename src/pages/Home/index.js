@@ -102,9 +102,12 @@ const navigate = useNavigate();
         }
         {/* Slider main container */}
       </ContentSection>
-      <section className="catalogo">
-        <h2 className="catalogo__titulo">Catálogo</h2>
-        <div className="catalogo__conteudo">
+      <ContentSection>
+        {
+          <HomeSwiperContainer>
+            <h2>Catálogo+</h2>
+          <SwiperContainer>
+            <SwiperSlide>  
           <div className="coffee_break">
             <img
               className="basico"
@@ -142,7 +145,9 @@ const navigate = useNavigate();
               Saiba +
             </button>
           </div>
-          <div className="coffee_break2">
+            </SwiperSlide>
+            <SwiperSlide>
+            <div className="coffee_break2">
             <img
               className="padrao"
               src="imgs/padrao.svg"
@@ -191,7 +196,9 @@ const navigate = useNavigate();
               Saiba +
             </button>
           </div>
-          <div className="coffee_break3">
+            </SwiperSlide>
+            <SwiperSlide>
+            <div className="coffee_break3">
             <img
               className="executivo"
               src="imgs/executivo.svg"
@@ -252,34 +259,12 @@ const navigate = useNavigate();
               Saiba +
             </button>
           </div>
-        </div>
-      </section>
-      <Navbar bg="light" expand="lg">
-        <footer className="rodape">
-          <a href="/">
-            <img
-              src="imgs/instagram.svg"
-              alt="logo do instagram"
-              className="logoinsta"
-            />
-          </a>
-          <a href="/">
-            <img
-              src="imgs/facebook.svg"
-              alt="logo do facebook"
-              className="logoface"
-            />
-          </a>
-          <h2 className="logo_footer">Cozinha Solidária</h2>
-          <h3 className="logo2_footer">Sérgio Pereira</h3>
-          <p className="texto_footer">
-            E-mail: gtp@gtp.org.br <br />
-            Telefone: +55 81 3231.0905 <br />
-            Endereço: Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,{" "}
-            <br /> Pernambuco, Brasil. CEP: 50070-000
-          </p>
-        </footer>
-      </Navbar>
+            </SwiperSlide>
+          </SwiperContainer>
+          </HomeSwiperContainer>
+        }
+        {/* Slider main container */}
+      </ContentSection>
     </>
   );
 };

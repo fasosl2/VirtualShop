@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 import { Items } from "./pages/Items";
 import { GlobalStyle } from "./styles/global";
+import { FooterPartial } from "./partials/FooterPartial";
 
 const initialState = {
   activeProduct: null,
@@ -39,6 +40,7 @@ function App() {
             <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>
+          <FooterPartial />
         </AppContext>
       </div>
     </BrowserRouter>
