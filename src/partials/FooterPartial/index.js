@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, FooterLink, Heading } from "./styles";
+import { Footer, FooterLink, FooterText, Heading } from "./styles";
 import { Container, Row, Col } from "react-bootstrap";
 import roundedLogo from "../../assets/rounded-logo.svg";
 import facebook from "../../assets/facebook.svg";
@@ -17,7 +17,7 @@ export const FooterPartial = () => {
               </Col>
               <Col>
                 <Heading>Cozinha+</Heading>
-                <p>Cozinha Solidária Sérgio Pereira</p>
+                <FooterText>Cozinha Solidária Sérgio Pereira</FooterText>
             <Row>
               <Col md={1}>
                 <img src={instagram} alt="footer logo" style={{width:'30px',height:'30px'}}/>
@@ -30,14 +30,14 @@ export const FooterPartial = () => {
             </Row>
           </Col>
           <Col>
-          <p>
+          <FooterText>
             E-mail: <FooterLink href="mailto:gtp@gtp.org.br">gtp@gtp.org.br</FooterLink>
             <br />
-            Telefone: +55 81 3231.0905 
+            Telefone: <FooterLink href="tel:+558132310905"> +55 81 3231.0905 </FooterLink>
             <br />
-            Endereço: Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,{" "}
-            <br /> Pernambuco, Brasil. CEP: 50070-000
-          </p>
+            Endereço: <FooterLink href="https://www.google.com/maps?q=Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,Pernambuco, Brasil. CEP: 50070-000"> Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,{" "}
+            <br /> Pernambuco, Brasil. CEP: 50070-000</FooterLink>
+          </FooterText>
           </Col>
         </Row>
       </Container>

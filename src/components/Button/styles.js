@@ -10,4 +10,5 @@ export const ButtonBS = styled(Button)`
     border: none;
     border-radius: 16px;
     padding: 0px 1em;
+    ${(props)=> props?.$width && `width:${props?.$width};`}
 `;

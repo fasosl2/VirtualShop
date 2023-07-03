@@ -22,6 +22,10 @@ text-decoration: none;
 }
 `;
 
+export const FooterText = styled.p`
+color: #fff;
+`;
+
 export const Heading = styled.p`
 font-size: 24px;
 color: #fff;

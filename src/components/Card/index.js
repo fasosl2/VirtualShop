@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { Button } from "../Button";
-import {
-  Card as CardBS,
-  ButtonGroup,
-  Col,
-  Row,
-} from "react-bootstrap";
+import { Card as CardBS} from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
 
@@ -33,45 +28,42 @@ export const Card = ({
 
   return (
     <CardBS>
+      <CardBS.Img src={image} alt="Card image" />
       <CardBS.Body>
-        <Row>
-          <Col>
-            <CardBS.Img
-              src={image}
-              alt="Card image"
-              style={{ maxHeight: "6em", maxWidth: "6em" }}
-            />
-          </Col>
-          <Col>
-            <CardBS.Title>{title}</CardBS.Title>
-            <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
-          </Col>
-        </Row>
+        <CardBS.Title>{title}</CardBS.Title>
+        <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
+        {props.children ? props.children : ""}
       </CardBS.Body>
       <CardBS.Footer>
-        
-      {props.groupControls && <CountButtonGroup
-      {...{total,
-        onClick: props.groupControls.onClick, 
-        element: product,
-        contentlabel:'Compra',
-        emptyLabel:'Remove'}}
-      />}
+        {props.groupControls && (
+          <CountButtonGroup
+            {...{
+              total,
+              onClick: props.groupControls.onClick,
+              element: product,
+              contentlabel: "Compra",
+              emptyLabel: "Remove",
+            }}
+          />
+        )}
 
         {controls
-          ? controls.map((button, index) => (
-            (button.freeShow || ['Master','Gestor'].includes(state?.currentUser?.type)) &&
-              <Button
-                key={button.label + id}
-                variant={button.variant}
-                loading={itemsLoading[button.label + id]}
-                {...{
-                  ...button,
-                  onClick: () =>
-                    handleItemLoading(button.label + id, button.onClick),
-                }}
-              />
-            ))
+          ? controls.map(
+              (button, index) =>
+                (button.freeShow ||
+                  ["Master", "Gestor"].includes(state?.currentUser?.type)) && (
+                  <Button
+                    key={button.label + id}
+                    variant={button.variant}
+                    loading={itemsLoading[button.label + id]}
+                    {...{
+                      ...button,
+                      onClick: () =>
+                        handleItemLoading(button.label + id, button.onClick),
+                    }}
+                  />
+                )
+            )
           : ""}
       </CardBS.Footer>
     </CardBS>
