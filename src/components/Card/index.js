@@ -27,7 +27,7 @@ export const Card = ({
   };
 
   return (
-    <CardBS>
+    <CardBS style={props.style}>
       <CardBS.Img src={image} alt="Card image" />
       <CardBS.Body>
         <CardBS.Title>{title}</CardBS.Title>

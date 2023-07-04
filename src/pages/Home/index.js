@@ -4,7 +4,15 @@ import { fetchChartsAction } from "../../actions/chartActions";
 import { Col, Row } from "react-bootstrap";
 import { Button } from "../../components/Button";
 import feedTheChangeBanner from "../../assets/feed-the-change.png";
-import { BannerImage, ContentSection, HomeSwiperContainer } from "./styles";
+import {
+  BannerImage,
+  ContentSection,
+  HomeSwiperContainer,
+  SlideContainer,
+  SlideContainerLogo,
+  H2,
+  H4
+} from "./styles";
 import { Frame } from "../../components/Frame";
 import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
 import image1 from "../../assets/home-img1.png";
@@ -39,7 +47,7 @@ export const HomePage = () => {
       img: comida03,
       title: "Buffet+",
       text: "Tenha uma experiência gastronômica diferenciada com nosso serviço de Buffet+. Nossas refeições são preparadas com ingredientes frescos e selecionados, oferecendo uma variedade de pratos saborosos e balanceados. Seja para um almoço individual ou para um evento corporativo, buscamos proporcionar momentos de prazer e alimentação de qualidade.",
-    }
+    },
   ];
 
   const { dispatch } = useAppContext();
@@ -75,8 +83,8 @@ export const HomePage = () => {
             <Frame image={image1}></Frame>
           </Col>
           <Col>
-            <h4>Cozinha+</h4>
-            <h6>Cozinha Solidária Sérgio Pereira</h6>
+            <H4>Cozinha+</H4>
+            <h6><i> Cozinha Solidária Sérgio Pereira </i></h6> <br/>
             <p>
               A Cozinha Solidária Sérgio Pereira é um projeto social
               desenvolvido pela ONG GTP+ em Recife, que fornece refeições
@@ -100,30 +108,33 @@ export const HomePage = () => {
       <ContentSection>
         {
           <HomeSwiperContainer>
-            <h2>Clientes+</h2>
-            <SwiperContainer>
-              <SwiperSlide>
-                <SwiperImage
-                  src={ufpeLogo}
-                  alt={"Universidade Federal de Pernambuco"}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SwiperImage
-                  src={prefeituraRecifeLogo}
-                  alt={"Prefeitura do Recife"}
-                />
-              </SwiperSlide>
-              <SwiperSlide>
-                <SwiperImage
-                  src={unicapLogo}
-                  alt={"Universidade Católica de Pernambuco"}
-                />
-              </SwiperSlide>
-            </SwiperContainer>
+            <H2>Clientes+</H2>
+            <SlideContainerLogo>
+              <SwiperContainer>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={ufpeLogo}
+                    alt={"Universidade Federal de Pernambuco"}
+                  />
+                </SwiperSlide>
+
+                <SwiperSlide>
+                  <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={prefeituraRecifeLogo}
+                    alt={"Prefeitura do Recife"}
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={unicapLogo}
+                    alt={"Universidade Católica de Pernambuco"}
+                  />
+                </SwiperSlide>
+              </SwiperContainer>
+            </SlideContainerLogo>
           </HomeSwiperContainer>
         }
         {/* Slider main container */}
@@ -131,22 +142,29 @@ export const HomePage = () => {
       <ContentSection>
         {
           <HomeSwiperContainer>
-            <h2>Catálogo+</h2>
-            <SwiperContainer slidesPerView={[ 3, 1]}>
-              {swiperArray.map((item, index)=>
-              <SwiperSlide key={index}>
-                <Card image={item.img} title={item.title} 
-                controls={[{
-                  label: 'saiba+',
-                  loadingLabel: 'saiba+',
-                  variant: 'primary',
-                  onClick: async () => {}
-                },]}>
-                  <p>
-                    {item.text}
-                  </p>
-                </Card>
-              </SwiperSlide>)}
+            <H2>Catálogo+</H2>
+            <SwiperContainer slidesPerView={[3, 1]}>
+              {swiperArray.map((item, index) => (
+                <SwiperSlide key={index}>
+                  <SlideContainer>
+                    <Card
+                      image={item.img}
+                      title={item.title}
+                      style={{ height: "650px", borderRadius: "16px" }}
+                      controls={[
+                        {
+                          label: "saiba+",
+                          loadingLabel: "saiba+",
+                          variant: "primary",
+                          onClick: async () => {},
+                        },
+                      ]}
+                    > <br/>
+                      <p>{item.text}</p>
+                    </Card>
+                  </SlideContainer>
+                </SwiperSlide>
+              ))}
 
               {/* <SwiperSlide>  
           <div className="coffee_break">
