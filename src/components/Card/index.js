@@ -29,12 +29,12 @@ export const Card = ({
   return (
     <CardBS style={props.style}>
       <CardBS.Img src={image} alt="Card image" />
-      <CardBS.Body>
+      <CardBS.Body style={props.styleBody}>
         <CardBS.Title>{title}</CardBS.Title>
         <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
         {props.children ? props.children : ""}
       </CardBS.Body>
-      <CardBS.Footer>
+      <CardBS.Footer  style={props.styleFooter}>
         {props.groupControls && (
           <CountButtonGroup
             {...{
