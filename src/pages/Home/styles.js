@@ -16,7 +16,7 @@ export const SlideContainer = styled.div`
 `;
 
 export const SlideContainerLogo = styled.div`
-    width: 80%;
+    width: 60%;
     padding: 20px 20px 0 20px;
 `;
 
@@ -51,6 +51,6 @@ export const HomeSwiperContainer = styled(Col)`
     justify-content: center;
 
     @media screen and (min-width: 750px) {  
-        padding: 0px 10%;
+        padding: 0px 4%;
     }
 `;
