@@ -142,7 +142,7 @@ export const HomePage = () => {
       <ContentSection>
         {
           <HomeSwiperContainer>
-            <H2>Catálogo+</H2>
+            <H2>Catálogo+ </H2>
             <SwiperContainer slidesPerView={[3, 1]}>
               {swiperArray.map((item, index) => (
                 <SwiperSlide key={index}>
