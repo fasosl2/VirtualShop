@@ -150,7 +150,7 @@ export const HomePage = () => {
                     <Card
                       image={item.img}
                       title={item.title}
-                      style={{ height: "650px", borderRadius: "16px"}}
+                      style={{ height: "660px", borderRadius: "16px"}}
                       styleFooter ={{ borderTop: 'none', background: 'none'}}
                       styleBody={{ overflowY: "auto"}}
                       controls={[

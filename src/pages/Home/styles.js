@@ -51,6 +51,6 @@ export const HomeSwiperContainer = styled(Col)`
     justify-content: center;
 
     @media screen and (min-width: 750px) {  
-        padding: 0px 4%;
+        padding: 0px 2%;
     }
 `;
