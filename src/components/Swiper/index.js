@@ -33,5 +33,5 @@ export const SwiperContainer = ({ slides, slidesPerView=[4,2] , ...props }) => {
 };
 
 export const SwiperSlide = ({ children }) => {
-  return <swiper-slide>{children}</swiper-slide>;
+  return <swiper-slide style={{ height: "initial" }}>{children}</swiper-slide>;
 };

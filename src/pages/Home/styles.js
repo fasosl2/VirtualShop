@@ -13,6 +13,7 @@ export const ContentSection = styled.div`
 
 export const SlideContainer = styled.div`
     padding: 20px 20px 20% 20px;
+    height: 100%;
 `;
 
 export const SlideContainerLogo = styled.div`
