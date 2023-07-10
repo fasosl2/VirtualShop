@@ -1,6 +1,6 @@
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
-import { fetchChartsAction } from "../../actions/chartActions";
+// import { fetchChartsAction } from "../../actions/chartActions";
 import { Col, Row } from "react-bootstrap";
 import { Button } from "../../components/Button";
 import feedTheChangeBanner from "../../assets/feed-the-change.png";
@@ -28,6 +28,7 @@ import { Card } from "../../components/Card";
 import comida01 from "../../assets/homeCarrossel/comida01.png";
 import comida02 from "../../assets/homeCarrossel/comida02.png";
 import comida03 from "../../assets/homeCarrossel/comida03.png";
+import { authUsersAction } from "../../actions/userActions";
 
 // ...
 
@@ -52,7 +53,7 @@ export const HomePage = () => {
 
   const { dispatch } = useAppContext();
   useEffect(() => {
-    fetchChartsAction(dispatch);
+    authUsersAction(dispatch);
   }, [dispatch]);
 
   /*   const handlePlusButtonClick = (productId) => {

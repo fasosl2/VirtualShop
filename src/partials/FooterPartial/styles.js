@@ -31,3 +31,6 @@ font-size: 24px;
 color: #fff;
 font-weight: bold;
 `;
+export const SubHeading = styled.p`
+color: #fff;
+`;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer, FooterLink, FooterText, Heading } from "./styles";
+import { Footer, FooterLink, FooterText, Heading, SubHeading } from "./styles";
 import { Container, Row, Col } from "react-bootstrap";
 import roundedLogo from "../../assets/rounded-logo.svg";
 import facebook from "../../assets/facebook.svg";
@@ -17,7 +17,7 @@ export const FooterPartial = () => {
               </Col>
               <Col>
                 <Heading>Cozinha+</Heading>
-                <FooterText>Cozinha Solidária Sérgio Pereira</FooterText>
+                <SubHeading>Cozinha Solidária Sérgio Pereira</SubHeading>
             <Row>
               <Col md={1}>
                 <img src={instagram} alt="footer logo" style={{width:'30px',height:'30px'}}/>
