@@ -156,6 +156,7 @@ export const HomePage = () => {
                       controls={[
                         {
                           label: "saiba+",
+                          freeShow: true,
                           loadingLabel: "saiba+",
                           variant: "primary",
                           onClick: async () => {},
