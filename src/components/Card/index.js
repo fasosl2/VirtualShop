@@ -27,10 +27,10 @@ export const Card = ({
   };
 
   return (
-    <CardBS style={props.style} className={props.classCard}>
-      {image ? <CardBS.Img src={image} alt="Card image" /> : ""}
-      <CardBS.Body style={props.styleBody}  className={props.classBody}>
-        <CardBS.Title className={props.classTitle}>{title}</CardBS.Title>
+    <CardBS style={props.style}>
+      <CardBS.Img src={image} style={{width: '100%'}} alt="Card image" />
+      <CardBS.Body style={props.styleBody}>
+        <CardBS.Title>{title}</CardBS.Title>
         <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
         {props.children ? props.children : ""}
       </CardBS.Body>
@@ -53,15 +53,13 @@ export const Card = ({
                 (button.freeShow ||
                   ["Master", "Gestor"].includes(state?.currentUser?.type)) && (
                   <Button
-                    style={props.styleButtom}
-                    className={props.classButtom}
-                    key={button.label + id}
+                    key={button.label + (id || index)}
                     variant={button.variant}
-                    loading={itemsLoading[button.label + id]}
+                    loading={itemsLoading[button.label + (id || index)]}
                     {...{
                       ...button,
                       onClick: () =>
-                        handleItemLoading(button.label + id, button.onClick),
+                        handleItemLoading(button.label + (id || index), button.onClick),
                     }}
                   />
                 )

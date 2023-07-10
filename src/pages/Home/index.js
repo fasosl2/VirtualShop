@@ -11,7 +11,7 @@ import {
   SlideContainer,
   SlideContainerLogo,
   H2,
-  H4
+  H4,
 } from "./styles";
 import { Frame } from "../../components/Frame";
 import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
@@ -84,7 +84,10 @@ export const HomePage = () => {
           </Col>
           <Col>
             <H4>Cozinha+</H4>
-            <h6><i> Cozinha Solidária Sérgio Pereira </i></h6> <br/>
+            <h6>
+              <i> Cozinha Solidária Sérgio Pereira </i>
+            </h6>{" "}
+            <br />
             <p>
               A Cozinha Solidária Sérgio Pereira é um projeto social
               desenvolvido pela ONG GTP+ em Recife, que fornece refeições
@@ -150,182 +153,29 @@ export const HomePage = () => {
                     <Card
                       image={item.img}
                       title={item.title}
-                      style={{ height: "660px", borderRadius: "16px"}}
-                      styleFooter ={{ borderTop: 'none', background: 'none'}}
-                      styleBody={{ overflowY: "auto"}}
+                      style={{ height: "100%", borderRadius: "16px" }}
+                      styleFooter={{ borderTop: "none", background: "none" }}
+                      styleBody={{ overflowY: "auto" }}
                       controls={[
                         {
                           label: "saiba+",
                           freeShow: true,
                           loadingLabel: "saiba+",
                           variant: "primary",
-                          onClick: async () => {},
+                          onClick: () => {},
                         },
                       ]}
-                    > <br/>
+                    >
+                      {" "}
+                      <br />
                       <p>{item.text}</p>
                     </Card>
                   </SlideContainer>
                 </SwiperSlide>
               ))}
-
-              {/* <SwiperSlide>  
-          <div className="coffee_break">
-            <img
-              className="basico"
-              src="imgs/basico.svg"
-              alt="fotografia do coffee break básico"
-            />
-            <h2 className="titulo__basico">Coffee Break</h2>
-            <h3 className="subtitulo__basico">Básico</h3>
-            <p className="valor1">Valor por pessoa: R$xx,xx</p>
-            <table className="tabela__basico">
-              <tbody>
-                <tr>
-                  <td>Bolo simples</td>
-                  <td>1 fatia</td>
-                </tr>
-                <tr>
-                  <td>Minissanduíche</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minissalgado de forno</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Suco</td>
-                  <td>300ml</td>
-                </tr>
-                <tr>
-                  <td>Café e água mineral (sem gás)</td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-            <button type="button" className="button2">
-              Saiba +
-            </button>
-          </div>
-            </SwiperSlide>
-            <SwiperSlide>
-            <div className="coffee_break2">
-            <img
-              className="padrao"
-              src="imgs/padrao.svg"
-              alt="fotografia do coffee break padrão"
-            />
-            <h2 className="titulo__padrao">Coffee Break</h2>
-            <h3 className="subtitulo__padrao">Padrão</h3>
-            <p className="valor2">Valor por pessoa: R$xx,xx</p>
-            <table className="tabela__padrao">
-              <tbody>
-                <tr>
-                  <td>Bolo simples</td>
-                  <td>1 fatia</td>
-                </tr>
-                <tr>
-                  <td>Minissanduíche</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minissalgado de forno</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minissalgado de frito</td>
-                  <td>3 unidades</td>
-                </tr>
-                <tr>
-                  <td>Docinho</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minibrioche</td>
-                  <td>1 unidade</td>
-                </tr>
-                <tr>
-                  <td>Suco</td>
-                  <td>300ml</td>
-                </tr>
-                <tr>
-                  <td>Café e água mineral (sem gás)</td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-            <button type="button" className="button__padrao">
-              Saiba +
-            </button>
-          </div>
-            </SwiperSlide>
-            <SwiperSlide>
-            <div className="coffee_break3">
-            <img
-              className="executivo"
-              src="imgs/executivo.svg"
-              alt="fotografia do coffee break executivo"
-            />
-            <h2 className="titulo__executivo">Coffee Break</h2>
-            <h3 className="subtitulo__executivo">Executivo</h3>
-            <p className="valor3">Valor por pessoa: R$xx,xx</p>
-            <table className="tabela__executivo">
-              <tbody>
-                <tr>
-                  <td>Bolo simples</td>
-                  <td>1 fatia</td>
-                </tr>
-                <tr>
-                  <td>Minissanduíche</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minissalgado de forno</td>
-                  <td>2 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minissalgado de frito</td>
-                  <td>3 unidades</td>
-                </tr>
-                <tr>
-                  <td>Docinho</td>
-                  <td>3 unidades</td>
-                </tr>
-                <tr>
-                  <td>Minibrioche</td>
-                  <td>1 unidade</td>
-                </tr>
-                <tr>
-                  <td>Torradas e patê</td>
-                  <td>1 porção</td>
-                </tr>
-                <tr>
-                  <td>Salada de fruta</td>
-                  <td>150ml</td>
-                </tr>
-                <tr>
-                  <td>Suco</td>
-                  <td>300ml</td>
-                </tr>
-                <tr>
-                  <td>Refrigerante</td>
-                  <td>150ml</td>
-                </tr>
-                <tr>
-                  <td>Café e água mineral (sem gás)</td>
-                  <td />
-                </tr>
-              </tbody>
-            </table>
-            <button type="button" className="button__executivo">
-              Saiba +
-            </button>
-          </div>
-            </SwiperSlide> */}
             </SwiperContainer>
           </HomeSwiperContainer>
         }
-        {/* Slider main container */}
       </ContentSection>
     </>
   );

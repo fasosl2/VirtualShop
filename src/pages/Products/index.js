@@ -74,7 +74,7 @@ export const Products = () => {
       <Container fluid>
           <Row>
           {productsTotalized.map((product) => (
-            <Col key={product.id} xs={13} md={2} style={{ marginTop: "1em" }}>
+            <Col key={product.id} xs={13} md={3} style={{ marginTop: "1em"}}>
               <Card
                 {...{
                   ...product,
