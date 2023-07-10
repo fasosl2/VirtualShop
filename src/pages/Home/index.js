@@ -11,7 +11,7 @@ import {
   SlideContainer,
   SlideContainerLogo,
   H2,
-  H4
+  H4,
 } from "./styles";
 import { Frame } from "../../components/Frame";
 import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
@@ -84,7 +84,10 @@ export const HomePage = () => {
           </Col>
           <Col>
             <H4>Cozinha+</H4>
-            <h6><i> Cozinha Solidária Sérgio Pereira </i></h6> <br/>
+            <h6>
+              <i> Cozinha Solidária Sérgio Pereira </i>
+            </h6>{" "}
+            <br />
             <p>
               A Cozinha Solidária Sérgio Pereira é um projeto social
               desenvolvido pela ONG GTP+ em Recife, que fornece refeições
@@ -150,19 +153,34 @@ export const HomePage = () => {
                     <Card
                       image={item.img}
                       title={item.title}
-                      style={{ height: "100%", borderRadius: "16px"}}
-                      styleFooter ={{ borderTop: 'none', background: 'none'}}
-                      styleBody={{ overflowY: "auto"}}
-                      controls={[
-                        {
-                          label: "saiba+",
-                          loadingLabel: "saiba+",
-                          variant: "primary",
-                          onClick: async () => {},
-                        },
-                      ]}
-                    > <br/>
+                      style={{ height: "100%", borderRadius: "16px" }}
+                      styleFooter={{ borderTop: "none", background: "none" }}
+                      styleBody={{ overflowY: "auto" }}
+                      // controls={[
+                      //   {
+                      //     label: "saiba+",
+                      //     loadingLabel: "saiba+",
+                      //     variant: "primary",
+                      //     onClick: () => {},
+                      //   },
+                      // ]}
+                    >
+                      {" "}
+                      <br />
                       <p>{item.text}</p>
+                      <Button
+                        style={{
+                          bottom: "8px",
+                          position: "absolute",
+                        }}
+                        {...{
+                          label: "saiba+",
+                          variant: "primary",
+                          onClick: async () => {
+                            navigate("/produtos");
+                          },
+                        }}
+                      />
                     </Card>
                   </SlideContainer>
                 </SwiperSlide>
