@@ -157,31 +157,19 @@ export const HomePage = () => {
                       style={{ height: "100%", borderRadius: "16px" }}
                       styleFooter={{ borderTop: "none", background: "none" }}
                       styleBody={{ overflowY: "auto" }}
-                      // controls={[
-                      //   {
-                      //     label: "saiba+",
-                      //     loadingLabel: "saiba+",
-                      //     variant: "primary",
-                      //     onClick: () => {},
-                      //   },
-                      // ]}
+                      controls={[
+                        {
+                          label: "saiba+",
+                          freeShow: true,
+                          loadingLabel: "saiba+",
+                          variant: "primary",
+                          onClick: () => {},
+                        },
+                      ]}
                     >
                       {" "}
                       <br />
                       <p>{item.text}</p>
-                      <Button
-                        style={{
-                          bottom: "8px",
-                          position: "absolute",
-                        }}
-                        {...{
-                          label: "saiba+",
-                          variant: "primary",
-                          onClick: async () => {
-                            navigate("/produtos");
-                          },
-                        }}
-                      />
                     </Card>
                   </SlideContainer>
                 </SwiperSlide>

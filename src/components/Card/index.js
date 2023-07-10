@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "../Button";
-import { Card as CardBS} from "react-bootstrap";
+import { Card as CardBS } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
 
@@ -34,7 +34,7 @@ export const Card = ({
         <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>
         {props.children ? props.children : ""}
       </CardBS.Body>
-      <CardBS.Footer  style={props.styleFooter}>
+      <CardBS.Footer style={props.styleFooter} className={props.classFooter}>
         {props.groupControls && (
           <CountButtonGroup
             {...{
