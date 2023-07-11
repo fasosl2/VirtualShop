@@ -1,7 +1,6 @@
-import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { Link } from "./styles";
+import { HomeContainer, Link } from "./styles";
 import { LoginContainer } from "../../containers/LoginContainer";
 import { useAppContext } from "../../storage/AppContext";
 import navbarLogo from "../../assets/navbar-logo.svg";
@@ -12,7 +11,7 @@ export const HeaderPartial = () => {
   const location = useLocation();
   return ( 
     <Navbar bg="light" expand="lg">
-      <Container>
+      <HomeContainer>
         <Navbar.Brand href="/"><img src={navbarLogo} alt="cozinha+"/></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -33,13 +32,16 @@ export const HeaderPartial = () => {
             (<Link currentpath={location.pathname} to="/usuarios">
               usuários
           </Link>) }
+            <Link currentpath={location.pathname} to="/about">
+              ong GTP+
+            </Link>
             <Link currentpath={location.pathname} to="/chart">
               carrinho
             </Link>
             <LoginContainer />
           </Nav>
         </Navbar.Collapse>
-      </Container>
+      </HomeContainer>
     </Navbar>
   );
 };

@@ -1,3 +1,4 @@
+import { Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const Footer = styled.footer`
@@ -30,7 +31,14 @@ export const Heading = styled.p`
 font-size: 24px;
 color: #fff;
 font-weight: bold;
+margin-bottom: 0px;
 `;
 export const SubHeading = styled.p`
 color: #fff;
+`;
+
+export const FooterCol = styled(Col)`
+	width: fit-content;
+	max-width: fit-content;
+	margin-bottom: 30px;
 `;

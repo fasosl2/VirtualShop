@@ -46,7 +46,7 @@ export const LoginContainer = () => {
 
   return (
     <Dropdown id={"dropdown"}>
-      <Dropdown.Toggle variant="light">{state.currentUser?.name || 'Login'}</Dropdown.Toggle>
+      <Dropdown.Toggle variant="light">{state.currentUser?.name || 'login'}</Dropdown.Toggle>
       <Dropdown.Menu align="end">
         {state?.currentUser ? (
           <Container>

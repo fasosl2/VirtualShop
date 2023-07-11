@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { openModalCreateProductType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
@@ -19,6 +19,7 @@ import { ModalSaveItems } from "../../containers/ModalSaveItem";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
+import { ProductCol, ProductContainer } from "./styles";
 
 export const Products = () => {
   const { state, dispatch } = useAppContext();
@@ -71,10 +72,10 @@ export const Products = () => {
           }}
         />
       )}
-      <Container fluid>
+      <ProductContainer fluid>
           <Row>
           {productsTotalized.map((product) => (
-            <Col key={product.id} xs={13} md={3} style={{ marginTop: "1em"}}>
+            <ProductCol key={product.id} xs={13} style={{ marginTop: "1em"}}>
               <Card
                 {...{
                   ...product,
@@ -100,10 +101,10 @@ export const Products = () => {
                   }
                 }}
               />
-            </Col>
+            </ProductCol>
           ))}
         </Row>
-      </Container>
+      </ProductContainer>
     </div>
   );
 };

@@ -8,6 +8,7 @@ import { AppContext } from "./storage/AppContext";
 import { Items } from "./pages/Items";
 import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
+import { AboutPage } from "./pages/About";
 
 const initialState = {
   activeProduct: null,
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/produtos" element={<Products />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/itens" element={<Items />} />
             <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
