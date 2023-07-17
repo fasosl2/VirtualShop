@@ -27,7 +27,7 @@ export const ChartPage = () => {
   }, [dispatch]);
 
   return (
-    <Container>            
+    <Container style={{width: "70%" }}>            
             <ListGroup
               items={state.chart?.products.map((product) => ({
                 key: product.id,
