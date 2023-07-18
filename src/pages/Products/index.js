@@ -1,6 +1,6 @@
 import { Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { Card } from "../../components/Card";
+import { ProductCard } from "../../components/ProductCard";
 import { openModalCreateProductType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
@@ -76,7 +76,7 @@ export const Products = () => {
           <Row>
           {productsTotalized.map((product) => (
             <ProductCol key={product.id} xs={13} style={{ marginTop: "1em"}}>
-              <Card
+              <ProductCard
                 {...{
                   ...product,
                   subTitle: "R$ " + String(Number(product.price).toFixed(2)),
