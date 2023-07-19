@@ -103,7 +103,7 @@ export const ModalCreateProduct = ({ open }) => {
           />
           <br />
           <Form.Control
-            type="text"
+            as="textarea" rows={3}
             required
             placeholder="Descrição"
             value={productData?.description}
@@ -113,7 +113,7 @@ export const ModalCreateProduct = ({ open }) => {
           <Form.Control
             type="number"
             required
-            placeholder="Preço do Producto"
+            placeholder="Preço do Produto"
             value={productData?.price}
             onChange={(e) => handleChange(e, "price")}
           />

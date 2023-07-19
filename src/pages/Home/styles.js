@@ -7,12 +7,12 @@ export const ContentSection = styled.div`
     padding: 20px 10px;
 
     @media screen and (min-width: 750px) {  
-        padding: 70px 10% 0 10%;
+        padding: 70px 15% 0 15%;
     }
 `;
 
 export const SlideContainer = styled.div`
-    padding: 20px 20px 20% 20px;
+    padding: 20px 20px 20px 0px;
     height: 100%;
 `;
 

@@ -3,6 +3,7 @@ import { Button } from "../Button";
 import { Card as CardBS, Col, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
+import { CardButtomContainer, CardHeader, CardPrice } from "./styles";
 
 export const ProductCard = ({
   id,
@@ -28,28 +29,28 @@ export const ProductCard = ({
 
   return (
     <CardBS style={props.style}>
-    <CardBS.Header>
+    <CardHeader>
       <Row>
-    <Col md={5}>
+    <Col>
         <CardBS.Title>{title}</CardBS.Title>
     </Col>
-    <Col md={5}>
-        <CardBS.Title>{subTitle}</CardBS.Title>
+    <Col>
+        <CardPrice>{subTitle}</CardPrice>
     </Col>
       </Row>
-    </CardBS.Header>
+    </CardHeader>
       <CardBS.Body style={props.styleBody}>
       <Row>
     <Col md={5}>
       <CardBS.Img src={image} style={{width: '100%'}} alt="Card image" />
     </Col>
-    <Col md={5}>
+    <Col md={7}>
+      <Row>
       <p>{props.description}</p>
-        {props.children ? props.children : ""}
-    </Col>
+        {props?.items?.length ? props.items.map(item => <p>• {item.title}</p>) : ""}
       </Row>
-      </CardBS.Body>
-      <CardBS.Footer style={props.styleFooter} className={props.classFooter}>
+      <Row>
+      <CardButtomContainer>
         {props.groupControls && (
           <CountButtonGroup
             {...{
@@ -80,7 +81,12 @@ export const ProductCard = ({
                 )
             )
           : ""}
-      </CardBS.Footer>
+      
+      </CardButtomContainer>
+      </Row>
+    </Col>
+      </Row>
+      </CardBS.Body>
     </CardBS>
   );
 };
