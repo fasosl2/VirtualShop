@@ -5,10 +5,13 @@ import { LoginContainer } from "../../containers/LoginContainer";
 import { useAppContext } from "../../storage/AppContext";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import { useLocation } from "react-router-dom";
+import { CarContainer } from "../../containers/CarContainer";
+import { ListGroup } from "../../components/ListGroup/ListGroup";
 
 export const HeaderPartial = () => {
   const { state } = useAppContext();
   const location = useLocation();
+
   return ( 
     <Navbar bg="light" expand="lg">
       <HomeContainer>
@@ -35,9 +38,10 @@ export const HeaderPartial = () => {
             <Link currentpath={location.pathname} to="/about">
               ong GTP+
             </Link>
-            <Link currentpath={location.pathname} to="/chart">
-              carrinho
-            </Link>
+            {/* <Link currentpath={location.pathname} to="/chart" >
+
+            </Link> */}
+              <CarContainer/>
             <LoginContainer />
           </Nav>
         </Navbar.Collapse>

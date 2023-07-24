@@ -1,4 +1,3 @@
-import { Container } from "react-bootstrap";
 import { ListGroup } from "../../components/ListGroup/ListGroup";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
@@ -7,13 +6,12 @@ import {
   deleteProductsFromChartAction,
   saveProductsInChartAction,
 } from "../../actions/productActions";
-// import { Card } from "../../components/Card";
-// import { Col, Row } from "react-bootstrap";
+import { ChartPageContainer } from "./styles";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
 
-  const handleClick = async (product, negativeValue, setItensLoading) => {
+  const handleClick = async ({product, negativeValue, setItensLoading, field}) => {
     setItensLoading((prevState) => ({ ...prevState, [product.id]: true }));
     dispatch(
       negativeValue
@@ -26,8 +24,14 @@ export const ChartPage = () => {
     fetchChartsAction(dispatch);
   }, [dispatch]);
 
+  const handleChartClick = async ({ element,negativeValue, setItemsLoading, field}) => {
+    setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
+    dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,element,negativeValue) : await saveProductsInChartAction(dispatch,element))
+    setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
+  }
+  
   return (
-    <Container style={{width: "70%" }}>            
+    <ChartPageContainer>            
             <ListGroup
               items={state.chart?.products.map((product) => ({
                 key: product.id,
@@ -36,9 +40,9 @@ export const ChartPage = () => {
                 title: product.title,
                 total: product.count,
                 image: product.image,
-                onClick: handleClick,
+                onClick: handleChartClick
               }))}
             />
-    </Container>
+    </ChartPageContainer>
   );
 };

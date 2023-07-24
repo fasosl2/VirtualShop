@@ -40,7 +40,7 @@ export const deleteProductsFromChartAction = async (
 ) => {
   dispatch(deleteProductsFromChartInitAction());
   const chart = await deleteProductsFromChart(product, negativeValue);
-  await utilService.sleep(100);
+  await utilService.sleep(1000);
   dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 
