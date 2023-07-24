@@ -5,8 +5,7 @@ import { LoginContainer } from "../../containers/LoginContainer";
 import { useAppContext } from "../../storage/AppContext";
 import navbarLogo from "../../assets/navbar-logo.svg";
 import { useLocation } from "react-router-dom";
-import { CarContainer } from "../../containers/CarContainer";
-import { ListGroup } from "../../components/ListGroup/ListGroup";
+import { ChartContainer } from "../../containers/ChartContainer";
 
 export const HeaderPartial = () => {
   const { state } = useAppContext();
@@ -41,7 +40,7 @@ export const HeaderPartial = () => {
             {/* <Link currentpath={location.pathname} to="/chart" >
 
             </Link> */}
-              <CarContainer/>
+              <ChartContainer/>
             <LoginContainer />
           </Nav>
         </Navbar.Collapse>

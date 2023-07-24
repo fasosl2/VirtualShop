@@ -8,6 +8,11 @@ import {
 } from "react-bootstrap";
 
 export const Image = styled(ImageBS)`
+
+  ${(props) => props.compact ? `
+  background-position: center;
+  background-size: cover;
+  background-blend-mode: screen;` : ""}
   border-radius: 16px;
   max-height: 70px;
 `;
