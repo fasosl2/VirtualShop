@@ -9,10 +9,6 @@ import {
 
 export const Image = styled(ImageBS)`
 
-  ${(props) => props.compact ? `
-  background-position: center;
-  background-size: cover;
-  background-blend-mode: screen;` : ""}
   border-radius: 16px;
   max-height: 70px;
 `;
@@ -56,9 +52,16 @@ export const RowFooter = styled(RowBS).attrs({
 `;
 
 export const ContentSection = styled.div`
+
+  ${(props) => props.compact ? `
+  
+  ` : `
   border: 1px solid rgba(71, 91, 109, 0.3);
   margin: 30px 0;
   border-radius: 8px;
+  
+  `}
+
 `;
 
 export const Container = styled(ContainerBS)`

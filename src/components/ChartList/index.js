@@ -37,9 +37,10 @@ export const ChartList = ({ items = [], compact, ...props }) => {
   };
 
   return (
-    <ContentSection>
+    <ContentSection compact={compact}>
       <RowTitle>
-        <Title5>Produtos</Title5>
+        
+        {compact ? <Title5>itens no seu carrinho</Title5> : <Title5>Produtos</Title5>}
       </RowTitle>
 
       <RowBody>
@@ -73,7 +74,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                       </ButtonLink>
                     </Col>
                   )}
-                  <Image src={item.image} thumbnail={!compact} />
+                  <Image compact={compact} src={item.image} thumbnail={!compact} />
                 </ColListGroup>
 
                 {/* nome e botão de excluir */}
