@@ -51,29 +51,28 @@ export const ChartList = ({ items = [], compact, ...props }) => {
               className="border-0 border-bottom"
             >
               <noscript>{(total += item.value * item.total)}</noscript>
-              {console.log(item)}
               <Row className="g-4 d-flex justify-content-center align-items-center">
                 {/* imagem do produto */}
-                
+
                 <ColListGroup xs={4} md={2}>
-                {!compact ? (
-                      ""
-                    ) : (
-                      <Col style={{ paddingLeft: "0" }}>
-                        <ButtonLink
-                          onClick={() =>
-                            handleClick(
-                              item.id + "excluir",
-                              item,
-                              item.total,
-                              item.onClick
-                            )
-                          }
-                        >
-                          <Image src={lixeira} />
-                        </ButtonLink>
-                      </Col>
-                    )}
+                  {!compact ? (
+                    ""
+                  ) : (
+                    <Col style={{ paddingLeft: "0" }}>
+                      <ButtonLink
+                        onClick={() =>
+                          handleClick(
+                            item.id + "excluir",
+                            item,
+                            item.total,
+                            item.onClick
+                          )
+                        }
+                      >
+                        <Image src={lixeira} />
+                      </ButtonLink>
+                    </Col>
+                  )}
                   <Image src={item.image} thumbnail={!compact} />
                 </ColListGroup>
 
@@ -152,11 +151,29 @@ export const ChartList = ({ items = [], compact, ...props }) => {
       </RowBody>
 
       {compact ? (
-        <RowFooter>
-          <span>
-            <ButtonLink>asdfasdf</ButtonLink>
-          </span>
-        </RowFooter>
+        <Dropdown.Item className="p-0 ">
+          <RowFooter className="p-0 m-0 d-flex justify-content-center align-items-center">
+            <span>
+              <Link
+                className="text-decoration-none p-0 m-0 d-flex justify-content-center align-items-center"
+                currentpath={location.pathname}
+                to="/chart"
+              >
+                <Button
+                  className="border-0 m-3 "
+                  style={{
+                    backgroundColor: "rgba(71, 91, 109)",
+                    fontSize: "0.7rem",
+                    minHeight: "40px",
+                    width: "100%",
+                  }}
+                >
+                  finalizar compra
+                </Button>
+              </Link>
+            </span>
+          </RowFooter>
+        </Dropdown.Item>
       ) : (
         <RowFooter>
           <span>
