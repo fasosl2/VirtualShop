@@ -38,9 +38,9 @@ export const ChartContainer = (...props) => {
   };
 
   return (
-    <Dropdown id={"dropdown"}>
+    <Dropdown id={"dropdown"} >
       <Dropdown.Toggle variant="light">Carrinho</Dropdown.Toggle>
-      <Dropdown.Menu align="end">
+      <Dropdown.Menu >
         <Container>
           <ChartList
             items={state.chart?.products.map((product) => ({

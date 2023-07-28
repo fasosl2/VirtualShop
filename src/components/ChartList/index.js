@@ -1,28 +1,24 @@
 import { useState } from "react";
-import {
-  Dropdown,
-  // ButtonGroup,
-  ListGroup as ListGroupBS,
-  Spinner,
-} from "react-bootstrap";
+import { ListGroup as ListGroupBS, Spinner } from "react-bootstrap";
 import {
   ContentSection,
-  Container,
   Title5,
   Col,
   Row,
-  Button,
   Image,
   RowTitle,
   RowBody,
   RowFooter,
   ColListGroup,
   ButtonLink,
+  ListGroupBSItem,
+  DropdownItem,
+  Link,
 } from "./styles";
 import lixeira from "../../assets/lixeira.svg";
-import bag from "../../assets/bag.svg";
+import x from "../../assets/x.svg";
 import { CountButtonGroup } from "../CountButtonGroup";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const ChartList = ({ items = [], compact, ...props }) => {
   let total = 0;
@@ -38,24 +34,22 @@ export const ChartList = ({ items = [], compact, ...props }) => {
 
   return (
     <ContentSection compact={compact}>
-      <RowTitle>
-        
-        {compact ? <Title5>itens no seu carrinho</Title5> : <Title5>Produtos</Title5>}
+      <RowTitle compact={compact}>
+        {compact ? (
+          <Title5>itens no seu carrinho</Title5>
+        ) : (
+          <Title5>Produtos</Title5>
+        )}
       </RowTitle>
 
       <RowBody>
         <ListGroupBS className="p-0">
           {items.map((item) => (
-            <ListGroupBS.Item
-              key={item.id}
-              style={{ borderRadius: "0" }}
-              className="border-0 border-bottom"
-            >
+            <ListGroupBSItem compact={compact} key={item.id}>
               <noscript>{(total += item.value * item.total)}</noscript>
               <Row className="g-4 d-flex justify-content-center align-items-center">
-                {/* imagem do produto */}
-
-                <ColListGroup xs={4} md={2}>
+                {/* Botão excluir e img para o pop ou so img */}
+                <ColListGroup md={compact ? 6 : 2}>
                   {!compact ? (
                     ""
                   ) : (
@@ -70,21 +64,34 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                           )
                         }
                       >
-                        <Image src={lixeira} />
+                        {/* <Image src={lixeira} style={{ color: "red"}} /> */}
+                        <Image src={x} style={{width: "25px", height: "25px"}}/>
                       </ButtonLink>
                     </Col>
                   )}
-                  <Image compact={compact} src={item.image} thumbnail={!compact} />
+                  <Col>
+                    <Image
+                      compact={compact}
+                      src={item.image}
+                      thumbnail={!compact}
+                    />
+                  </Col>
                 </ColListGroup>
 
-                {/* nome e botão de excluir */}
-                <Col xs={8} md={4}>
+                {/* nome e botão de excluir*/}
+                <Col md={compact ? 6 : 4} className="">
                   <Row>
                     <Col className="pl-3">{item.title}</Col>
                   </Row>
                   <Row>
                     {compact ? (
-                      ""
+                      <Col>
+                        {" $ " +
+                          String(
+                            (Number(item.value) * Number(item.total)).toFixed(2)
+                          ) +
+                          " "}
+                      </Col>
                     ) : (
                       <Col style={{ paddingLeft: "0" }}>
                         <ButtonLink
@@ -125,7 +132,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 {compact ? (
                   ""
                 ) : (
-                  <ColListGroup xs={6} md={3}>
+                  <ColListGroup md={3}>
                     <CountButtonGroup
                       {...{
                         total: item.total,
@@ -138,43 +145,33 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 )}
 
                 {/* valor x quantidade */}
-                <ColListGroup xs={6} md={3}>
-                  {" $ " +
-                    String(
-                      (Number(item.value) * Number(item.total)).toFixed(2)
-                    ) +
-                    " "}
-                </ColListGroup>
+                {compact ? (
+                  ""
+                ) : (
+                  <ColListGroup md={3}>
+                    {" $ " +
+                      String(
+                        (Number(item.value) * Number(item.total)).toFixed(2)
+                      ) +
+                      " "}
+                  </ColListGroup>
+                )}
               </Row>
-            </ListGroupBS.Item>
+            </ListGroupBSItem>
           ))}
         </ListGroupBS>
       </RowBody>
 
       {compact ? (
-        <Dropdown.Item className="p-0 ">
-          <RowFooter className="p-0 m-0 d-flex justify-content-center align-items-center">
+        <DropdownItem>
+          <RowFooter compact={compact} className="m-0">
             <span>
-              <Link
-                className="text-decoration-none p-0 m-0 d-flex justify-content-center align-items-center"
-                currentpath={location.pathname}
-                to="/chart"
-              >
-                <Button
-                  className="border-0 m-3 "
-                  style={{
-                    backgroundColor: "rgba(71, 91, 109)",
-                    fontSize: "0.7rem",
-                    minHeight: "40px",
-                    width: "100%",
-                  }}
-                >
-                  finalizar compra
-                </Button>
+              <Link currentpath={location.pathname} to="/chart">
+                finalizar compra
               </Link>
             </span>
           </RowFooter>
-        </Dropdown.Item>
+        </DropdownItem>
       ) : (
         <RowFooter>
           <span>
