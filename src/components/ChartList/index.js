@@ -49,7 +49,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
               <noscript>{(total += item.value * item.total)}</noscript>
               <Row className="g-4 d-flex justify-content-center align-items-center">
                 {/* Botão excluir e img para o pop ou so img */}
-                <ColListGroup md={compact ? 6 : 2}>
+                <ColListGroup xs={compact ? 6 : 4} md={compact ? 6 : 2}>
                   {!compact ? (
                     ""
                   ) : (
@@ -64,7 +64,6 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                           )
                         }
                       >
-                        {/* <Image src={lixeira} style={{ color: "red"}} /> */}
                         <Image src={x} style={{width: "25px", height: "25px"}}/>
                       </ButtonLink>
                     </Col>
@@ -79,14 +78,14 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 </ColListGroup>
 
                 {/* nome e botão de excluir*/}
-                <Col md={compact ? 6 : 4} className="">
+                <Col xs={compact ? 6 : 8} md={compact ? 6 : 4} className="">
                   <Row>
                     <Col className="pl-3">{item.title}</Col>
                   </Row>
                   <Row>
                     {compact ? (
                       <Col>
-                        {" $ " +
+                        {" R$ " +
                           String(
                             (Number(item.value) * Number(item.total)).toFixed(2)
                           ) +
@@ -121,7 +120,6 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                               </Spinner>
                             </>
                           )}
-                          <Image src={lixeira} />
                         </ButtonLink>
                       </Col>
                     )}
@@ -132,7 +130,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 {compact ? (
                   ""
                 ) : (
-                  <ColListGroup md={3}>
+                  <ColListGroup xs={6} md={3}>
                     <CountButtonGroup
                       {...{
                         total: item.total,
@@ -148,8 +146,8 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 {compact ? (
                   ""
                 ) : (
-                  <ColListGroup md={3}>
-                    {" $ " +
+                  <ColListGroup xs={6} md={3} style={{fontSize: "1rem"}}>
+                    {" R$ " +
                       String(
                         (Number(item.value) * Number(item.total)).toFixed(2)
                       ) +
