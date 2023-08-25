@@ -1,46 +1,46 @@
 import api from "./apiService";
 
-export const getItems = async () => {
-  return await api.read({route: "items"});
+export const getPurchases = async () => {
+  return await api.read({route: "purchases"});
 };
 
-export const saveItem = async (itemData) => {
-  if(itemData.id){
-    await api.put({body: itemData, route: "items", params: [itemData.id]})
+export const savePurchase = async (purchaseData) => {
+  if(purchaseData.id){
+    await api.put({body: purchaseData, route: "purchases", params: [purchaseData.id]})
   } else {
-    await api.post("items", itemData)
+    await api.post("purchases", purchaseData)
   }
-  return await getItems();
+  return await getPurchases();
 };
 
-export const deleteItem = async (itemId) => {
-  await api.delete("items", itemId);
+export const deletePurchase = async (purchaseId) => {
+  await api.delete("purchases", purchaseId);
   //DELETE FROM ALL PRODUCTS
-  return await getItems();
+  return await getPurchases();
  };
 
-export const selectItem = async (selectedItems,item) => {
-  const itemSelected = selectedItems.find(ele => ele.id === item.id);
-  if(itemSelected){
-    itemSelected.total += 1;
-    return selectedItems;
+export const selectPurchase = async (selectedPurchases,purchase) => {
+  const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
+  if(purchaseSelected){
+    purchaseSelected.total += 1;
+    return selectedPurchases;
   }
-  selectedItems.push({id:item.id, title: item.title, total:1});
-  return selectedItems;
+  selectedPurchases.push({id:purchase.id, title: purchase.title, total:1});
+  return selectedPurchases;
 };
 
-export const removeItem = async (selectedItems,item,negativeValue) => {
-  const itemSelected = selectedItems.find(ele => ele.id === item.id);
-  if(itemSelected){
-    if(itemSelected.total > negativeValue){
-      itemSelected.total -= negativeValue;
+export const removePurchase = async (selectedPurchases,purchase,negativeValue) => {
+  const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
+  if(purchaseSelected){
+    if(purchaseSelected.total > negativeValue){
+      purchaseSelected.total -= negativeValue;
     } else {
-      const itemIndex = selectedItems.findIndex(ele => ele.id === item.id);
-      if(itemIndex >= 0){
-        selectedItems.splice(itemIndex,1)
+      const purchaseIndex = selectedPurchases.findIndex(ele => ele.id === purchase.id);
+      if(purchaseIndex >= 0){
+        selectedPurchases.splice(purchaseIndex,1)
       }
     }
-    return selectedItems;
+    return selectedPurchases;
   }
-  return selectedItems;
+  return selectedPurchases;
 };
