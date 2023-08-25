@@ -4,7 +4,7 @@ import { useWindowSize } from "../../services/utilService";
 
 register();
 
-export const SwiperContainer = ({ slides, slidesPerView=[4,2] , ...props }) => {
+export const SwiperContainer = ({ slides, slidesPerView=[5,2] , ...props }) => {
   const swiperElRef = useRef(null);
   const windowSize = useWindowSize();
 
