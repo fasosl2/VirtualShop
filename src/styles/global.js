@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     max-width: 100%;
+    min-height: 100vh;
   }
 //   .row , .col, .col-md-8 {
 //     margin:0;

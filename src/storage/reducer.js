@@ -23,6 +23,9 @@ import {
   saveProductsInChartSuccessType,
   saveProductsSuccessType,
   saveUsersSuccessType,
+  savePurchasesSuccessType,
+  fetchPurchasesSuccessType,
+  deletePurchasesSuccessType,
 } from "./types";
 
 export function reducer(state, action) {
@@ -107,7 +110,16 @@ export function reducer(state, action) {
     case fetchItemsSuccessType:
       stateAction.items = [...action.payload];
       break;
-    
+    case savePurchasesSuccessType:
+      stateAction.items = action.payload;
+      break;
+    case deletePurchasesSuccessType:
+      stateAction.items = action.payload;
+      break;
+    case fetchPurchasesSuccessType:
+      stateAction.items = [...action.payload];
+      break;
+  
     default:
       break;
   }

@@ -66,3 +66,16 @@ export const selectItemsSuccessType = 'selectItemsSuccess';
 
 export const removeItemsInitType = 'removeItemsInit';
 export const removeItemsSuccessType = 'removeItemsSuccess';
+
+//Purchase Types
+export const savePurchasesInitType = 'savePurchasesInit';
+export const savePurchasesSuccessType = 'savePurchasesSuccess';
+
+export const deletePurchasesInitType = 'deletePurchasesInit';
+export const deletePurchasesSuccessType = 'deletePurchasesSuccess';
+
+export const fetchPurchasesInitType = 'fetchPurchasesInit';
+export const fetchPurchasesSuccessType = 'fetchPurchasesSuccess';
+
+export const selectPurchasesInitType = 'selectPurchasesInit';
+export const selectPurchasesSuccessType = 'selectPurchasesSuccess';
