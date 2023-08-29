@@ -30,6 +30,11 @@ export const HeaderPartial = () => {
             (<Link currentpath={location.pathname} to="/itens">
               itens
           </Link>) }
+          
+          {['Master','Gestor'].includes(state?.currentUser?.type) && 
+            (<Link currentpath={location.pathname} to="/pedidos">
+              Pedidos
+          </Link>) }
             {state?.currentUser?.type === 'Master' && 
             (<Link currentpath={location.pathname} to="/usuarios">
               usuários

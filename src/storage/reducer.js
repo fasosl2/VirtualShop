@@ -111,13 +111,13 @@ export function reducer(state, action) {
       stateAction.items = [...action.payload];
       break;
     case savePurchasesSuccessType:
-      stateAction.items = action.payload;
+      stateAction.purchases = action.payload;
       break;
     case deletePurchasesSuccessType:
-      stateAction.items = action.payload;
+      stateAction.purchases = action.payload;
       break;
     case fetchPurchasesSuccessType:
-      stateAction.items = [...action.payload];
+      stateAction.purchases = [...action.payload];
       break;
   
     default:

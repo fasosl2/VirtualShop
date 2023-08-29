@@ -6,6 +6,7 @@ import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 import { Items } from "./pages/Items";
+import { Purchases } from "./pages/Purchases";
 import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
 import { AboutPage } from "./pages/About";
@@ -15,6 +16,7 @@ const initialState = {
   activeUser: null,
   activeItem: null,
   selectedItems: [],
+  purchases: [],
   mode: null,
   chart: {
     products: []
@@ -39,6 +41,7 @@ function App() {
             <Route path="/produtos" element={<Products />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/itens" element={<Items />} />
+            <Route path="/pedidos" element={<Purchases />} />
             <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>
