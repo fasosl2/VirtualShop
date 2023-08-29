@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Dropdown, Form } from "react-bootstrap";
-import { Button } from "../../components/Button";
-import { Container, LoginImage } from "./styles";
+import { Dropdown } from "react-bootstrap";
+// import { Button } from "../../components/Button";
+import { Container, LoginImage, Form, H6, FormControl, Button, Hr } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
 import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../actions/userActions";
 import { loginUsersSuccessType } from "../../storage/types";
@@ -66,25 +66,26 @@ export const LoginContainer = () => {
           </Container>
         ) : (
           <Container>
+            <H6>Faça seu login</H6>
             <Form onSubmit={handleLoginSubmit} id="login-form">
               <Form.Group className="mb-3" controlId="loginForm">
-                <br />
-                <Form.Control
+                <label>email</label>
+                <FormControl
                   type="text"
                   required
-                  placeholder="email"
+                  placeholder="seuemail@email.com"
                   value={loginData?.email}
                   onChange={(e) => handleChange(e, "email")}
                 />
-                <br />
-                <Form.Control
+                <label>senha</label>
+                <FormControl
                   type="password"
                   required
                   placeholder="senha"
                   value={loginData?.password}
                   onChange={(e) => handleChange(e, "password")}
                 />
-                <br />
+                <Hr/>
                 <Button
                   label="Entrar"
                   loadingLabel="Entrando"
