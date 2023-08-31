@@ -1,6 +1,7 @@
 //Modal Types
 export const openModalSaveItemsType = 'ModalSaveItems';
 export const openModalCreateProductType = 'modalCreateProduct';
+export const openModalCreateScheduleType = 'modalCreateSchedule';
 export const openModalCreateItemType = 'modalCreateItem';
 export const openModalCreateUserType = 'modalCreateUser';
 export const openModalSaveChartType = 'modalCreateChart';

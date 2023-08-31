@@ -26,6 +26,7 @@ import {
   savePurchasesSuccessType,
   fetchPurchasesSuccessType,
   deletePurchasesSuccessType,
+  openModalCreateScheduleType,
 } from "./types";
 
 export function reducer(state, action) {
@@ -37,6 +38,10 @@ export function reducer(state, action) {
       state.selectedItems = action.selectedItems;
       break;
     case openModalCreateProductType:
+      stateAction.mode = action.type;
+      stateAction.activeProduct = action.activeProduct;
+      break;
+    case openModalCreateScheduleType:
       stateAction.mode = action.type;
       stateAction.activeProduct = action.activeProduct;
       break;

@@ -1,7 +1,7 @@
 import { Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { ProductCard } from "../../components/ProductCard";
-import { openModalCreateProductType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
+import { openModalCreateProductType, openModalCreateScheduleType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {
@@ -13,13 +13,14 @@ import {
 
 import { fetchChartsAction } from "../../actions/chartActions";
 import {
-  openModalCreateProductAction,
+  openModalCreateProductAction, openModalCreateScheduleAction,
 } from "../../actions/modalsActions";
 import { ModalSaveItems } from "../../containers/ModalSaveItem";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 import { ProductCol, ProductContainer } from "./styles";
+import { ModalCreateSchedule } from "../../containers/ModalCreateSchedule";
 
 export const Products = () => {
   const { state, dispatch } = useAppContext();
@@ -50,6 +51,10 @@ export const Products = () => {
   const handleCreateOrUpdate = (product) => {
     dispatch(openModalCreateProductAction(product));
   };
+  
+  const handleSchedule = (product) => {
+    dispatch(openModalCreateScheduleAction(product));
+  };
 
   useEffect(() => {
     if (state.type === saveProductsSuccessType) {
@@ -59,6 +64,7 @@ export const Products = () => {
 
   return (
     <div>
+      <ModalCreateSchedule open={state.mode === openModalCreateScheduleType} />
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       <ModalSaveItems open={state.mode === openModalSaveItemsType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
@@ -81,6 +87,13 @@ export const Products = () => {
                   ...product,
                   subTitle: "R$ " + String(Number(product.price).toFixed(2)),
                   controls: [{
+                      label: 'Agendar',
+                      loadingLabel: 'Agendando',
+                      variant: 'warning',
+                      onClick: async () => {
+                        handleSchedule(product);
+                      }
+                    },{
                       label: 'Editar',
                       loadingLabel: 'Editando',
                       variant: 'warning',
@@ -96,9 +109,9 @@ export const Products = () => {
                       }
                   },
                 ],
-                  groupControls: {
-                    onClick: handleChartClick
-                  }
+                  // groupControls: {
+                  //   onClick: handleChartClick
+                  // }
                 }}
               />
             </ProductCol>
