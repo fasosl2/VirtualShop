@@ -55,7 +55,14 @@ export const Purchases = () => {
               <Card
                 {...{
                   ...purchase,
-                  subTitle: "Estoque: " + purchase.stock,
+                  subTitle: <div>
+                    <p>Endereço: {purchase?.address}</p>
+                    <p>Produtos:
+                    <br/> 
+                    <br/> 
+                      {purchase?.products.map(ele => <p>{ele.title}</p>)}
+                      </p>
+                    </div>,
                   controls: [{
                       label: 'Editar',
                       loadingLabel: 'Editando',
