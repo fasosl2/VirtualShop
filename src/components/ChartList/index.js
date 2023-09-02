@@ -139,6 +139,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                         contentlabel: "Compra",
                       }}
                     />
+                    {console.log(item.date)}
                   </ColListGroup>
                 )}
 

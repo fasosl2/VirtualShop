@@ -17,6 +17,7 @@ import {
   Title5,
 } from "./styles";
 import bag from "../../assets/bag.svg";
+import moment from "moment";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
@@ -66,6 +67,7 @@ export const ChartPage = () => {
               title: product.title,
               total: product.count,
               image: product.image,
+              date: product.startDate,
               onClick: handleChartClick,
             }))}
           />
@@ -87,6 +89,11 @@ export const ChartPage = () => {
               <Row className="p-0 m-0">
                 <Col className="col-8">Total: R$ </Col>
                 <Col className="col-4">{Number(state.chart?.products.reduce((total, product) => (product.price * product.count+total),0)).toFixed(2)}</Col>
+              </Row>
+              <Row className="p-0 m-0">
+                <Col md={5} className="col-8">Data: </Col>
+                <Col md={7} className="col-4">{moment(state.chart?.products[0]?.startDate).utc().format('DD-MM-YYYY')}</Col>
+                {console.log(state.chart.products[0].startDate)}
               </Row>
             </Row>
 

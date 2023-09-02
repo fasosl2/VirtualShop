@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { deleteProductsFromChartAction, saveProductsAction, saveProductsInChartAction } from "../../actions/productActions";
 import {
@@ -15,6 +15,8 @@ import {
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
 import { Calendar } from "../../components/Calendar";
+import { Button } from "../../components/Button";
+import { CountButtonGroup } from "../../components/CountButtonGroup";
 
 export const ModalCreateSchedule = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -36,6 +38,11 @@ export const ModalCreateSchedule = ({ open }) => {
   }, [state.type, state.activeProduct, dispatch]);
 
 
+  const handleClick = async (field, element, total, onClick) => {
+    setCount((prevState) => ({ ...prevState, [field]: true }));
+    await onClick({ element, negativeValue: total, setCount, field });
+    setCount((prevState) => ({ ...prevState, [field]: false }));
+  };
 
   return (
     <Modal
@@ -59,14 +66,22 @@ export const ModalCreateSchedule = ({ open }) => {
       />
       quantidade de pessoas:
       <br/>
-      <Button onClick={()=> setCount((prevState) => (prevState + 1))}>+</Button>
+      <Button label='-' onClick={()=> setCount((prevState) => (prevState ? prevState - 1 : 0))}/>
       {" " + count + " "}
-      <Button onClick={()=> setCount((prevState) => (prevState ? prevState - 1 : 0))}>-</Button>
-      <p>
-      {startDate.toLocaleString()}
-      <br/>
-      {count}
-      </p>
+      <Button label='+' onClick={()=> setCount((prevState) => (prevState + 1))}/>
+      {/* <p>
+
+        <CountButtonGroup
+          total= {count} 
+          onClick= {()=> setCount((prevState) => (prevState + 1))}
+          contentlabel= "qtd"
+        >
+          </CountButtonGroup>  
+          <br/>
+          {count}
+        </p> */}
+        {/* {startDate.toLocaleString()} */}
+        {console.log(startDate)}
     </Modal>
   );
 };
