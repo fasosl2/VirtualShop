@@ -109,11 +109,13 @@ export const Products = () => {
                       }
                   },
                 ],
+                
                   // groupControls: {
                   //   onClick: handleChartClick
                   // }
                 }}
               />
+              
             </ProductCol>
           ))}
         </Row>

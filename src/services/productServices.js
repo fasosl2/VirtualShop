@@ -24,8 +24,9 @@ export const deleteProduct = async (productId) => {
 
 export const saveProductInChart = async (product) => {
   const chart = await getChart();
-  var prod = chart?.products.find((elem) => elem.id === product.id);
-  prod ? prod.count++ : chart && chart.products.push({ ...product, count: 1 });
+  // var prod = chart?.products.find((elem) => elem.id === product.id);
+  // prod ? prod.count++ : chart && chart.products.push({ ...product, count: 1 });
+  chart.products = [product];
   await saveChart(chart);
   return chart ? { ...chart } : {};
 };
