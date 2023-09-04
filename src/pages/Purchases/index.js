@@ -71,7 +71,8 @@ export const Purchases = () => {
                   ...purchase,
                   subTitle: (
                     <div>
-                      <p>Endereço: {purchase?.address}</p>
+                      <p>Cod. Pedido: {purchase?._id}</p>
+                      {purchase?.address && <p>Endereço: {purchase?.address}</p>}
                       <p>
                         Produtos:
                         <br />
