@@ -88,6 +88,7 @@ export const Products = () => {
                   subTitle: "R$ " + String(Number(product.price).toFixed(2)),
                   controls: [{
                       label: 'Agendar',
+                      client: true,
                       loadingLabel: 'Agendando',
                       variant: 'warning',
                       onClick: async () => {

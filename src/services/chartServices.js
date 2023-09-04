@@ -27,10 +27,10 @@ export const saveChart = async (chart) => {
   await saveStoredTable(chart, "chart");
 };
 
-export const deleteChart = async (chartId) => {
-  const chart = await getChart();
-  let chartIndex = chart?.findIndex(elem => elem.id === chartId);
-  chartIndex !== null && chartIndex !== -1 && chart.splice(chartIndex, 1);
+export const deleteChart = async () => {
+  const chart = {
+    products: []
+  };
   await saveChart(chart);
-  return chart ? [...chart] : [];
+  return chart;
 };

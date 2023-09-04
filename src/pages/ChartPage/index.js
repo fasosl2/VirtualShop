@@ -1,7 +1,7 @@
 import { ChartList } from "../../components/ChartList";
 import { useAppContext } from "../../storage/AppContext";
 import { useEffect } from "react";
-import { fetchChartsAction } from "../../actions/chartActions";
+import { deleteChartAction, fetchChartsAction } from "../../actions/chartActions";
 import {
   deleteProductsFromChartAction,
   saveProductsInChartAction,
@@ -18,6 +18,7 @@ import {
 } from "./styles";
 import bag from "../../assets/bag.svg";
 import moment from "moment";
+import { savePurchasesAction } from "../../actions/purchasesAction";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
@@ -55,12 +56,25 @@ export const ChartPage = () => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
   };
 
+  const handleCreatePurchase = async () => {
+    savePurchasesAction(dispatch, {
+      user: state?.currentUser._id,
+      products: state.chart?.products?.map((product) => ({
+        id: product.id,
+        count: product.count,
+        date: product.startDate,
+        onClick: handleChartClick,
+      })),
+    });
+    deleteChartAction(dispatch);
+  };
+
   return (
     <ChartPageContainer>
       <Row>
         <Col md={9}>
           <ChartList
-            items={state.chart?.products.map((product) => ({
+            items={state.chart?.products?.map((product) => ({
               key: product.id,
               id: product.id,
               value: product.price || "$0,00",
@@ -88,18 +102,33 @@ export const ChartPage = () => {
               </Row>
               <Row className="p-0 m-0">
                 <Col className="col-8">Total: R$ </Col>
-                <Col className="col-4">{Number(state.chart?.products.reduce((total, product) => (product.price * product.count+total),0)).toFixed(2)}</Col>
+                <Col className="col-4">
+                  {state.chart?.products.length ?
+                  Number(
+                    state.chart?.products.reduce(
+                      (total, product) => product.price * product.count + total,
+                      0
+                    )
+                  ).toFixed(2) : '----'}
+                </Col>
               </Row>
               <Row className="p-0 m-0">
-                <Col md={5} className="col-8">Data: </Col>
-                <Col md={7} className="col-4">{moment(state.chart?.products[0]?.startDate).utc().format('DD-MM-YYYY')}</Col>
-                {console.log(state.chart.products[0].startDate)}
+                <Col md={5} className="col-8">
+                  Data:{" "}
+                </Col>
+                <Col md={7} className="col-4">
+                  {state.chart?.products[0]?.startDate ? moment(state.chart?.products[0]?.startDate)
+                    .utc()
+                    .format("DD-MM-YYYY") : '----'}
+                </Col>
+                {console.log(state?.chart?.products[0]?.startDate)}
               </Row>
             </Row>
 
             <Row>
               <Container>
                 <Button
+                onClick={() => handleCreatePurchase()}
                   className="border-0 m-3"
                   style={{
                     backgroundColor: "rgba(71, 91, 109)",
@@ -108,7 +137,7 @@ export const ChartPage = () => {
                     width: "100%",
                   }}
                 >
-                  Continuar a compra
+                  Finalizar a compra
                 </Button>
               </Container>
             </Row>

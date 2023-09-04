@@ -44,9 +44,9 @@ export const fetchChartsInitAction = () => ({
     payload: charts,
   });
   
-  export const deleteChartAction = async (dispatch, chartId) => {
+  export const deleteChartAction = async (dispatch) => {
     dispatch(deleteChartInitAction());
-    await utilService.sleep(1000);
-    const charts = await deleteChart(chartId);
+    await utilService.sleep(500);
+    const charts = await deleteChart();
     dispatch(deleteChartSuccessAction(charts));
   };

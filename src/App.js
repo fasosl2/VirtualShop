@@ -1,7 +1,7 @@
 import { HomePage } from "./pages/Home";
 import { Products } from "./pages/Products";
 import { Users } from "./pages/Users";
-import { ChartPage } from "./pages/ChartPage/ChartPage";
+import { ChartPage } from "./pages/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";

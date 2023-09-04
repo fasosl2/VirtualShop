@@ -28,7 +28,7 @@ export const Card = ({
 
   return (
     <CardBS style={props.style}>
-      <CardBS.Img src={image} style={{width: '45%'}} alt="Card image" />
+      {image && <CardBS.Img src={image} style={{width: '45%'}} alt="Card image" />}
       <CardBS.Body style={props.styleBody}>
         <CardBS.Title>{title}</CardBS.Title>
         <CardBS.Subtitle>{subTitle}</CardBS.Subtitle>

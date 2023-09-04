@@ -14,9 +14,23 @@ export const Purchases = () => {
   const { state, dispatch } = useAppContext();
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const purchasesProcessed = state.purchases.map((purchase) => ({
-    ...purchase,
-  }));
+  const purchasesProcessed = state.purchases.filter((purchase) =>
+    ["Master", "Gestor"].includes(state?.currentUser?.type) ||
+    state?.currentUser._id === purchase?.user?._id
+      ? purchase
+      : false
+  ).map(purchase => {
+    let products = purchase?.products.map(product => ({
+        count: product.count,
+        date: product.date,
+        ...product?.id[0]
+    }));
+
+    return {
+        ...purchase,
+        products: products
+    }
+});
 
   useEffect(() => {
     fetchPurchasesAction(dispatch);
@@ -39,7 +53,7 @@ export const Purchases = () => {
   }, [state.type]);
 
   return (
-    <div>      
+    <div>
       {showFeedback && (
         <Notification
           message="Criado com sucesso"
@@ -49,36 +63,44 @@ export const Purchases = () => {
         />
       )}
       <Container fluid>
-          <Row>
+        <Row>
           {purchasesProcessed.map((purchase) => (
             <Col key={purchase.id} xs={13} md={4} style={{ marginTop: "1em" }}>
               <Card
                 {...{
                   ...purchase,
-                  subTitle: <div>
-                    <p>Endereço: {purchase?.address}</p>
-                    <p>Produtos:
-                    <br/> 
-                    <br/> 
-                      {purchase?.products.map(ele => <p>{ele.title}</p>)}
+                  subTitle: (
+                    <div>
+                      <p>Endereço: {purchase?.address}</p>
+                      <p>
+                        Produtos:
+                        <br />
                       </p>
-                    </div>,
-                  controls: [{
-                      label: 'Editar',
-                      loadingLabel: 'Editando',
-                      variant: 'warning',
+                      <ul>
+                        {purchase?.products?.map((ele) => (
+                          <li key={ele._id}>{ele.title} <br/> Data: {ele.date} <br/>Pessoas: {ele.count}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ),
+                  controls: [
+                    {
+                      label: "Editar",
+                      loadingLabel: "Editando",
+                      variant: "warning",
                       onClick: async () => {
                         handleCreateOrUpdate(purchase);
-                      }
-                    },{
-                      label: 'Excluir',
-                      loadingLabel: 'Excluindo',
-                      variant: 'danger',
+                      },
+                    },
+                    {
+                      label: "Excluir",
+                      loadingLabel: "Excluindo",
+                      variant: "danger",
                       onClick: async () => {
                         await deletePurchaseAction(dispatch, purchase.id);
-                      }
-                  },
-                ],
+                      },
+                    },
+                  ],
                 }}
               />
             </Col>
