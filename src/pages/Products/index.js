@@ -65,7 +65,7 @@ export const Products = () => {
   return (
     <div>
       <ModalCreateSchedule open={state.mode === openModalCreateScheduleType} />
-      <ModalCreateProduct open={state.mode === openModalCreateProductType} />
+      <ModalCreateProduct  open={state.mode === openModalCreateProductType} />
       <ModalSaveItems open={state.mode === openModalSaveItemsType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
             (<FloatingPillButton label="+" onClick={handleCreateOrUpdate} />) }

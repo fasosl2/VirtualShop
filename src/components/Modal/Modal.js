@@ -12,7 +12,7 @@ export const Modal = ({title, children, open, onHide, controls = []}) => {
     };
 
   return (
-    <ModalBS show={open} onHide={HandleClose}>
+    <ModalBS show={open} onHide={HandleClose} size={'lg'}>
         <ModalBS.Header closeButton>
         <ModalBS.Title>{title}</ModalBS.Title>
         </ModalBS.Header>
