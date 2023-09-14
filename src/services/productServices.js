@@ -3,7 +3,9 @@ import api from "./apiService";
 
 export const getProducts = async () => {
   const result = await api.read({route: "products"});
-  return  result.map(prod => ({...prod, items: prod?.items?.length ? JSON.parse(prod.items) : []}));
+  return  result.map(prod => ({...prod, items: prod?.items?.length ? JSON.parse(prod.items) : [],
+  endDate: prod?.endDate?.length ? new Date(prod.endDate) : null,
+  startDate: prod?.startDate?.length ? new Date(prod.startDate) : null }));
 };
 
 export const saveProduct = async (productData) => {
