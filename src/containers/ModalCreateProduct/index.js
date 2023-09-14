@@ -15,6 +15,7 @@ import {
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
 import { Col, Row } from "./styles";
+import { MultiRatio } from "../../components/MultiRatio";
 
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -31,6 +32,7 @@ export const ModalCreateProduct = ({ open }) => {
     stock: "",
     image: "",
     items: [],
+    blockedDays: [false,false,false,false,false,false,false],
   });
   const [productData, setProductData] = useState(initialProduct.current); // o negocio que vai mandar os dados
 
@@ -88,6 +90,16 @@ export const ModalCreateProduct = ({ open }) => {
 
   const handleItemClick = () =>
     dispatch(openModalSaveItemsAction(productData?.items));
+
+    const handleBlockedDays = (index) =>
+    setProductData((prevState) => {
+    let blockedDays = [...prevState.blockedDays];
+    blockedDays[index] = blockedDays[index] ? false : true;
+    return {
+      ...prevState,
+      blockedDays: blockedDays,
+    }
+    });
 
   return (
     <Modal
@@ -222,6 +234,25 @@ export const ModalCreateProduct = ({ open }) => {
               </Row>
               <Row>
                 <p>dias disponiveis horário disponiveis</p>
+                <MultiRatio
+                onClick={handleBlockedDays}
+                elements={productData?.blockedDays}
+                controls={[{
+                  label:'D'
+                },{
+                  label:'S'
+                },{
+                  label:'T'
+                },{
+                  label:'Q'
+                },{
+                  label:'Q'
+                },{
+                  label:'S'
+                },{
+                  label:'S'
+                },]}
+                />
               </Row>
             </Col>
           </Row>
