@@ -14,8 +14,10 @@ import {
 } from "../../storage/types";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
+import rectangle from "../../assets/rectangle.png";
 import { Col, Row } from "./styles";
 import { MultiRatio } from "../../components/MultiRatio";
+import { InputTime } from "../../components/InputTime";
 
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -33,6 +35,8 @@ export const ModalCreateProduct = ({ open }) => {
     image: "",
     items: [],
     blockedDays: [false,false,false,false,false,false,false],
+    startDate: new Date(),
+    endDate: new Date()
   });
   const [productData, setProductData] = useState(initialProduct.current); // o negocio que vai mandar os dados
 
@@ -88,6 +92,12 @@ export const ModalCreateProduct = ({ open }) => {
       [field]: field === "image" ? e.target.files[0] : e.target.value,
     }));
 
+    const handleHours = (value, field) =>
+    setProductData((prevState) => ({
+      ...prevState,
+      [field]: value
+    }));
+
   const handleItemClick = () =>
     dispatch(openModalSaveItemsAction(productData?.items));
 
@@ -100,6 +110,7 @@ export const ModalCreateProduct = ({ open }) => {
       blockedDays: blockedDays,
     }
     });
+
 
   return (
     <Modal
@@ -248,6 +259,15 @@ export const ModalCreateProduct = ({ open }) => {
                 },{
                   label:'S'
                 },]}
+                />
+                <InputTime
+                startDate={productData?.startDate}
+                setStartDate={(e) => handleHours(e, "startDate")}
+                />
+
+                <InputTime
+                startDate={productData?.endDate}
+                setStartDate={(e) => handleHours(e, "endDate")}
                 />
               </Row>
             </Col>
