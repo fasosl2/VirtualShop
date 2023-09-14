@@ -14,11 +14,12 @@ import {
 } from "../../storage/types";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
-import { Col, Row } from "./styles";
+import rectangle from "../../assets/rectangle.png";
+import { Col, Input, Row } from "./styles";
 
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
-  const [image, setImage] = useState(userLogo);
+  const [image, setImage] = useState(rectangle);
   const initialProduct = useRef({
     //mudar e adicionar itens que esta no figma 'nome legal'
     title: "",
@@ -46,7 +47,7 @@ export const ModalCreateProduct = ({ open }) => {
       setProductData(initialProduct.current);
     }
     if (state.type === closeModalsType) {
-      setImage(userLogo);
+      setImage(rectangle);
       setProductData(initialProduct.current);
     }
     if (state?.activeProduct?.id && productData === initialProduct.current) {
@@ -64,7 +65,7 @@ export const ModalCreateProduct = ({ open }) => {
     } else if (productData?.image?.length) {
       setImage(productData?.image);
     } else {
-      setImage(userLogo);
+      setImage(rectangle);
     }
     if (state?.selectedItems?.length) {
       setProductData((prevState) => ({
@@ -127,7 +128,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="text"
                     required
-                    placeholder="Nome do Produto"
+                    placeholder=""
                     value={productData?.title}
                     onChange={(e) => handleChange(e, "title")}
                   />
@@ -139,7 +140,6 @@ export const ModalCreateProduct = ({ open }) => {
                     as="textarea"
                     rows={10}
                     required
-                    placeholder="descrição"
                     value={productData?.description}
                     onChange={(e) => handleChange(e, "description")}
                   />
@@ -151,7 +151,6 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="number"
                     required
-                    placeholder="preço sem frete"
                     value={productData?.price}
                     onChange={(e) => handleChange(e, "price")}
                   />
@@ -162,7 +161,6 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="number"
                     required
-                    placeholder="preço com frete Recife"
                     value={productData?.priceRecife}
                     onChange={(e) => handleChange(e, "priceRecife")}
                   />
@@ -173,7 +171,6 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="number"
                     required
-                    placeholder="preço com frete RMR"
                     value={productData?.priceRMR}
                     onChange={(e) => handleChange(e, "priceRMR")}
                   />
@@ -193,7 +190,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="number"
                     required
-                    placeholder="Quantidade em Estoque"
+                    placeholder=""
                     value={productData?.minPeople}
                     onChange={(e) => handleChange(e, "minPeople")}
                   />
@@ -203,7 +200,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <Form.Control
                     type="number"
                     required
-                    placeholder="Quantidade em Estoque"
+                    placeholder=""
                     value={productData?.maxPeople}
                     onChange={(e) => handleChange(e, "maxPeople")}
                   />
@@ -221,7 +218,46 @@ export const ModalCreateProduct = ({ open }) => {
                 </Col>
               </Row>
               <Row>
-                <p>dias disponiveis horário disponiveis</p>
+                <p>dias disponiveis</p>
+                <div class="form-check">
+                  <div class="btn-group-toggle" data-toggle="buttons">
+                  
+                  <label class="btn btn-secondary" for="day1">
+                    <Input  type="checkbox" id="day1" value="1" style={{display: 'none'}}/>1
+                  </label>
+                
+                
+                  <label class="btn btn-secondary" for="day2">
+                    <Input  type="checkbox" id="day2" value="2"/>2
+                  </label>
+                
+                
+                  <label class="btn btn-secondary" for="day3">
+                    <Input  type="checkbox" id="day3" value="3"/>3
+                  </label>
+                
+                  <label class="btn btn-secondary" for="day4">
+                    <Input  type="checkbox" id="day4" value="4"/>4
+                  </label>
+                
+                
+                  <label class="btn btn-secondary" for="day5">
+                    <Input  type="checkbox" id="day5" value="5"/>5
+                  </label>
+                
+                
+                  <label class="btn btn-secondary" for="day6">
+                    <Input  type="checkbox" id="day6" value="6"/>6
+                  </label>
+                
+                  <label class="btn btn-secondary" for="day7">
+                    <Input  type="checkbox" id="day7" value="7"/>7
+                  </label>
+                
+                  </div>
+                </div>
+
+                
               </Row>
             </Col>
           </Row>

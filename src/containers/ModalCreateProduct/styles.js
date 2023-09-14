@@ -8,3 +8,11 @@ export const Row = styled(RowBS)`
     
 export const Col = styled(ColBS)`
 `
+
+export const Input = styled.input`
+    display: none;
+
+    input:checked ~ .checkmark:after {
+        display: block;
+    }
+`

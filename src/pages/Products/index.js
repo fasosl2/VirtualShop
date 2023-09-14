@@ -82,6 +82,7 @@ export const Products = () => {
           <Row>
           {productsTotalized.map((product) => (
             <ProductCol key={product.id} xs={13} style={{ marginTop: "1em"}}>
+              {console.log(product)}
               <ProductCard
                 {...{
                   ...product,
