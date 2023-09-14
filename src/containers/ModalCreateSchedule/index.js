@@ -34,7 +34,6 @@ export const ModalCreateSchedule = ({ open }) => {
       setStartDate(new Date());
       setCount(0);
     }
-
   }, [state.type, state.activeProduct, dispatch]);
 
 
@@ -48,7 +47,7 @@ export const ModalCreateSchedule = ({ open }) => {
     const currentDate = new Date();
     const selectedDate = new Date(date);
     const day = date.getDay();
-    return day !== 0 && day !== 6 &&
+    return !state?.activeProduct?.blockedDays[day] &&
     currentDate <= selectedDate;
   };
   const filterPassedTime = (time) => {
@@ -73,8 +72,6 @@ export const ModalCreateSchedule = ({ open }) => {
         },
       ]}
     >
-      
-      
       <Calendar 
       filterDate={filterPassedDate}
       // highlightDates={[new Date('2023-09-11')]}
