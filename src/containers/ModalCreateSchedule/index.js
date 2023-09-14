@@ -21,7 +21,7 @@ import { CountButtonGroup } from "../../components/CountButtonGroup";
 export const ModalCreateSchedule = ({ open }) => {
   const { state, dispatch } = useAppContext();
   const [startDate, setStartDate] = useState(new Date());
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
   
 
   useEffect(() => {
@@ -43,6 +43,21 @@ export const ModalCreateSchedule = ({ open }) => {
     await onClick({ element, negativeValue: total, setCount, field });
     setCount((prevState) => ({ ...prevState, [field]: false }));
   };
+  
+  const filterPassedDate = (date) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(date);
+    const day = date.getDay();
+    return day !== 0 && day !== 6 &&
+    currentDate <= selectedDate;
+  };
+  const filterPassedTime = (time) => {
+    const currentDate = new Date();
+    const selectedDate = new Date(time);
+
+    return currentDate.getTime() < selectedDate.getTime() && 
+    selectedDate.getHours() >= 8 && selectedDate.getHours() < 23;
+  };
 
   return (
     <Modal
@@ -61,12 +76,15 @@ export const ModalCreateSchedule = ({ open }) => {
       
       
       <Calendar 
+      filterDate={filterPassedDate}
+      // highlightDates={[new Date('2023-09-11')]}
       startDate= {startDate}
       setStartDate= {setStartDate}
+      filterTime={filterPassedTime}
       />
       quantidade de pessoas:
       <br/>
-      <Button label='-' onClick={()=> setCount((prevState) => (prevState ? prevState - 1 : 0))}/>
+      <Button label='-' onClick={()=> setCount((prevState) => (prevState > 1 ? prevState - 1 : 1))}/>
       {" " + count + " "}
       <Button label='+' onClick={()=> setCount((prevState) => (prevState + 1))}/>
       {/* <p>

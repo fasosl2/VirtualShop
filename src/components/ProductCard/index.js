@@ -67,7 +67,7 @@ export const ProductCard = ({
         {controls
           ? controls.map(
               (button, index) =>
-                ((button.client && ["Cliente"].includes(state?.currentUser?.type)) ||
+                ((button.client && !["Master", "Gestor"].includes(state?.currentUser?.type)) ||
                   ["Master", "Gestor"].includes(state?.currentUser?.type)) && (
                   <Button
                     key={button.label + (id || index)}

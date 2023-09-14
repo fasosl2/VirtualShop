@@ -91,7 +91,7 @@ export const Products = () => {
                       label: 'Agendar',
                       client: true,
                       loadingLabel: 'Agendando',
-                      variant: 'warning',
+                      variant: 'primary',
                       onClick: async () => {
                         handleSchedule(product);
                       }

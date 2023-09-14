@@ -7,14 +7,16 @@ import pt from 'date-fns/locale/pt';
 registerLocale('pt', pt)
 
 
-export const Calendar = ({startDate, setStartDate}) => {
+export const Calendar = ({startDate, setStartDate, ...props}) => {
   return (
     <DatePicker
       selected={startDate}
       onChange={(date) => setStartDate(date)}
       inline
       showTimeSelect
+      calendarStartDay={0}
       locale="pt"
+      {...props}
     />
   );
 };

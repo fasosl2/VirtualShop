@@ -14,8 +14,8 @@ import {
 } from "../../storage/types";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
-import rectangle from "../../assets/rectangle.png";
-import { Col, Input, Row } from "./styles";
+import { Col, Row } from "./styles";
+import { MultiRatio } from "../../components/MultiRatio";
 
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -32,6 +32,7 @@ export const ModalCreateProduct = ({ open }) => {
     stock: "",
     image: "",
     items: [],
+    blockedDays: [false,false,false,false,false,false,false],
   });
   const [productData, setProductData] = useState(initialProduct.current); // o negocio que vai mandar os dados
 
@@ -89,6 +90,16 @@ export const ModalCreateProduct = ({ open }) => {
 
   const handleItemClick = () =>
     dispatch(openModalSaveItemsAction(productData?.items));
+
+    const handleBlockedDays = (index) =>
+    setProductData((prevState) => {
+    let blockedDays = [...prevState.blockedDays];
+    blockedDays[index] = blockedDays[index] ? false : true;
+    return {
+      ...prevState,
+      blockedDays: blockedDays,
+    }
+    });
 
   return (
     <Modal
@@ -218,46 +229,26 @@ export const ModalCreateProduct = ({ open }) => {
                 </Col>
               </Row>
               <Row>
-                <p>dias disponiveis</p>
-                <div class="form-check">
-                  <div class="btn-group-toggle" data-toggle="buttons">
-                  
-                  <label class="btn btn-secondary" for="day1">
-                    <Input  type="checkbox" id="day1" value="1" style={{display: 'none'}}/>1
-                  </label>
-                
-                
-                  <label class="btn btn-secondary" for="day2">
-                    <Input  type="checkbox" id="day2" value="2"/>2
-                  </label>
-                
-                
-                  <label class="btn btn-secondary" for="day3">
-                    <Input  type="checkbox" id="day3" value="3"/>3
-                  </label>
-                
-                  <label class="btn btn-secondary" for="day4">
-                    <Input  type="checkbox" id="day4" value="4"/>4
-                  </label>
-                
-                
-                  <label class="btn btn-secondary" for="day5">
-                    <Input  type="checkbox" id="day5" value="5"/>5
-                  </label>
-                
-                
-                  <label class="btn btn-secondary" for="day6">
-                    <Input  type="checkbox" id="day6" value="6"/>6
-                  </label>
-                
-                  <label class="btn btn-secondary" for="day7">
-                    <Input  type="checkbox" id="day7" value="7"/>7
-                  </label>
-                
-                  </div>
-                </div>
-
-                
+                <p>dias disponiveis horário disponiveis</p>
+                <MultiRatio
+                onClick={handleBlockedDays}
+                elements={productData?.blockedDays}
+                controls={[{
+                  label:'D'
+                },{
+                  label:'S'
+                },{
+                  label:'T'
+                },{
+                  label:'Q'
+                },{
+                  label:'Q'
+                },{
+                  label:'S'
+                },{
+                  label:'S'
+                },]}
+                />
               </Row>
             </Col>
           </Row>
