@@ -3,6 +3,7 @@ export const openModalSaveItemsType = 'ModalSaveItems';
 export const openModalCreateProductType = 'modalCreateProduct';
 export const openModalCreateScheduleType = 'modalCreateSchedule';
 export const openModalCreateItemType = 'modalCreateItem';
+export const openModalCreateCalendarType = 'modalCreateCalendar';
 export const openModalCreateUserType = 'modalCreateUser';
 export const openModalSaveChartType = 'modalCreateChart';
 export const closeModalsType = 'closeModals';
@@ -80,3 +81,14 @@ export const fetchPurchasesSuccessType = 'fetchPurchasesSuccess';
 
 export const selectPurchasesInitType = 'selectPurchasesInit';
 export const selectPurchasesSuccessType = 'selectPurchasesSuccess';
+
+
+//Calendar Types
+export const saveCalendarsInitType = 'saveCalendarsInit';
+export const saveCalendarsSuccessType = 'saveCalendarsSuccess';
+
+export const deleteCalendarsInitType = 'deleteCalendarsInit';
+export const deleteCalendarsSuccessType = 'deleteCalendarsSuccess';
+
+export const fetchCalendarsInitType = 'fetchCalendarsInit';
+export const fetchCalendarsSuccessType = 'fetchCalendarsSuccess';

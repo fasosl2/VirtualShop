@@ -5,8 +5,9 @@ import { ChartPage } from "./pages/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
-import { Items } from "./pages/Items";
+// import { Items } from "./pages/Items";
 import { Purchases } from "./pages/Purchases";
+import { Calendar } from "./pages/Calendar";
 import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
 import { AboutPage } from "./pages/About";
@@ -14,8 +15,9 @@ import { AboutPage } from "./pages/About";
 const initialState = {
   activeProduct: null,
   activeUser: null,
-  activeItem: null,
-  selectedItems: [],
+  activeCalendar: null,
+  // activeItem: null,
+  // selectedItems: [],
   purchases: [],
   mode: null,
   chart: {
@@ -24,6 +26,7 @@ const initialState = {
   type: null,
   products: [],
   users: [],
+  calendars: [],
   items: [],
   currentUser: null,
 };
@@ -40,8 +43,9 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/produtos" element={<Products />} />
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/itens" element={<Items />} />
+{/*             <Route path="/itens" element={<Items />} /> */}
             <Route path="/pedidos" element={<Purchases />} />
+            <Route path="/calendar" element={<Calendar />} />
             <Route path="/usuarios" element={<Users />} />
             <Route path="/chart" element={<ChartPage />} />
           </Routes>
