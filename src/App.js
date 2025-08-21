@@ -5,7 +5,7 @@ import { ChartPage } from "./pages/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
-// import { Items } from "./pages/Items";
+/* import { Items } from "./pages/Items";*/
 import { Purchases } from "./pages/Purchases";
 import { Calendar } from "./pages/Calendar";
 import { GlobalStyle } from "./styles/global";
