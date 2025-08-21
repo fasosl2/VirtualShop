@@ -23,7 +23,7 @@ export const Purchases = () => {
     let products = purchase?.products.map(product => ({
         count: product.count,
         date: product.date,
-        ...product?.id[0]
+        ...product?.id._id
     }));
 
     return {
