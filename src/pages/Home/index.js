@@ -3,7 +3,7 @@ import { useEffect } from "react";
 // import { fetchChartsAction } from "../../actions/chartActions";
 import { Col, Row } from "react-bootstrap";
 import { Button } from "../../components/Button";
-import feedTheChangeBanner from "../../assets/feed-the-change.png";
+import feedTheChangeBanner from "../../assets/logo.jpg";
 import collaborators from "../../assets/collaborators.png";
 import {
   BannerImage,
@@ -15,6 +15,7 @@ import {
   H2,
   H4,
   Circle,
+  BannerH2,
 } from "./styles";
 import { Frame } from "../../components/Frame";
 import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
@@ -31,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../../components/Card";
 import logo00 from "../../assets/homeCarrossel/logo00.png";
 import comida01 from "../../assets/homeCarrossel/comida01.png";
+import comida02 from "../../assets/homeCarrossel/comida02.png";
 import comida04 from "../../assets/homeCarrossel/comida04.png";
 import comida05 from "../../assets/homeCarrossel/comida05.png";
 import comida06 from "../../assets/homeCarrossel/comida06.png";
@@ -42,34 +44,34 @@ import { authUsersAction } from "../../actions/userActions";
 export const HomePage = () => {
   const swiperArray = [
     {
-      img: logo00,
-      title: "catálogo+",
-      text: "Explore nossa variedade de serviços de buffet de alta qualidade para eventos corporativos e ocasiões especiais.",
+      img: comida01,
+      title: "Ovos de Capoeira",
+      text: "Ovos frescos de galinhas criadas soltas, com sabor autêntico e produção sustentável.",
     },
     {
-      img: comida01,
-      title: "Experiência+",
-      text: "R$28,00-R$33,00/pessoa 20 a 70 pessoas",
+      img: comida02,
+      title: "Queijos Frescos",
+      text: "Queijos artesanais produzidos com leite puro e técnicas tradicionais do campo.",
     },
     {
       img: comida07,
-      title: "refeição+",
-      text: "R$19,00-R$24,00/pessoa 20 a 70 pessoas",
+      title: "Cachaças",
+      text: "Cachaças envelhecidas e artesanais, com aromas intensos e sabor marcante.",
     },
     {
       img: comida04,
-      title: "coffeeBreak++",
-      text: "R$34,00-R$39,00/pessoa 20 a 30 pessoas",
+      title: "Frutas Orgânicas",
+      text: "Frutas cultivadas sem agrotóxicos, colhidas no ponto certo para máxima qualidade.",
     },
     {
       img: comida05,
-      title: "almoço+",
-      text: "R$40,00-R$45,00/pessoa 20 a 30 pessoas",
+      title: "Galinhas de Capoeira",
+      text: "Criação livre e natural, oferecendo carne saborosa e nutritiva.",
     },
     {
       img: comida06,
-      title: "jantar+",
-      text: "R$34,00-R$39,00/pessoa 20 a 30 pessoas",
+      title: "Legumes Orgânicos",
+      text: "Legumes frescos e saudáveis, cultivados com respeito à terra e ao meio ambiente.",
     },
   ];
 
@@ -87,12 +89,10 @@ export const HomePage = () => {
   return (
     <>
       <BannerImage image={feedTheChangeBanner}>
-        <h2 style={{ color: "white", fontWeight: "700" }}>
-          alimente a mudança
-        </h2>
+        <BannerH2>Confira nossos Produtos</BannerH2>
         <Button
           {...{
-            label: "contrate",
+            label: "Clique aqui",
             variant: "secondary",
             onClick: async () => {
               navigate("/produtos");
@@ -144,7 +144,7 @@ export const HomePage = () => {
               {swiperArray.map((item, index) => (
                 <Col key={index} xs={12} md={6}>
                   <Card
-                    index= {index}
+                    index={index}
                     image={item.img}
                     title={item.title}
                     style={{
@@ -154,7 +154,7 @@ export const HomePage = () => {
                       fontSize: "0.7rem",
                       margin: "16px 12px",
                       border: "none",
-                      height: "120px"
+                      height: "120px",
                     }}
                     styleFooter={{ borderTop: "none", background: "none" }}
                     styleBody={{ paddingTop: "0" }}
@@ -192,7 +192,7 @@ export const HomePage = () => {
                   label: "fale com a gente no whatsapp",
                   variant: "secondary",
                   onClick: async () => {
-                    navigate("/produtos");
+                    window.open('https://wa.me/p/7324920890894671/558181083818', '_blank');
                   },
                 }}
               />
@@ -203,15 +203,15 @@ export const HomePage = () => {
 
       <ContentSection>
         <Row>
-          <Col xs={12} md={6} >
+          <Col xs={12} md={6}>
             <Container>
               <Circle
                 style={{
                   borderColor: "#FAB72D",
                   marginTop: "3%",
                 }}
-                ></Circle>
-                <Circle></Circle>
+              ></Circle>
+              <Circle></Circle>
               <Circle
                 style={{
                   borderColor: "#D61B26",
@@ -223,28 +223,31 @@ export const HomePage = () => {
             </Container>
           </Col>
           <Col xs={12} md={6}>
-            <Container style={{ paddingTop: "0px"}}>
-              <H4>Cozinha+</H4>
+            <Container style={{ paddingTop: "0px" }}>
+              <H4>Chácara Japiá</H4>
               <h6>
-                <i> Cozinha Solidária Sérgio Pereira </i>
+                <i>Alimentos Saudáveis - Sem Conservantes</i>
               </h6>{" "}
               <br />
               <p>
-                A Cozinha Solidária Sérgio Pereira é um projeto social
-                desenvolvido pela ONG GTP+ em Recife, que fornece refeições
-                nutritivas para pessoas em situação de rua na cidade. O projeto
-                é mantido através do serviço de buffet corporativo oferecido
-                pela ONG para empresas, cujo valor arrecadado é revertido para a
-                compra de ingredientes para as refeições.
+                A Chácara Japiá é um refúgio de cultivo natural
+                localizado em Recife, dedicado à produção de alimentos
+                saudáveis, éticos e sustentáveis. Aqui, cada ovo 🥚 é 100%
+                natural, vindo de 🐓 galinhas criadas livres, que se alimentam
+                de forma verde e diversificada — com acesso a insetos, frutas e
+                vegetais 🌽🥑🪱🦗🐜.
               </p>
               <p>
-                O propósito maior da ONG GTP+ é atender pessoas que vivem e
-                convivem com HIV, promovendo a inclusão social e a dignidade
-                humana para aqueles que são frequentemente marginalizados pela
-                sociedade. Ao adquirir o serviço de buffet corporativo, as
-                empresas contribuem para a continuidade do projeto Cozinha
-                Solidária Sérgio Pereira e ajudam a promover um futuro mais
-                justo e solidário para a comunidade de Recife.
+                Nosso compromisso é com a vida: 🚫 livre de hormônios e
+                antibióticos 💊, respeitando o tempo da natureza e o bem-estar
+                dos animais. A Chácara Japiá acredita que comida de verdade
+                começa com respeito à terra, aos ciclos naturais e às
+                comunidades que dela dependem.
+              </p>
+              <p>
+                Mais do que uma produção, somos um projeto de transformação —
+                cultivando alimentos que nutrem o corpo e valores que alimentam
+                o futuro.
               </p>
             </Container>
           </Col>
@@ -253,47 +256,44 @@ export const HomePage = () => {
 
       <ContentSection>
         {
-          <HomeSwiperContainer>
-            <H4 footer>Clientes+</H4>
-            <SlideContainerLogo>
-              <SwiperContainer>
-                <SwiperSlide>
-                  <SwiperImage
-                    src={ufpeLogo}
-                    alt={"Universidade Federal de Pernambuco"}
-                    />
-                    <p>Universidade Federal de Pernambuco</p>
-                </SwiperSlide>
-                
-                <SwiperSlide>
-                  <SwiperImage
-                    src={oi}
-                    alt={"Oi Telefonia"}
-                    />
-                    <p>Oi telefonia</p>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <SwiperImage
-                    src={unicapLogo}
-                    alt={"Universidade Católica de Pernambuco"}
-                  />
-                    <p>Universidade Católica de Pernambuco</p>
-                </SwiperSlide>
-             
-                <SwiperSlide>
-                  <SwiperImage
-                    src={prefeituraRecifeLogo}
-                    alt={"Prefeitura do Recife"}
-                  />
-                  <p>Prefeitura de Recife</p>
-                </SwiperSlide>
-                <SwiperSlide>
-                  <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
-                    <p>Clube Metrópole</p>
-                </SwiperSlide>
-              </SwiperContainer>
-            </SlideContainerLogo>
-          </HomeSwiperContainer>
+          // <HomeSwiperContainer>
+          //   <H4 footer>Clientes+</H4>
+          //   <SlideContainerLogo>
+          //     <SwiperContainer>
+          //       <SwiperSlide>
+          //         <SwiperImage
+          //           src={ufpeLogo}
+          //           alt={"Universidade Federal de Pernambuco"}
+          //         />
+          //         <p>Universidade Federal de Pernambuco</p>
+          //       </SwiperSlide>
+
+          //       <SwiperSlide>
+          //         <SwiperImage src={oi} alt={"Oi Telefonia"} />
+          //         <p>Oi telefonia</p>
+          //       </SwiperSlide>
+          //       <SwiperSlide>
+          //         <SwiperImage
+          //           src={unicapLogo}
+          //           alt={"Universidade Católica de Pernambuco"}
+          //         />
+          //         <p>Universidade Católica de Pernambuco</p>
+          //       </SwiperSlide>
+
+          //       <SwiperSlide>
+          //         <SwiperImage
+          //           src={prefeituraRecifeLogo}
+          //           alt={"Prefeitura do Recife"}
+          //         />
+          //         <p>Prefeitura de Recife</p>
+          //       </SwiperSlide>
+          //       <SwiperSlide>
+          //         <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
+          //         <p>Clube Metrópole</p>
+          //       </SwiperSlide>
+          //     </SwiperContainer>
+          //   </SlideContainerLogo>
+          // </HomeSwiperContainer>
         }
         {/* Slider main container */}
       </ContentSection>

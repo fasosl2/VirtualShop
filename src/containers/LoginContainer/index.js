@@ -43,6 +43,17 @@ export const LoginContainer = () => {
       ...prevState,
       [field]: e.target?.files?.length ? e.target.files[0] : e.target.value,
     }));
+  
+  const propertesMap = [{
+    prop: "email",
+    name: "e-mail"
+  },{
+    prop: "name",
+    name: "nome"
+  },{
+    prop: "type",
+    name: "tipo"
+  }];
 
   return (
     <Dropdown id={"dropdown"}>
@@ -51,8 +62,8 @@ export const LoginContainer = () => {
         {state?.currentUser ? (
           <Container>
             <LoginImage src={state.currentUser?.image} alt="no image"/>
-            {["email", "name", "type"].map((ele) => (
-              <p key={'user-' + ele}>{ele + ": " + state.currentUser[ele]}</p>
+            {propertesMap.map((ele) => (
+              <p key={'user-' + ele.prop}>{ele.name + ": " + state.currentUser[ele.prop]}</p>
             ))}
             <Button
               label="Sair"

@@ -81,16 +81,15 @@ export const Products = () => {
       <ProductContainer fluid>
           <Row>
           {productsTotalized.map((product) => (
-            <ProductCol key={product.id} xs={13} style={{ marginTop: "1em"}}>
+            <ProductCol key={product.id} xs={6} style={{ marginTop: "1em"}}>
               {console.log(product)}
               <ProductCard
                 {...{
                   ...product,
-                  subTitle: "R$ " + String(Number(product.price).toFixed(2)),
                   controls: [{
-                      label: 'Agendar',
-                      client: true,
-                      loadingLabel: 'Agendando',
+                      label: 'Comprar',
+                      client: 'true',
+                      loadingLabel: 'Comprando',
                       variant: 'primary',
                       onClick: async () => {
                         handleSchedule(product);

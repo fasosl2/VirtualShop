@@ -46,13 +46,13 @@ export const ChartContainer = (...props) => {
             items={state.chart?.products.map((product) => ({
               key: product.id,
               id: product.id,
-              value: product.price || "$0,00",
+              value: product.price || 0,
               title: product.title,
               total: product.count,
               image: product.image,
               onClick: handleChartClick,
             }))}
-            compact={true}
+            compact={'true'}
           />
         </Container>
       </Dropdown.Menu>

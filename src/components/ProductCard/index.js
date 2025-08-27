@@ -3,7 +3,7 @@ import { Button } from "../Button";
 import { Card as CardBS, Col, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
-import { CardButtomContainer, CardHeader, CardPrice } from "./styles";
+import { CardButtomContainer, CardHeader, CardImg, CardPrice } from "./styles";
 
 export const ProductCard = ({
   id,
@@ -11,7 +11,6 @@ export const ProductCard = ({
   title,
   price,
   total,
-  subTitle,
   onClick,
   controls,
   ...props
@@ -35,14 +34,14 @@ export const ProductCard = ({
         <CardBS.Title>{title}</CardBS.Title>
     </Col>
     <Col>
-        <CardPrice>{subTitle}</CardPrice>
+        <CardPrice>{Number(price) ? "R$ " + String(Number(price).toFixed(2)) : '(Consultar)'}</CardPrice>
     </Col>
       </Row>
     </CardHeader>
       <CardBS.Body style={props.styleBody}>
       <Row>
-    <Col md={5}>
-      <CardBS.Img src={image} style={{width: '100%'}} alt="Card image" />
+    <Col md={5} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <CardImg src={image} alt="Card image" />
     </Col>
     <Col md={7}>
       <Row>

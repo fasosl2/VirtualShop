@@ -23,12 +23,12 @@ export const Purchases = () => {
     let products = purchase?.products.map(product => ({
         count: product.count,
         date: product.date,
-        ...product?.id._id
+        ...product?.id
     }));
 
     return {
         ...purchase,
-        products: products
+        products
     }
 });
 
@@ -79,7 +79,7 @@ export const Purchases = () => {
                       </p>
                       <ul>
                         {purchase?.products?.map((ele) => (
-                          <li key={ele._id}>{ele.title} <br/> Data: {ele.date} <br/>Pessoas: {ele.count}</li>
+                          <li key={ele._id}>{ele.title} {/* <br/> Data: {ele.date} */} <br/>Quantidade: {ele.count}</li>
                         ))}
                       </ul>
                     </div>

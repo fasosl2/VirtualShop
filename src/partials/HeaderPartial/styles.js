@@ -6,16 +6,16 @@ export const Link = styled(RouterLink).attrs({
     className: 'nav-link',
     })`
     ${(props) => props.currentpath === props.to && 
-        `color: #D61B26;
+        `color:rgb(100, 185, 20);
         font-weight: 600;`
     }
     margin: 0px 0.5em;
     &:hover {
         font-weight: 700;
-        color: #D01100;
+        color: rgb(100, 185, 20);
     }
     &:focus {
-        color: #D01100;
+        color: rgb(100, 185, 20);
     }
 `;
 
@@ -23,4 +23,7 @@ export const HomeContainer = styled(Container)`
 @media screen and (min-width: 768px){
     margin: 0px 15%; 
 }    
+`;
+export const NavbarBrand = styled.img`
+    max-height: 50px;
 `;

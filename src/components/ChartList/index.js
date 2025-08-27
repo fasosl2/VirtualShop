@@ -134,6 +134,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                     <CountButtonGroup
                       {...{
                         total: item.total,
+                        count: item.total,
                         onClick: item.onClick,
                         element: item,
                         contentlabel: "Compra",

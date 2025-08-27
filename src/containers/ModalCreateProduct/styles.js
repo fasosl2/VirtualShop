@@ -16,3 +16,11 @@ export const Input = styled.input`
         display: block;
     }
 `
+
+
+export const FormImg = styled.img`
+    max-width: 100%;
+    max-height: 20vh;
+    width: auto;  
+    height: auto;
+`;

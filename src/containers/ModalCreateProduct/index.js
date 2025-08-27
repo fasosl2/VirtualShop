@@ -15,7 +15,7 @@ import {
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
 import rectangle from "../../assets/rectangle.png";
-import { Col, Row } from "./styles";
+import { Col, FormImg, Row } from "./styles";
 import { MultiRatio } from "../../components/MultiRatio";
 import { InputTime } from "../../components/InputTime";
 
@@ -26,7 +26,7 @@ export const ModalCreateProduct = ({ open }) => {
     //mudar e adicionar itens que esta no figma 'nome legal'
     title: "",
     description: "",
-    price: "",
+    price: 0,
     priceRecife: "",
     priceRMR: "",
     minPeople: "",
@@ -117,7 +117,7 @@ export const ModalCreateProduct = ({ open }) => {
       controls={[
         {
           label: (state?.activeProduct?.id ? "Editar" : "Criar") + " e Salvar",
-          loadingLabel: "Criando",
+          loadingLabel: (state?.activeProduct?.id ? "Edit" : "Cri") + "ando",
           loading: state.type === saveProductsInitType,
           variant: "secondary",
           type: "submit",
@@ -134,7 +134,7 @@ export const ModalCreateProduct = ({ open }) => {
         >
           <Row>
             <Col md={3}>
-              <img src={image} alt="" style={{ height: "20vh" }} />
+              <FormImg src={image} alt="" />
               <Form.Control
                 type="file"
                 onChange={(e) => handleChange(e, "image")}
@@ -144,7 +144,7 @@ export const ModalCreateProduct = ({ open }) => {
               <Row>
                 <Col md={7}>
                   <Row>
-                    <Form.Label>Nome do serviço</Form.Label>
+                    <Form.Label>Nome do Produto</Form.Label>
                     <Form.Control
                       type="text"
                       required
@@ -155,7 +155,7 @@ export const ModalCreateProduct = ({ open }) => {
                   </Row>
                   <br />
                   <Row>
-                    <Form.Label>descrição</Form.Label>
+                    <Form.Label>Descrição</Form.Label>
                     <Form.Control
                       as="textarea"
                       rows={10}
@@ -167,15 +167,15 @@ export const ModalCreateProduct = ({ open }) => {
                 </Col>
                 <Col md={5}>
                   <Row>
-                    <Form.Label>preço sem frete</Form.Label>
+                    <Form.Label>Preço</Form.Label>
                     <Form.Control
                       type="number"
                       required
-                      value={productData?.price}
+                      value={productData?.price || 0}
                       onChange={(e) => handleChange(e, "price")}
                     />
                   </Row>
-                  <br />
+                  {/* <br />
                   <Row>
                     <Form.Label>preço com frete Recife</Form.Label>
                     <Form.Control
@@ -218,10 +218,10 @@ export const ModalCreateProduct = ({ open }) => {
                         onChange={(e) => handleChange(e, "maxPeople")}
                       />
                     </Col>
-                  </Row>
+                  </Row> */}
                 </Col>
               </Row>
-              <Row>
+              {/* <Row>
                 <Col md={7}>
                   <p>dias disponiveis</p>
                   <MultiRatio
@@ -271,7 +271,7 @@ export const ModalCreateProduct = ({ open }) => {
                     </Col>
                   </Row>
                 </Col>
-              </Row>
+              </Row> */}
             </Col>
           </Row>
         </Form.Group>

@@ -65,6 +65,15 @@ export const H4 =  styled.h4`
     margin-left: ${(props) => props.footer ? '2%' : ''};
 `
 
+export const BannerH2 =  styled.h2`
+    font-weight: 700;
+    color: rgb(100, 185, 20);
+    text-shadow:
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px  1px 0 white,
+        1px  1px 0 white;
+`
 export const BannerImage = styled.div`
 ${(props) =>
     props.compact
@@ -91,7 +100,7 @@ ${(props) =>
       }
   `
       : `
-      background: linear-gradient(0deg, #D61B26, #D61B26), url(${ props.image}), #D9D9D9;
+      background: /* linear-gradient(0deg, #D61B26, #D61B26), */ url(${ props.image}), #D9D9D9;
       background-blend-mode: multiply, normal, normal;
       height: 300px;
       width: 100%;

@@ -77,7 +77,7 @@ export const ChartPage = () => {
             items={state.chart?.products?.map((product) => ({
               key: product.id,
               id: product.id,
-              value: product.price || "$0,00",
+              value: product.price || 0,
               title: product.title,
               total: product.count,
               image: product.image,
@@ -112,7 +112,7 @@ export const ChartPage = () => {
                   ).toFixed(2) : '----'}
                 </Col>
               </Row>
-              <Row className="p-0 m-0">
+              {/* <Row className="p-0 m-0">
                 <Col md={5} className="col-8">
                   Data:{" "}
                 </Col>
@@ -122,7 +122,7 @@ export const ChartPage = () => {
                     .format("DD-MM-YYYY") : '----'}
                 </Col>
                 {console.log(state?.chart?.products[0]?.startDate)}
-              </Row>
+              </Row> */}
             </Row>
 
             <Row>

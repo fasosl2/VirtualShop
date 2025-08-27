@@ -28,11 +28,11 @@ export const ModalCreateSchedule = ({ open }) => {
     if (state.type === saveProductsInChartInitType) {
       dispatch(closeModalsAction());
       setStartDate(new Date());
-      setCount(0);
+      setCount(1);
     }
     if (state.type === closeModalsType) {
       setStartDate(new Date());
-      setCount(0);
+      setCount(1);
     }
   }, [state.type, state.activeProduct, dispatch]);
 
@@ -60,29 +60,35 @@ export const ModalCreateSchedule = ({ open }) => {
 
   return (
     <Modal
-      title={"Agendar"}
+      title={"Comprar"}
       open={open}
       controls={[
         {
-          label: "Agendar",
-          loadingLabel: "Agendando",
+          label: "Confirmar",
+          loadingLabel: "Confirmando",
           loading: state.type === saveProductsInChartInitType,
-          variant: "secondary",
-          onClick: async ()  => {await saveProductsInChartAction(dispatch,{count,startDate, ...state.activeProduct})},
+          variant: "primary",
+          onClick: async ()  => {await saveProductsInChartAction(dispatch,{count,/* startDate, */ ...state.activeProduct})},
+        },
+        {
+          label: "Cancelar",
+          loadingLabel: "Cancelando",
+          variant: "danger",
+          onClick: async ()  => {await dispatch(closeModalsAction()); },
         },
       ]}
     >
-      <Calendar 
+      {/* <Calendar 
       filterDate={filterPassedDate}
       // highlightDates={[new Date('2023-09-11')]}
       startDate= {startDate}
       setStartDate= {setStartDate}
       filterTime={filterPassedTime}
-      />
-      quantidade de pessoas:
+      /> */}
+      quantidade:
       <br/>
       <Button label='-' onClick={()=> setCount((prevState) => (prevState > 1 ? prevState - 1 : 1))}/>
-      {" " + count + " "}
+      {" " + count + "  "}
       <Button label='+' onClick={()=> setCount((prevState) => (prevState + 1))}/>
       {/* <p>
 

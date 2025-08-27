@@ -1,9 +1,17 @@
 import React from "react";
-import { Footer, FooterCol, FooterLink, FooterText, Heading, SubHeading } from "./styles";
+import {
+  Footer,
+  FooterCol,
+  FooterLink,
+  FooterText,
+  Heading,
+  SubHeading,
+} from "./styles";
 import { Container, Row, Col } from "react-bootstrap";
-import roundedLogo from "../../assets/rounded-logo.svg";
+import roundedLogo from "../../assets/logo.png";
 import facebook from "../../assets/facebook.svg";
 import instagram from "../../assets/instagram.svg";
+import whatsapp from "../../assets/whatsapp.svg";
 
 export const FooterPartial = () => {
   return (
@@ -21,16 +29,37 @@ export const FooterPartial = () => {
               </Col>
               <Col>
                 <Row>
-                  <Heading>Cozinha+</Heading>
-                  <SubHeading>Cozinha Solidária Sérgio Pereira</SubHeading>
+                  <Heading>Chácara Japiá</Heading>
+                  <SubHeading>
+                    Alimentos Saudáveis - Sem Conservantes
+                  </SubHeading>
                 </Row>
                 <Row>
                   <FooterCol md={1}>
-                    <img
-                      src={instagram}
-                      alt="footer logo"
-                      style={{ width: "30px", height: "30px" }}
-                    />
+                    <a
+                      href="https://www.instagram.com/chacarajapia/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={instagram}
+                        alt="footer logo"
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                    </a>
+                  </FooterCol>
+                  <FooterCol md={1}>
+                    <a
+                      href="https://wa.me/p/7324920890894671/558181083818"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <img
+                        src={whatsapp}
+                        alt="footer logo"
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                    </a>
                   </FooterCol>
                   <FooterCol md={1}>
                     <img
@@ -45,23 +74,23 @@ export const FooterPartial = () => {
           </Col>
           <Col sm={10} md={6}>
             <FooterText>
-              E-mail:{" "}
+              {/* E-mail:{" "}
               <FooterLink href="mailto:gtp@gtp.org.br">
                 gtp@gtp.org.br
-              </FooterLink>
+              </FooterLink> */}
               <br />
               Telefone:{" "}
-              <FooterLink href="tel:+558132310905">
+              <FooterLink href="tel:+5581981083818">
                 {" "}
-                +55 81 3231.0905{" "}
+                +55 81 98108-3818{" "}
               </FooterLink>
               <br />
-              Endereço:{" "}
+              {/* Endereço:{" "}
               <FooterLink href="https://www.google.com/maps?q=Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,Pernambuco, Brasil. CEP: 50070-000">
                 {" "}
                 Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife, <br />{" "}
                 Pernambuco, Brasil. CEP: 50070-000
-              </FooterLink>
+              </FooterLink> */}
             </FooterText>
           </Col>
         </Row>

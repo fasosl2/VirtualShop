@@ -2,9 +2,9 @@ import { Col, Container } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const ProductContainer = styled(Container)`
-width: 70%;
+width: 80%;
 @media screen and (min-width: 768px){
-    margin: 1em 15%; 
+    margin: 1em 10%; 
 }    
 `;
 
