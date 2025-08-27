@@ -21,6 +21,7 @@ export const ModalCreateUser = ({ open }) => {
       name: "",
       cpf: "",
       email: "",
+      address: "",
       password: "",
       type: "Cliente",
       image: "",
@@ -119,6 +120,14 @@ export const ModalCreateUser = ({ open }) => {
             placeholder="Senha"
             value={userData?.password}
             onChange={(e) => handleChange(e, "password")}
+          />
+          <br />
+          <Form.Control
+            type="text"
+            required
+            placeholder="Endereço"
+            value={userData?.address}
+            onChange={(e) => handleChange(e, "address")}
           />
           <br />
           {["Master", "Gestor"].includes(state?.currentUser?.type) &&
