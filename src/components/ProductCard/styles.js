@@ -17,8 +17,8 @@ export const CardButtomContainer = styled.div`
 
 
 export const CardImg = styled(CardBS.Img)`
-    max-width: 200px;
-    max-height: 150px;
+    max-width: 100%;
+    max-height: 100%;
     width: auto;  
     height: auto;
 `;

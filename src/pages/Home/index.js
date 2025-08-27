@@ -154,7 +154,6 @@ export const HomePage = () => {
                       fontSize: "0.7rem",
                       margin: "16px 12px",
                       border: "none",
-                      height: "120px",
                     }}
                     styleFooter={{ borderTop: "none", background: "none" }}
                     styleBody={{ paddingTop: "0" }}
@@ -164,7 +163,9 @@ export const HomePage = () => {
                         freeShow: true,
                         loadingLabel: "saiba+",
                         variant: "primary",
-                        onClick: () => {},
+                        onClick: async () => {
+                          navigate("/produtos");
+                        }
                       },
                     ]}
                   >
