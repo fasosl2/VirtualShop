@@ -28,64 +28,85 @@ export const ProductCard = ({
 
   return (
     <CardBS style={props.style}>
-    <CardHeader>
-      <Row>
-    <Col>
-        <CardBS.Title>{title}</CardBS.Title>
-    </Col>
-    <Col>
-        <CardPrice>{Number(price) ? "R$ " + String(Number(price).toFixed(2)) : '(Consultar)'}</CardPrice>
-    </Col>
-      </Row>
-    </CardHeader>
+      <CardHeader>
+        <Row>
+          <Col>
+            <CardBS.Title>{title}</CardBS.Title>
+          </Col>
+          <Col>
+            <CardPrice>
+              {Number(price)
+                ? "R$ " + Number(price).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  }) : "(Consultar)"}
+            </CardPrice>
+          </Col>
+        </Row>
+      </CardHeader>
       <CardBS.Body style={props.styleBody}>
-      <Row>
-    <Col md={5} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <CardImg src={image} alt="Card image" />
-    </Col>
-    <Col md={7}>
-      <Row>
-      <p>{props.description}</p>
-        {props?.items?.length ? props.items.map(item => <p>• {item.title}</p>) : ""}
-      </Row>
-      <Row>
-      <CardButtomContainer>
-        {props.groupControls && (
-          <CountButtonGroup
-            {...{
-              total,
-              onClick: props.groupControls.onClick,
-              element: product,
-              contentlabel: "Compra",
-              emptyLabel: "Remove",
+        <Row>
+          <Col
+            md={5}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
-          
-        )}
-
-        {controls
-          ? controls.map(
-              (button, index) =>
-                ((button.client && !["Master", "Gestor"].includes(state?.currentUser?.type)) ||
-                  ["Master", "Gestor"].includes(state?.currentUser?.type)) && (
-                  <Button
-                    key={button.label + (id || index)}
-                    variant={button.variant}
-                    loading={itemsLoading[button.label + (id || index)]}
+          >
+            <CardImg src={image} alt="Card image" />
+          </Col>
+          <Col md={7}>
+            <Row>
+              <p>{props.description}</p>
+              {props?.items?.length
+                ? props.items.map((item) => <p>• {item.title}</p>)
+                : ""}
+            </Row>
+            <Row>
+              <CardButtomContainer>
+                {props.groupControls && (
+                  <CountButtonGroup
                     {...{
-                      ...button,
-                      onClick: () =>
-                        handleItemLoading(button.label + (id || index), button.onClick),
+                      total,
+                      onClick: props.groupControls.onClick,
+                      element: product,
+                      contentlabel: "Compra",
+                      emptyLabel: "Remove",
                     }}
                   />
-                )
-            )
-          : ""}
-      
-      </CardButtomContainer>
-      </Row>
-    </Col>
-      </Row>
+                )}
+
+                {controls
+                  ? controls.map(
+                      (button, index) =>
+                        ((button.client &&
+                          !["Master", "Gestor"].includes(
+                            state?.currentUser?.type
+                          )) ||
+                          ["Master", "Gestor"].includes(
+                            state?.currentUser?.type
+                          )) && (
+                          <Button
+                            key={button.label + (id || index)}
+                            variant={button.variant}
+                            loading={itemsLoading[button.label + (id || index)]}
+                            {...{
+                              ...button,
+                              onClick: () =>
+                                handleItemLoading(
+                                  button.label + (id || index),
+                                  button.onClick
+                                ),
+                            }}
+                          />
+                        )
+                    )
+                  : ""}
+              </CardButtomContainer>
+            </Row>
+          </Col>
+        </Row>
       </CardBS.Body>
     </CardBS>
   );

@@ -4,7 +4,9 @@ import { Dropdown } from "react-bootstrap";
 import { Container, LoginImage, Form, H6, FormControl, Button, Hr } from "./styles";
 import { useAppContext } from "../../storage/AppContext";
 import { authUsersAction, loginUsersAction, logoutUsersAction } from "../../actions/userActions";
-import { loginUsersSuccessType } from "../../storage/types";
+import { loginUsersSuccessType, openModalCreateUserType } from "../../storage/types";
+import { openModalCreateUserAction } from "../../actions/modalsActions";
+import { ModalCreateUser } from "../../containers/ModalCreateUser";
 
 export const LoginContainer = () => {
   const initialLoginData = useMemo(
@@ -16,6 +18,11 @@ export const LoginContainer = () => {
   );
   const [loginData, setLoginData] = useState(initialLoginData);
   const { state, dispatch } = useAppContext();
+
+  
+   const handleCreateUser = (productId) => {
+    dispatch(openModalCreateUserAction())
+  }
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +64,7 @@ export const LoginContainer = () => {
 
   return (
     <Dropdown id={"dropdown"}>
+          <ModalCreateUser open={state.mode === openModalCreateUserType} />
       <Dropdown.Toggle variant="light">{state.currentUser?.name || 'login'}</Dropdown.Toggle>
       <Dropdown.Menu align="end">
         {state?.currentUser ? (
@@ -108,6 +116,14 @@ export const LoginContainer = () => {
                 />
               </Form.Group>
             </Form>
+            <p style={{textAlign: 'center'}}>ou</p>
+              <Button
+                label="Criar Conta"
+                loadingLabel="Criando"
+                loading={false}
+                variant="primary"
+                onClick={handleCreateUser}
+              />
           </Container>
         )}
       </Dropdown.Menu>

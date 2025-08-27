@@ -19,6 +19,7 @@ export const ModalCreateUser = ({ open }) => {
   const [image , setImage ] = useState(userLogo);
   const initialUser = useRef({
       name: "",
+      cpf: "",
       email: "",
       password: "",
       type: "Cliente",
@@ -28,7 +29,6 @@ export const ModalCreateUser = ({ open }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     saveUsersAction(dispatch, { ...userData, image: image });
   };
 
@@ -96,6 +96,14 @@ export const ModalCreateUser = ({ open }) => {
           />
           <br />
           <Form.Control
+            type="text"
+            required
+            placeholder="CPF"
+            value={userData?.cpf}
+            onChange={(e) => handleChange(e, "cpf")}
+          />
+          <br />
+          <Form.Control
             type="email"
             required
             placeholder="E-mail"
@@ -113,7 +121,8 @@ export const ModalCreateUser = ({ open }) => {
             onChange={(e) => handleChange(e, "password")}
           />
           <br />
-          <Form.Select
+          {["Master", "Gestor"].includes(state?.currentUser?.type) &&
+          (<Form.Select
             required
             value={userData?.type}
             onChange={(e) => handleChange(e, "type")}
@@ -121,7 +130,7 @@ export const ModalCreateUser = ({ open }) => {
             <option>Master</option>
             <option>Gestor</option>
             <option>Cliente</option>
-          </Form.Select>
+          </Form.Select>)}
         </Form.Group>
       </Form>
     </Modal>
