@@ -1,7 +1,12 @@
 import { Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { ProductCard } from "../../components/ProductCard";
-import { openModalCreateProductType, openModalCreateScheduleType, openModalSaveItemsType, saveProductsSuccessType } from "../../storage/types";
+import {
+  openModalCreateProductType,
+  openModalCreateScheduleType,
+  openModalSaveItemsType,
+  saveProductsSuccessType,
+} from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {
@@ -13,7 +18,8 @@ import {
 
 import { fetchChartsAction } from "../../actions/chartActions";
 import {
-  openModalCreateProductAction, openModalCreateScheduleAction,
+  openModalCreateProductAction,
+  openModalCreateScheduleAction,
 } from "../../actions/modalsActions";
 import { ModalSaveItems } from "../../containers/ModalSaveItem";
 import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
@@ -28,7 +34,8 @@ export const Products = () => {
 
   const productsTotalized = state.products.map((product) => ({
     ...product,
-    total: state.chart?.products?.find((chart) => chart.id === product.id)?.count,
+    total: state.chart?.products?.find((chart) => chart.id === product.id)
+      ?.count,
   }));
 
   useEffect(() => {
@@ -42,16 +49,25 @@ export const Products = () => {
     setShowFeedback(false);
   };
 
-  const handleChartClick = async ({ element,negativeValue, setItemsLoading, field}) => {
+  const handleChartClick = async ({
+    element,
+    negativeValue,
+    setItemsLoading,
+    field,
+  }) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
-    dispatch(negativeValue ? await deleteProductsFromChartAction(dispatch,element,negativeValue) : await saveProductsInChartAction(dispatch,element))
+    dispatch(
+      negativeValue
+        ? await deleteProductsFromChartAction(dispatch, element, negativeValue)
+        : await saveProductsInChartAction(dispatch, element)
+    );
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
-  }
+  };
 
   const handleCreateOrUpdate = (product) => {
     dispatch(openModalCreateProductAction(product));
   };
-  
+
   const handleSchedule = (product) => {
     dispatch(openModalCreateScheduleAction(product));
   };
@@ -65,11 +81,12 @@ export const Products = () => {
   return (
     <div>
       <ModalCreateSchedule open={state.mode === openModalCreateScheduleType} />
-      <ModalCreateProduct  open={state.mode === openModalCreateProductType} />
+      <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       {/* <ModalSaveItems open={state.mode === openModalSaveItemsType} /> */}
-      {['Master','Gestor'].includes(state?.currentUser?.type) && 
-            (<FloatingPillButton label="+" onClick={handleCreateOrUpdate} />) }
-      
+      {["Master", "Gestor"].includes(state?.currentUser?.type) && (
+        <FloatingPillButton label="+" onClick={handleCreateOrUpdate} />
+      )}
+
       {showFeedback && (
         <Notification
           message="Criado com sucesso"
@@ -79,44 +96,46 @@ export const Products = () => {
         />
       )}
       <ProductContainer fluid>
-          <Row>
+        <Row>
           {productsTotalized.map((product) => (
-            <ProductCol key={product.id} xs={6} style={{ marginTop: "1em"}}>
+            <ProductCol key={product.id} xs={6} style={{ marginTop: "1em" }}>
               {console.log(product)}
               <ProductCard
                 {...{
                   ...product,
-                  controls: [{
-                      label: 'Comprar',
-                      client: 'true',
-                      loadingLabel: 'Comprando',
-                      variant: 'primary',
-                      onClick: async () => {
-                        handleSchedule(product);
-                      }
-                    },{
-                      label: 'Editar',
-                      loadingLabel: 'Editando',
-                      variant: 'warning',
+                  controls: [
+                    // {
+                    //   label: "Comprar",
+                    //   client: "true",
+                    //   loadingLabel: "Comprando",
+                    //   variant: "primary",
+                    //   onClick: async () => {
+                    //     handleSchedule(product);
+                    //   },
+                    // },
+                    {
+                      label: "Editar",
+                      loadingLabel: "Editando",
+                      variant: "warning",
                       onClick: async () => {
                         handleCreateOrUpdate(product);
-                      }
-                    },{
-                      label: 'Excluir',
-                      loadingLabel: 'Excluindo',
-                      variant: 'danger',
+                      },
+                    },
+                    {
+                      label: "Excluir",
+                      loadingLabel: "Excluindo",
+                      variant: "danger",
                       onClick: async () => {
                         await deleteProductAction(dispatch, product.id);
-                      }
+                      },
+                    },
+                  ],
+
+                  groupControls: {
+                    onClick: handleChartClick,
                   },
-                ],
-                
-                  // groupControls: {
-                  //   onClick: handleChartClick
-                  // }
                 }}
               />
-              
             </ProductCol>
           ))}
         </Row>
