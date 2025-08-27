@@ -6,16 +6,16 @@ export const Link = styled(RouterLink).attrs({
     className: 'nav-link',
     })`
     ${(props) => props.currentpath === props.to && 
-        `color:rgb(100, 185, 20);
+        `color: #aecd46;
         font-weight: 600;`
     }
     margin: 0px 0.5em;
     &:hover {
         font-weight: 700;
-        color: rgb(100, 185, 20);
+        color: #aecd46;
     }
     &:focus {
-        color: rgb(100, 185, 20);
+        color: #aecd46;
     }
 `;
 

@@ -67,7 +67,7 @@ export const H4 =  styled.h4`
 
 export const BannerH2 =  styled.h2`
     font-weight: 700;
-    color: rgb(100, 185, 20);
+    color: #aecd46;
     text-shadow:
         -1px -1px 0 white,
         1px -1px 0 white,

@@ -3,7 +3,7 @@ import { Card as CardBS, Col, Row } from "react-bootstrap";
 
 export const CardHeader = styled(CardBS.Header)`
   border-radius: 16px 16px 0px 0px;
-  background: rgb(100, 185, 20);
+  background: #aecd46;
   color: white;
 `;
 export const CardPrice = styled(CardBS.Title)`
