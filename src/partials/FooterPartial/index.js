@@ -50,7 +50,7 @@ export const FooterPartial = () => {
                   </FooterCol>
                   <FooterCol md={1}>
                     <a
-                      href="https://wa.me/p/7324920890894671/558181083818"
+                      href="https://wa.me/558181083818"
                       target="_blank"
                       rel="noreferrer"
                     >

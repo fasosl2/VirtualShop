@@ -192,7 +192,7 @@ export const HomePage = () => {
                   label: "fale com a gente no whatsapp",
                   variant: "secondary",
                   onClick: async () => {
-                    window.open('https://wa.me/p/7324920890894671/558181083818', '_blank');
+                    window.open('https://wa.me/558181083818', '_blank');
                   },
                 }}
               />
