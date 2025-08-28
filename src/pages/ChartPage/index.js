@@ -1,7 +1,10 @@
 import { ChartList } from "../../components/ChartList";
 import { useAppContext } from "../../storage/AppContext";
-import { useEffect } from "react";
-import { deleteChartAction, fetchChartsAction } from "../../actions/chartActions";
+import { useEffect, useState } from "react";
+import {
+  deleteChartAction,
+  fetchChartsAction,
+} from "../../actions/chartActions";
 import {
   deleteProductsFromChartAction,
   saveProductsInChartAction,
@@ -19,10 +22,23 @@ import {
 import bag from "../../assets/bag.svg";
 import moment from "moment";
 import { savePurchasesAction } from "../../actions/purchasesAction";
+import { Notification } from "../../components/Notification/Notification";
+import utilService from "../../services/utilService";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
 
+  const [showFeedback, setShowFeedback] = useState(false);
+  const handleShowFeedback = async (message) => {
+    setShowFeedback(message);
+    await utilService.sleep(5000);
+    setShowFeedback(false);
+  };
+  const feedbackMesage = {
+    warning: "Adicione itens ao carrinho!",
+    danger: "Faça login com um usuário válido!",
+    success: "Compra efetuada com sucesso!",
+  };
   const handleClick = async ({
     product,
     negativeValue,
@@ -57,20 +73,37 @@ export const ChartPage = () => {
   };
 
   const handleCreatePurchase = async () => {
-    savePurchasesAction(dispatch, {
-      user: state?.currentUser._id,
-      products: state.chart?.products?.map((product) => ({
-        id: product.id,
-        count: product.count,
-        date: product.startDate,
-        onClick: handleChartClick,
-      })),
-    });
-    deleteChartAction(dispatch);
+    if (!state?.currentUser?._id){
+      handleShowFeedback('danger');
+    }
+     else if(!state?.chart?.products?.length) {
+      handleShowFeedback('warning');
+    }else {
+      savePurchasesAction(dispatch, {
+        user: state?.currentUser?._id,
+        products: state.chart?.products?.map((product) => ({
+          id: product.id,
+          count: product.count,
+          date: product.startDate,
+          onClick: handleChartClick,
+        })),
+      });
+      deleteChartAction(dispatch);
+      handleShowFeedback('success');
+    }
   };
 
   return (
     <ChartPageContainer>
+      {showFeedback && (
+        <Notification
+          variant = {showFeedback}
+          message= {feedbackMesage[showFeedback]}
+          onClose={() => {
+            setShowFeedback(false);
+          }}
+        />
+      )}
       <Row>
         <Col md={9}>
           <ChartList
@@ -103,13 +136,15 @@ export const ChartPage = () => {
               <Row className="p-0 m-0">
                 <Col className="col-8">Total: R$ </Col>
                 <Col className="col-4">
-                  {state.chart?.products.length ?
-                  Number(
-                    state.chart?.products.reduce(
-                      (total, product) => product.price * product.count + total,
-                      0
-                    )
-                  ).toFixed(2) : '----'}
+                  {state.chart?.products.length
+                    ? Number(
+                        state.chart?.products.reduce(
+                          (total, product) =>
+                            product.price * product.count + total,
+                          0
+                        )
+                      ).toFixed(2)
+                    : "----"}
                 </Col>
               </Row>
               {/* <Row className="p-0 m-0">
@@ -128,7 +163,7 @@ export const ChartPage = () => {
             <Row>
               <Container>
                 <Button
-                onClick={() => handleCreatePurchase()}
+                  onClick={() => handleCreatePurchase()}
                   className="border-0 m-3"
                   style={{
                     backgroundColor: "rgba(71, 91, 109)",
