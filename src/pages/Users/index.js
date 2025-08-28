@@ -47,8 +47,6 @@ export const Users = () => {
 
   return (
     <div>
-      
-      <ModalCreateUser open={state.mode === openModalCreateUserType} />
       <FloatingPillButton label="+"  onClick={handlePlusButtonClick}/>
       {showFeedback && (
         <Notification

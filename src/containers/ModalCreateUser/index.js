@@ -98,7 +98,6 @@ export const ModalCreateUser = ({ open }) => {
           <br />
           <Form.Control
             type="text"
-            required
             placeholder="CPF"
             value={userData?.cpf}
             onChange={(e) => handleChange(e, "cpf")}
@@ -123,7 +122,7 @@ export const ModalCreateUser = ({ open }) => {
           />
           <br />
           <Form.Control
-            type="text"
+            as="textarea" rows={3}
             required
             placeholder="Endereço"
             value={userData?.address}
