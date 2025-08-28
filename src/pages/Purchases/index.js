@@ -9,6 +9,7 @@ import {
   fetchPurchasesAction,
 } from "../../actions/purchasesAction";
 import utilService from "../../services/utilService";
+import { ContentDiv } from "../../styles/global";
 
 export const Purchases = () => {
   const { state, dispatch } = useAppContext();
@@ -53,7 +54,7 @@ export const Purchases = () => {
   }, [state.type]);
 
   return (
-    <div>
+    <ContentDiv>
       {showFeedback && (
         <Notification
           message="Criado com sucesso"
@@ -108,6 +109,6 @@ export const Purchases = () => {
           ))}
         </Row>
       </Container>
-    </div>
+    </ContentDiv>
   );
 };

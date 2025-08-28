@@ -38,6 +38,7 @@ import comida05 from "../../assets/homeCarrossel/comida05.png";
 import comida06 from "../../assets/homeCarrossel/comida06.png";
 import comida07 from "../../assets/homeCarrossel/comida07.png";
 import { authUsersAction } from "../../actions/userActions";
+import { ContentDiv } from "../../styles/global";
 
 // ...
 
@@ -87,7 +88,7 @@ export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <ContentDiv>
       <BannerImage image={feedTheChangeBanner}>
         <BannerH2>Confira nossos Produtos</BannerH2>
         <Button
@@ -298,6 +299,6 @@ export const HomePage = () => {
         }
         {/* Slider main container */}
       </ContentSection>
-    </>
+    </ContentDiv>
   );
 };

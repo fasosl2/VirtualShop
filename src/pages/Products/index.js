@@ -27,6 +27,7 @@ import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 import { ProductCol, ProductContainer } from "./styles";
 import { ModalCreateSchedule } from "../../containers/ModalCreateSchedule";
+import { ContentDiv } from "../../styles/global";
 
 export const Products = () => {
   const { state, dispatch } = useAppContext();
@@ -79,7 +80,7 @@ export const Products = () => {
   }, [state.type]);
 
   return (
-    <div>
+    <ContentDiv>
       <ModalCreateSchedule open={state.mode === openModalCreateScheduleType} />
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       {/* <ModalSaveItems open={state.mode === openModalSaveItemsType} /> */}
@@ -140,6 +141,6 @@ export const Products = () => {
           ))}
         </Row>
       </ProductContainer>
-    </div>
+    </ContentDiv>
   );
 };

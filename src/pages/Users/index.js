@@ -10,6 +10,7 @@ import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
 import utilService from "../../services/utilService";
+import { ContentDiv } from "../../styles/global";
 
 export const Users = () => {
   const { state,dispatch } = useAppContext();
@@ -46,7 +47,7 @@ export const Users = () => {
   }, [state.type]);
 
   return (
-    <div>
+    <ContentDiv>
       <FloatingPillButton label="+"  onClick={handlePlusButtonClick}/>
       {showFeedback && (
         <Notification
@@ -87,6 +88,6 @@ export const Users = () => {
         ))}
         </Row>
       </Container>
-    </div>
+    </ContentDiv>
   );
 };

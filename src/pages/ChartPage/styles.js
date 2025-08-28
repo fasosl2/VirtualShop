@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   Col as ColBS,
   Row as RowBS,
@@ -7,14 +7,13 @@ import {
   Image as ImageBS,
 } from "react-bootstrap";
 
-
 export const ChartPageContainer = styled(ContainerBS)`
-    width: 100%;
-@media screen and (min-width: 768px){
+  flex: 1;
+  width: 100%;
+  @media screen and (min-width: 768px) {
     width: 70%;
-}    
+  }
 `;
-
 
 export const Image = styled(ImageBS)`
   border-radius: 16px;
@@ -25,7 +24,8 @@ export const Button = styled(ButtonBS)`
   font-size: 0.8rem;
 `;
 export const ButtonLink = styled(ButtonBS).attrs({
-  variant:"link", className:"text-decoration-none"
+  variant: "link",
+  className: "text-decoration-none",
 })`
   font-size: 0.8rem;
 `;
@@ -40,23 +40,23 @@ export const Col = styled(ColBS)`
   font-size: 0.9rem;
 `;
 export const ColListGroup = styled(ColBS).attrs({
-  className:"d-flex justify-content-center align-items-center"
-  })`
-    color: #475c6d;
-    font-size: 0.8rem;
-  `;
+  className: "d-flex justify-content-center align-items-center",
+})`
+  color: #475c6d;
+  font-size: 0.8rem;
+`;
 
 export const RowTitle = styled(RowBS).attrs({
-  className: "border-bottom  pt-3 pb-3 pl-2  m-0"
+  className: "border-bottom  pt-3 pb-3 pl-2  m-0",
 })``;
 
 export const RowBody = styled(RowBS).attrs({
-    className: "p-0 m-0"
+  className: "p-0 m-0",
 })``;
 export const RowFooter = styled(RowBS).attrs({
-    className: "p-0 m-0pt-3 pb-3 pl-2 m-0"
+  className: "p-0 m-0pt-3 pb-3 pl-2 m-0",
 })`
-    background-color: rgba(71, 91, 109, 0.1);
+  background-color: rgba(71, 91, 109, 0.1);
 `;
 
 export const ContentSection = styled.div`

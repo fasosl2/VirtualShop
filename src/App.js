@@ -35,8 +35,13 @@ function App() {
   return (
     
     <BrowserRouter>
-      <div className="App">
-        <AppContext initialState={initialState}>
+      <div className="App" style={{
+          minHeight: '100vh',
+          margin: '0',
+          display: 'flex',
+          flexDirection: 'column'
+      }}>
+        <AppContext initialState={initialState} >
           <GlobalStyle />
           <HeaderPartial />
           <Routes>
