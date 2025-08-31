@@ -72,7 +72,8 @@ export const Purchases = () => {
                   ...purchase,
                   subTitle: (
                     <div>
-                      <p>Cod. Pedido: {purchase?._id}</p>
+                      <p>Pedido: {purchase?._id}</p>
+                      {purchase?.user && <p><b>Cliente: {purchase?.user?.name}</b></p>}
                       {purchase?.address && <p>Endereço: {purchase?.address}</p>}
                       <p>
                         Produtos:
