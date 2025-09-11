@@ -64,7 +64,10 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                           )
                         }
                       >
-                        <Image src={x} style={{width: "25px", height: "25px"}}/>
+                        <Image
+                          src={x}
+                          style={{ width: "25px", height: "25px" }}
+                        />
                       </ButtonLink>
                     </Col>
                   )}
@@ -148,10 +151,15 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                 {compact ? (
                   ""
                 ) : (
-                  <ColListGroup xs={6} md={3} style={{fontSize: "1rem"}}>
+                  <ColListGroup xs={6} md={3} style={{ fontSize: "1rem" }}>
                     {" R$ " +
                       String(
-                        (Number(item.value) * Number(item.total)).toFixed(2)
+                        (
+                          Number(item.value) * Number(item.total)
+                        ).toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
                       ) +
                       " "}
                   </ColListGroup>

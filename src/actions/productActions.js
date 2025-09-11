@@ -53,10 +53,10 @@ export const fetchProductsSuccessAction = (products) => ({
   payload: products,
 });
 
-export const fetchProductsAction = async (dispatch) => {
+export const fetchProductsAction = async (dispatch, opts) => {
   dispatch(fetchProductsInitAction());
-  const products = await getProducts();
-  dispatch(fetchProductsSuccessAction(products));
+  const res = await getProducts(opts);
+  dispatch(fetchProductsSuccessAction(res));
 };
 
 export const saveProductsInitAction = () => ({

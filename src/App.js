@@ -18,13 +18,13 @@ const initialState = {
   activeCalendar: null,
   // activeItem: null,
   // selectedItems: [],
-  purchases: [],
+  purchases: {},
   mode: null,
   chart: {
     products: []
   },
   type: null,
-  products: [],
+  products: {},
   users: [],
   calendars: [],
   items: [],

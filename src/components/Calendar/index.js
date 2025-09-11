@@ -7,17 +7,14 @@ import pt from 'date-fns/locale/pt';
 registerLocale('pt', pt)
 
 
-export const Calendar = ({startDate, setStartDate, ...props}) => {
+export const Calendar = ({selectedDate, setSelectedDate, ...props}) => {
   return (
     <DatePicker
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      inline
-      showTimeSelect
-      calendarStartDay={0}
-      timeIntervals={60}
-      timeCaption="Hora"
+      selected={selectedDate}
+      onChange={(date) => setSelectedDate(date)}
       locale="pt"
+      dateFormat="dd/MM/yyyy"
+      className="form-control"
       {...props}
     />
   );

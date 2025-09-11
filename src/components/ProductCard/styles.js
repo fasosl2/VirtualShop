@@ -11,8 +11,16 @@ export const CardPrice = styled(CardBS.Title)`
 `;
 
 export const CardButtomContainer = styled.div`
+    width: 100%;
     display: flex;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 0.2rem;
+
+    /* Faz com que todos os filhos diretos (botões) cresçam para preencher o espaço */
+    & > * {
+        flex: 1;
+    }
 `;
 
 

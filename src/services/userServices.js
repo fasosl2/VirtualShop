@@ -1,8 +1,17 @@
 import api from "./apiService";
 import { getStoredItem, setStoredItem } from "./localStorageAPI";
 
-export const getUsers = async () => {
-  return await api.read({route: "users"});
+export const getUsers = async (opts) => {
+  const res = await api.get({ route: "users", params: opts });
+  if (!res) return { list: [], total: 0, page: opts?.page || 1, pages: 1 };
+
+  const raw = Array.isArray(res.list) ? res.list : Array.isArray(res) ? res : [];
+  const mapped = raw.map((user) => ({
+    ...user,
+    id: user["_id"],
+  }));
+
+  return { ...res, list: mapped };
 };
 
 export const saveUser = async (userData) => {

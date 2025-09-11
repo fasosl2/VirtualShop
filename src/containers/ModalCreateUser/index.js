@@ -25,6 +25,7 @@ export const ModalCreateUser = ({ open }) => {
       password: "",
       type: "Cliente",
       image: "",
+      deliveryDay: "",
     });
   const [userData, setUserData] = useState(initialUser.current);
 
@@ -128,6 +129,20 @@ export const ModalCreateUser = ({ open }) => {
             value={userData?.address}
             onChange={(e) => handleChange(e, "address")}
           />
+          <br />
+          <Form.Select
+            value={userData?.deliveryDay}
+            onChange={(e) => handleChange(e, "deliveryDay")}
+          >
+            <option value="">Selecione um dia</option>
+            <option value="Domingo">Domingo</option>
+            <option value="Segunda-feira">Segunda-feira</option>
+            <option value="Terça-feira">Terça-feira</option>
+            <option value="Quarta-feira">Quarta-feira</option>
+            <option value="Quinta-feira">Quinta-feira</option>
+            <option value="Sexta-feira">Sexta-feira</option>
+            <option value="Sábado">Sábado</option>
+          </Form.Select>
           <br />
           {["Master", "Gestor"].includes(state?.currentUser?.type) &&
           (<Form.Select

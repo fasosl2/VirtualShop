@@ -1,8 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-
 import { Card } from "../../components/Card";
-import { logoutUsersSuccessType, openModalCreateUserType, saveUsersSuccessType } from "../../storage/types";
+import { logoutUsersSuccessType, saveUsersSuccessType } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
@@ -11,16 +10,27 @@ import { FloatingPillButton } from "../../components/FloatingPillButton";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
 import utilService from "../../services/utilService";
 import { ContentDiv } from "../../styles/global";
+import { Pagination } from "../../components/Pagination";
 
 export const Users = () => {
-  const { state,dispatch } = useAppContext();
+  const { state, dispatch } = useAppContext();
   const [showFeedback, setShowFeedback] = useState(false);
 
-  const usersTotalized = state.users.map(user => user);
+  // Pagination state
+  const [page, setPage] = useState(state.users?.page || 1);
+  const [pages, setPages] = useState(state.users?.pages || 1);
+  const [limit, setLimit] = useState(10);
+
+  const usersArray = state.users?.list || [];
+  const usersTotalized = usersArray.map(user => user);
 
   useEffect(() => {
-    fetchUsersAction(dispatch);
-  }, [dispatch]);
+    fetchUsersAction(dispatch, { page, limit });
+  }, [dispatch, page, limit]);
+
+  useEffect(() => {
+    setPages(state.users?.pages || 1);
+  }, [state.users?.pages]);
 
   const handleShowFeedback = async () => {
       setShowFeedback(true);
@@ -34,8 +44,8 @@ export const Users = () => {
   }
 
   
-  const handleCreateOrUpdate = (product) => {
-    dispatch(openModalCreateUserAction(product));
+  const handleCreateOrUpdate = (user) => {
+    dispatch(openModalCreateUserAction(user));
   };
 
   useEffect(() => {
@@ -88,6 +98,9 @@ export const Users = () => {
         ))}
         </Row>
       </Container>
+      <Pagination
+        {...{ page, pages, setPage, limit, setLimit, itemsArray: usersArray }}
+      />
     </ContentDiv>
   );
 };

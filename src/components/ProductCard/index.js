@@ -56,16 +56,22 @@ export const ProductCard = ({
           >
             <CardImg src={image} alt="Card image" />
           </Col>
-          <Col md={7}>
-            <Row>
+          <Col
+            md={7}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Row className="prod-description" style={{ flexGrow: 1 }}>
               <p>{props.description}</p>
               {props?.items?.length
                 ? props.items.map((item) => <p>• {item.title}</p>)
                 : ""}
             </Row>
-            <Row>
+            <Row className="prod-buttom">
               <CardButtomContainer>
-                {props.groupControls && (
+                {props.groupControls && total && (
                   <CountButtonGroup
                     {...{
                       total,

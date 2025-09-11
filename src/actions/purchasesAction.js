@@ -25,9 +25,9 @@ export const fetchPurchasesSuccessAction = (purchases) => ({
   payload: purchases,
 });
 
-export const fetchPurchasesAction = async (dispatch) => {
+export const fetchPurchasesAction = async (dispatch, opts) => {
   dispatch(fetchPurchasesInitAction());
-  const purchases = await getPurchases();
+  const purchases = await getPurchases(opts);
   dispatch(fetchPurchasesSuccessAction(purchases));
 };
 

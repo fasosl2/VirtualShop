@@ -61,13 +61,13 @@ export const FooterPartial = () => {
                       />
                     </a>
                   </FooterCol>
-                  <FooterCol md={1}>
+                  {/* <FooterCol md={1}>
                     <img
                       src={facebook}
                       alt="footer logo"
                       style={{ width: "30px", height: "30px" }}
                     />
-                  </FooterCol>
+                  </FooterCol> */}
                 </Row>
               </Col>
             </Row>

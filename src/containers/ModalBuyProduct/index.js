@@ -17,6 +17,7 @@ import userLogo from "../../assets/user-logo.png"
 import { Calendar } from "../../components/Calendar";
 import { Button } from "../../components/Button";
 import { CountButtonGroup } from "../../components/CountButtonGroup";
+import { ImageContainer, ProductImage } from "./styles";
 
 export const ModalCreateSchedule = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -25,17 +26,28 @@ export const ModalCreateSchedule = ({ open }) => {
   
 
   useEffect(() => {
-    if (state.type === saveProductsInChartInitType) {
-      dispatch(closeModalsAction());
-      setStartDate(new Date());
-      setCount(1);
-    }
     if (state.type === closeModalsType) {
       setStartDate(new Date());
       setCount(1);
     }
   }, [state.type, state.activeProduct, dispatch]);
 
+
+
+  const handleChartClick = async ({
+    element,
+    negativeValue,
+    setItemsLoading,
+    field,
+  }) => {
+    setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
+    dispatch(
+      negativeValue
+        ? await deleteProductsFromChartAction(dispatch, element, negativeValue)
+        : await saveProductsInChartAction(dispatch, element)
+    );
+    setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
+  };
 
   const handleClick = async (field, element, total, onClick) => {
     setCount((prevState) => ({ ...prevState, [field]: true }));
@@ -68,28 +80,61 @@ export const ModalCreateSchedule = ({ open }) => {
           loadingLabel: "Confirmando",
           loading: state.type === saveProductsInChartInitType,
           variant: "primary",
-          onClick: async ()  => {await saveProductsInChartAction(dispatch,{count,/* startDate, */ ...state.activeProduct})},
-        },
-        {
-          label: "Cancelar",
-          loadingLabel: "Cancelando",
-          variant: "danger",
           onClick: async ()  => {await dispatch(closeModalsAction()); },
         },
+        {
+           label: "Remover",
+           loadingLabel: "Removendo",
+           variant: "danger",
+           onClick: async () => {
+             if (state.activeProduct && state.chart?.products) {
+               const productInChart = state.chart.products.find(
+                 (p) => p.id === state.activeProduct.id
+               );
+               const quantityToRemove = productInChart ? productInChart.count : 0;
+
+               if (quantityToRemove > 0) {
+                 await handleChartClick({
+                   element: state.activeProduct,
+                   negativeValue: quantityToRemove,
+                   setItemsLoading: () => {},
+                 });
+               }
+             }
+             dispatch(closeModalsAction());
+           },
+         },
       ]}
     >
+      {state.activeProduct?.image && (
+        <ImageContainer>
+          <ProductImage
+            src={state.activeProduct.image}
+            alt={state.activeProduct.title}
+          />
+        </ImageContainer>
+      )}
       {/* <Calendar 
       filterDate={filterPassedDate}
       // highlightDates={[new Date('2023-09-11')]}
-      startDate= {startDate}
-      setStartDate= {setStartDate}
+      selectedDate= {startDate}
+      setSelectedDate= {setStartDate}
       filterTime={filterPassedTime}
       /> */}
       quantidade:
       <br/>
-      <Button label='-' onClick={()=> setCount((prevState) => (prevState > 1 ? prevState - 1 : 1))}/>
+      <CountButtonGroup
+        {...{
+          total: state.chart?.products?.find((chart) => chart.id === state.activeProduct?.id)?.count,
+          onClick: handleChartClick,
+          element: state.activeProduct,
+          contentlabel: "Compra",
+          //emptyLabel: "Remove",
+        }}
+      />
+      {/* <Button label='-' onClick={()=> setCount((prevState) => (prevState > 1 ? prevState - 1 : 1))}/>
       {" " + count + "  "}
-      <Button label='+' onClick={()=> setCount((prevState) => (prevState + 1))}/>
+      <Button label='+' onClick={()=> setCount((prevState) => (prevState + 1))}/> */}
       {/* <p>
 
         <CountButtonGroup

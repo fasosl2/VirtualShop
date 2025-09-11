@@ -1,5 +1,5 @@
 import { closeModalsType, openModalCreateCalendarType, openModalCreateItemType, 
-  openModalCreateProductType, openModalCreateScheduleType, openModalCreateUserType, openModalSaveChartType, 
+  openModalCreateProductType, openModalBuyProductType, openModalCreateUserType, openModalCreatePurchaseType, 
   openModalSaveItemsType } from "../storage/types";
 
 export const openModalCreateProductAction = (product) => ({
@@ -7,8 +7,8 @@ export const openModalCreateProductAction = (product) => ({
     activeProduct: product
   });
 
-export const openModalCreateScheduleAction = (product) => ({
-    type: openModalCreateScheduleType,
+export const openModalBuyProductAction = (product) => ({
+    type: openModalBuyProductType,
     activeProduct: product
   });
   
@@ -32,8 +32,9 @@ export const openModalCreateUserAction = (user) => ({
   activeUser: user
 });
 
-export const openModalSaveChartAction = () => ({
-  type: openModalSaveChartType,
+export const openModalCreatePurchaseAction = (purchase) => ({
+  type: openModalCreatePurchaseType,
+  activePurchase: purchase
 });
 
 export const closeModalsAction = () => ({

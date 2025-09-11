@@ -4,15 +4,22 @@ const checkAuth = async (response) => {
   if (response?.message === "Autentication failed") {
     window.location.href = window.location.origin;
     await userLogout();
-    return null;  
-} 
+    return null;
+  }
   return response;
 };
 
 const api = {
   read: async ({ route }) => {
     const response = await api.get({ route });
-    return response ? response.map((ele) => ({ ...ele, id: ele["_id"] })) : [];
+
+    // Normaliza para garantir que sempre haja "list"
+    const list = (Array.isArray(response) ? response : response.list || []).map(
+      (item) => ({ ...item, id: item._id })
+    );
+
+    // Se o backend retorna metadados, preserva eles
+    return Array.isArray(response) ? list : { ...response, list };
   },
   get: async ({ route, params, header }) => {
     const user = (await getUserToken()) || "";
@@ -25,12 +32,25 @@ const api = {
       },
     };
 
-    const response = await fetch(
-      process.env.REACT_APP_API +
-        route +
-        (params ? "/" + params.join("/") : ""),
-      requestOptions
-    ).then((response) => response.json());
+    // build URL: support array params (legacy) and object params (query string)
+    let url = process.env.REACT_APP_API + route;
+    if (params) {
+      if (Array.isArray(params)) {
+        url += "/" + params.join("/");
+      } else if (typeof params === "object") {
+        const qs = new URLSearchParams();
+        Object.keys(params).forEach((k) => {
+          const v = params[k];
+          if (v !== undefined && v !== null) qs.append(k, v);
+        });
+        const qstr = qs.toString();
+        if (qstr) url += "?" + qstr;
+      }
+    }
+
+    const response = await fetch(url, requestOptions).then((response) =>
+      response.json()
+    );
 
     return checkAuth(response);
   },
@@ -38,7 +58,7 @@ const api = {
     const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "x-access-token": user.token,
       },
@@ -53,11 +73,11 @@ const api = {
 
     return checkAuth(response);
   },
-  put: async ({route, body, params}) => {
+  put: async ({ route, body, params }) => {
     const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "PUT",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
         "x-access-token": user.token,
       },
@@ -66,8 +86,9 @@ const api = {
     };
 
     const response = await fetch(
-      process.env.REACT_APP_API + route +
-      (params ? "/" + params.join("/") : ""),
+      process.env.REACT_APP_API +
+        route +
+        (params ? "/" + params.join("/") : ""),
       requestOptions
     ).then((response) => response.json());
 
@@ -77,10 +98,10 @@ const api = {
     const user = (await getUserToken()) || "";
     let requestOptions = {
       method: "DELETE",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "x-access-token": user.token
-       },
+        "x-access-token": user.token,
+      },
     };
 
     const response = await fetch(

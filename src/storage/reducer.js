@@ -26,11 +26,12 @@ import {
   savePurchasesSuccessType,
   fetchPurchasesSuccessType,
   deletePurchasesSuccessType,
-  openModalCreateScheduleType,
+  openModalBuyProductType,
   saveCalendarsSuccessType,
   deleteCalendarsSuccessType,
   fetchCalendarsSuccessType,
   openModalCreateCalendarType,
+  openModalCreatePurchaseType,
 } from "./types";
 
 export function reducer(state, action) {
@@ -45,7 +46,7 @@ export function reducer(state, action) {
       stateAction.mode = action.type;
       stateAction.activeProduct = action.activeProduct;
       break;
-    case openModalCreateScheduleType:
+    case openModalBuyProductType:
       stateAction.mode = action.type;
       stateAction.activeProduct = action.activeProduct;
       break;
@@ -57,6 +58,10 @@ export function reducer(state, action) {
       stateAction.mode = action.type;
       stateAction.activeCalendar = action.activeCalendar;
       break;
+    case openModalCreatePurchaseType:
+      stateAction.mode = action.type;
+      stateAction.activePurchase = action.activePurchase;
+      break;
     case openModalCreateUserType:
       stateAction.mode = action.type;
       stateAction.activeUser = action.activeUser;
@@ -67,6 +72,7 @@ export function reducer(state, action) {
       stateAction.activeUser = null;
       stateAction.activeItem = null;
       stateAction.activeCalendar = null;
+      stateAction.activePurchase = null;
       stateAction.selectedItems = [];
       break;
     case fetchChartsSuccessType:
@@ -88,20 +94,19 @@ export function reducer(state, action) {
       stateAction.chart = action.payload;
       break;
     case deleteProductsSuccessType:
-      stateAction.products= action.payload;
+      stateAction.products = action.payload;
       break;
     case fetchProductsSuccessType:
-      stateAction.products = [...action.payload];
+      stateAction.products = { ...action.payload };
       break;
     case fetchUsersSuccessType:
-      stateAction.users = [...action.payload];
+      stateAction.users = { ...action.payload };
       break;
     case saveUsersSuccessType:
       stateAction.users = action.payload;
       break;
     case deleteUsersSuccessType:
       stateAction.users = action.payload;
-      break;
     case logoutUsersSuccessType:
       stateAction.currentUser = null;
       break;
@@ -131,7 +136,7 @@ export function reducer(state, action) {
       stateAction.purchases = action.payload;
       break;
     case fetchPurchasesSuccessType:
-      stateAction.purchases = [...action.payload];
+      stateAction.purchases = {...action.payload};
       break;
     case saveCalendarsSuccessType:
       stateAction.calendars = action.payload;

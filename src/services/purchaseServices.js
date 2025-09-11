@@ -1,8 +1,18 @@
 import api from "./apiService";
 
-export const getPurchases = async () => {
-  return await api.read({route: "purchases"});
+export const getPurchases = async (opts) => {
+  const res = await api.get({ route: "purchases", params: opts });
+  if (!res) return { list: [], total: 0, page: opts?.page || 1, pages: 1 };
+
+  const raw = Array.isArray(res.list) ? res.list : Array.isArray(res) ? res : [];
+  const mapped = raw.map((purchase) => ({
+    ...purchase,
+    id: purchase["_id"],
+  }));
+
+  return { ...res, list: mapped };
 };
+
 
 export const savePurchase = async (purchaseData) => {
   if(purchaseData.id){

@@ -24,10 +24,35 @@ import moment from "moment";
 import { savePurchasesAction } from "../../actions/purchasesAction";
 import { Notification } from "../../components/Notification/Notification";
 import utilService from "../../services/utilService";
+import { Form } from "react-bootstrap";
 
 export const ChartPage = () => {
   const { state, dispatch } = useAppContext();
 
+  const [deliveryDate, setDeliveryDate] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("A Combinar");
+
+  useEffect(() => {
+    if (state.currentUser?.deliveryDay) {
+      const dayMap = {
+        Domingo: 0,
+        "Segunda-feira": 1,
+        "Terça-feira": 2,
+        "Quarta-feira": 3,
+        "Quinta-feira": 4,
+        "Sexta-feira": 5,
+        Sábado: 6,
+      };
+      const targetDayIndex = dayMap[state.currentUser.deliveryDay];
+
+      if (typeof targetDayIndex === "number") {
+        const nextDate = moment();
+        let daysToAdd = (targetDayIndex - nextDate.day() + 7) % 7;
+        if (daysToAdd === 0) daysToAdd = 7; // Always schedule for the next upcoming day
+        setDeliveryDate(nextDate.add(daysToAdd, "days"));
+      }
+    }
+  }, [state.currentUser]);
   const [showFeedback, setShowFeedback] = useState(false);
   const handleShowFeedback = async (message) => {
     setShowFeedback(message);
@@ -81,12 +106,12 @@ export const ChartPage = () => {
     }else {
       savePurchasesAction(dispatch, {
         user: state?.currentUser?._id,
-        products: state.chart?.products?.map((product) => ({
-          id: product.id,
-          count: product.count,
-          date: product.startDate,
-          onClick: handleChartClick,
-        })),
+        deliveryDate: deliveryDate,
+        paymentStatus: 'Pendente',
+        deliveryStatus: 'Pendente',
+        paymentMethod: paymentMethod,
+        // Envia para o backend apenas os campos necessários
+        products: state.chart?.products?.map(({ id, count }) => ({ id, count })),
       });
       deleteChartAction(dispatch);
       handleShowFeedback('success');
@@ -131,20 +156,49 @@ export const ChartPage = () => {
             </Row>
             <Row className="p-3">
               <Row className="p-0 m-0">
-                <Col>Produtos</Col>
+                <Col><strong>Produtos</strong></Col>
               </Row>
               <Row className="p-0 m-0">
-                <Col className="col-8">Total: R$ </Col>
-                <Col className="col-4">
-                  {state.chart?.products.length
+                <Col className="col-5">Total:</Col>
+                <Col className="col-7">
+                  R$ {state.chart?.products.length
                     ? Number(
                         state.chart?.products.reduce(
                           (total, product) =>
                             product.price * product.count + total,
                           0
                         )
-                      ).toFixed(2)
+                      ).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
                     : "----"}
+                </Col>
+              </Row>
+              <Row className="p-0 m-0 mt-2">
+                <Col className="col-5">Data de Entrega: </Col>
+                <Col className="col-7">
+                  {deliveryDate
+                    ? deliveryDate.format("DD/MM/YYYY")
+                    : "Indefinida"}
+                    <p>{state.currentUser?.deliveryDay}</p>
+                </Col>
+              </Row>
+              <Row className="p-0 m-0 mt-3">
+                <Col xs={12}>
+                  <Form.Group>
+                    <Form.Label><strong>Forma de Pagamento</strong></Form.Label>
+                    <Form.Select
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    >
+                      <option value="A Combinar">A Combinar</option>
+                      <option value="Pix">Pix</option>
+                      <option value="Cartão de Crédito">Cartão de Crédito</option>
+                      <option value="Cartão de Crédito">Cartão de Débito</option>
+                      <option value="Dinheiro">Dinheiro</option>
+                    </Form.Select>
+                  </Form.Group>
                 </Col>
               </Row>
               {/* <Row className="p-0 m-0">

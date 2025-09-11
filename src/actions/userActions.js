@@ -32,9 +32,9 @@ export const fetchUsersSuccessAction = (users) => ({
   payload: users,
 });
 
-export const fetchUsersAction = async (dispatch) => {
+export const fetchUsersAction = async (dispatch, opts) => {
   dispatch(fetchUsersInitAction());
-  const users = await getUsers();
+  const users = await getUsers(opts);
   dispatch(fetchUsersSuccessAction(users));
 };
 export const saveUsersInitAction = () => ({
