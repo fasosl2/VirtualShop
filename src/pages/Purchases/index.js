@@ -32,7 +32,7 @@ export const Purchases = () => {
     customerName: "",
     deliveryDay: "",
   });
-  const [apiFilters, setApiFilters] = useState({});
+  const [apiFilters, setApiFilters] = useState({customerName: ["Master", "Gestor"].includes(state?.currentUser?.type) ? null : state?.currentUser?.name});
   const [showDateModal, setShowDateModal] = useState(false);
   const [customStartDate, setCustomStartDate] = useState(null);
   const [customEndDate, setCustomEndDate] = useState(null);
@@ -40,8 +40,12 @@ export const Purchases = () => {
   
   const purchasesArray = state.purchases?.list || [];
 
-  // A lógica de processamento foi removida, pois a filtragem e autorização são feitas no backend.
-  const purchasesProcessed = purchasesArray;
+  const purchasesProcessed = purchasesArray.filter((purchase) =>
+    ["Master", "Gestor"].includes(state?.currentUser?.type) ||
+    state?.currentUser?._id === purchase?.user?._id
+      ? purchase
+      : false
+  );
 
   const productTotals = useMemo(() => {
     if (!purchasesProcessed || purchasesProcessed.length === 0) {
@@ -285,18 +289,21 @@ export const Purchases = () => {
                 </Button>
               </Col>
             )}
-            <Col md={2} sm={6}>
-              <Form.Group>
-                <Form.Label>Nome do Cliente</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="customerName"
-                  value={filters.customerName}
-                  onChange={handleFilterChange}
-                  placeholder="Ex: João Silva"
-                />
-              </Form.Group>
-            </Col>
+            {["Master", "Gestor"].includes(state?.currentUser?.type) &&
+                (
+              <Col md={2} sm={6}>
+                <Form.Group>
+                  <Form.Label>Nome do Cliente</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="customerName"
+                    value={filters.customerName}
+                    onChange={handleFilterChange}
+                    placeholder="Ex: João Silva"
+                  />
+                </Form.Group>
+              </Col>
+            )}
             <Col md={2} sm={6}>
               <Form.Group>
                 <Form.Label>Nome do Produto</Form.Label>
@@ -309,21 +316,25 @@ export const Purchases = () => {
                 />
               </Form.Group>
             </Col>
-            <Col md={2} sm={6}>
-              <Form.Group>
-                <Form.Label>Dia de Entrega</Form.Label>
-                <Form.Select name="deliveryDay" value={filters.deliveryDay} onChange={handleFilterChange}>
-                  <option value="">Todos</option>
-                  <option value="Domingo">Domingo</option>
-                  <option value="Segunda-feira">Segunda-feira</option>
-                  <option value="Terça-feira">Terça-feira</option>
-                  <option value="Quarta-feira">Quarta-feira</option>
-                  <option value="Quinta-feira">Quinta-feira</option>
-                  <option value="Sexta-feira">Sexta-feira</option>
-                  <option value="Sábado">Sábado</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
+            
+            {["Master", "Gestor"].includes(state?.currentUser?.type) &&
+                (
+              <Col md={2} sm={6}>
+                <Form.Group>
+                  <Form.Label>Dia de Entrega</Form.Label>
+                  <Form.Select name="deliveryDay" value={filters.deliveryDay} onChange={handleFilterChange}>
+                    <option value="">Todos</option>
+                    <option value="Domingo">Domingo</option>
+                    <option value="Segunda-feira">Segunda-feira</option>
+                    <option value="Terça-feira">Terça-feira</option>
+                    <option value="Quarta-feira">Quarta-feira</option>
+                    <option value="Quinta-feira">Quinta-feira</option>
+                    <option value="Sexta-feira">Sexta-feira</option>
+                    <option value="Sábado">Sábado</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            )}
             <Col md={3} sm={12} className="d-flex gap-2 ms-auto">
               <Button type="submit" className="w-100">Filtrar</Button>
               <Button variant="secondary" onClick={handleClearFilters} className="w-100">Limpar</Button>
