@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Form } from "react-bootstrap";
-import { useAppContext } from "../../storage/AppContext";
+import { useAppContext, AppContextProvider } from "../../storage/AppContext";
 import { deleteProductsFromChartAction, saveProductsAction, saveProductsInChartAction } from "../../actions/productActions";
 import {
-  closeModalsAction, openModalSaveItemsAction,
+  closeModalsAction, openModalBuyProductAction, openModalSaveItemsAction,
 } from "../../actions/modalsActions";
 import {
   closeModalsType,
@@ -17,18 +17,32 @@ import userLogo from "../../assets/user-logo.png"
 import { Calendar } from "../../components/Calendar";
 import { Button } from "../../components/Button";
 import { CountButtonGroup } from "../../components/CountButtonGroup";
-import { ImageContainer, ProductImage } from "./styles";
+import { GalleryContainer, ImageContainer, ProductImage, Thumbnail, ThumbnailContainer } from "./styles";
+import { getProducts } from "../../services/productServices";
 
 export const ModalCreateSchedule = ({ open }) => {
   const { state, dispatch } = useAppContext();
   const [startDate, setStartDate] = useState(new Date());
   const [count, setCount] = useState(1);
+  const [relatedProducts, setRelatedProducts] = useState([]);
   
 
   useEffect(() => {
     if (state.type === closeModalsType) {
       setStartDate(new Date());
       setCount(1);
+      setRelatedProducts([]);
+    }
+    if (open && state.activeProduct) {
+      const fetchRelated = async () => {
+        let baseId = state?.activeProduct?.variant?.baseID || state?.activeProduct?._id;
+                
+        if (baseId) {
+          const result = await getProducts({ 'baseID': baseId });
+          setRelatedProducts(result?.list || []);
+        }
+      };
+      fetchRelated();
     }
   }, [state.type, state.activeProduct, dispatch]);
 
@@ -106,6 +120,7 @@ export const ModalCreateSchedule = ({ open }) => {
          },
       ]}
     >
+      <h5>{state?.activeProduct?.title}</h5>
       {state.activeProduct?.image && (
         <ImageContainer>
           <ProductImage
@@ -113,6 +128,19 @@ export const ModalCreateSchedule = ({ open }) => {
             alt={state.activeProduct.title}
           />
         </ImageContainer>
+      )}
+      {relatedProducts.length > 0 && (
+        <GalleryContainer>
+          <ThumbnailContainer>
+            {relatedProducts.map(prod => (
+              <Thumbnail 
+                key={prod.id} 
+                src={prod.image} 
+                onClick={() => dispatch(openModalBuyProductAction(prod))}
+              />
+            ))}
+          </ThumbnailContainer>
+        </GalleryContainer>
       )}
       {/* <Calendar 
       filterDate={filterPassedDate}

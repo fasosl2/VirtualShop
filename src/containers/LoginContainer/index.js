@@ -40,7 +40,12 @@ export const LoginContainer = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    loginUsersAction(dispatch, { ...loginData });
+    const payload = { ...loginData };
+    // Se não contiver letras, remove a formatação para enviar apenas os números
+    if (!/[a-zA-Z]/.test(payload.email)) {
+      payload.email = payload.email.replace(/\D/g, "");
+    }
+    loginUsersAction(dispatch, payload);
   };
 
   const handleLogoutSubmit = async (e) => {
@@ -58,13 +63,38 @@ export const LoginContainer = () => {
     authUsersAction(dispatch);
   }, [dispatch]);
 
-  const handleChange = (e, field) =>
-    setLoginData((prevState) => ({
-      ...prevState,
-      [field]: e.target?.files?.length ? e.target.files[0] : e.target.value,
-    }));
+  const handleChange = (e, field) => {
+    let { value } = e.target;
 
-  const propertesMap = [
+    if (field === "email") {
+      const onlyNumbers = value.replace(/\D/g, "");
+
+      // Se o valor não contiver letras, consideramos que é um telefone
+      if (!/[a-zA-Z]/.test(value)) {
+        let formatted = onlyNumbers;
+
+        // Adiciona DDD 81 se o usuário digitar 8 ou 9 números
+        if (formatted.length === 8 || formatted.length === 9) {
+          formatted = "81" + formatted;
+        }
+
+        // Aplica a máscara (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+        formatted = formatted.slice(0, 11);
+        if (formatted.length > 10) {
+          value = formatted.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+        } else if (formatted.length > 6) {
+          value = formatted.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+        } else if (formatted.length > 2) {
+          value = formatted.replace(/(\d{2})(\d+)/, "($1) $2");
+        } else {
+          value = formatted;
+        }
+      }
+    }
+    setLoginData((prevState) => ({ ...prevState, [field]: value }));
+  };
+
+  const propertiesMap = [
     {
       prop: "name",
       name: "nome",
@@ -76,6 +106,10 @@ export const LoginContainer = () => {
     {
       prop: "type",
       name: "tipo",
+    },
+    {
+      prop: "phone",
+      name: "telefone",
     },
   ];
 
@@ -90,7 +124,7 @@ export const LoginContainer = () => {
           <Container>
             <LoginImage src={state.currentUser?.image} alt="no image" />
             <p>
-              {propertesMap.map((ele) => (
+              {propertiesMap.map((ele) => (
                 <span key={ele.prop}>
                   {ele.name + ": " + state.currentUser[ele.prop]}
                   <br />
@@ -112,11 +146,11 @@ export const LoginContainer = () => {
             <H6>Faça seu login</H6>
             <Form onSubmit={handleLoginSubmit} id="login-form">
               <Form.Group className="mb-3" controlId="loginForm">
-                <label>email</label>
+                <label>usuário</label>
                 <FormControl
                   type="text"
                   required
-                  placeholder="seuemail@email.com"
+                  placeholder="Telefone ou email"
                   value={loginData?.email}
                   onChange={(e) => handleChange(e, "email")}
                 />

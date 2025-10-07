@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
-import { Form } from "react-bootstrap";
+import { Form, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveUsersAction } from "../../actions/userActions";
 import {
@@ -20,18 +20,42 @@ export const ModalCreateUser = ({ open }) => {
   const initialUser = useRef({
       name: "",
       cpf: "",
+      phone: "",
       email: "",
-      address: "",
+      address: {
+        street: "",
+        number: "",
+        neighborhood: "",
+        city: "",
+        uf: "",
+        referencePoint: "",
+      },
+      observations: "",
       password: "",
       type: "Cliente",
       image: "",
       deliveryDay: "",
+      frequency: "",
+      status: "Ativo",
     });
   const [userData, setUserData] = useState(initialUser.current);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    saveUsersAction(dispatch, { ...userData, image: image });
+    const { address, ...rest } = userData;
+    const payload = {
+      ...rest,
+      image: userData.image,
+      address: {
+        street: address.street,
+        number: address.number,
+        neighborhood: address.neighborhood,
+        city: address.city,
+        uf: address.uf,
+        referencePoint: address.referencePoint,
+      },
+    };
+    saveUsersAction(dispatch, payload);
   };
 
   useEffect(() => {
@@ -44,7 +68,19 @@ export const ModalCreateUser = ({ open }) => {
       setUserData(initialUser.current);
     }
     if (state?.activeUser?.id && userData === initialUser.current) {
-      setUserData((prevState) => ({ ...prevState, ...state.activeUser }));
+      const { address, ...rest } = state.activeUser;
+      setUserData((prevState) => ({
+        ...prevState,
+        ...rest,
+        address: {
+          street: address?.street || address?.rua || "",
+          number: address?.number || address?.numero || "",
+          neighborhood: address?.neighborhood || address?.bairro || "",
+          city: address?.city || address?.cidade || "",
+          uf: address?.uf || address?.estado || "",
+          referencePoint: address?.referencePoint || address?.pontoReferencia || "",
+        },
+      }));
     }
     
     if(userData?.image?.name) {
@@ -60,7 +96,15 @@ export const ModalCreateUser = ({ open }) => {
     }
   }, [state.type, state.activeUser, dispatch, userData.image]);
 
-  const handleChange = (e, field) => setUserData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
+  const handleChange = (e, field, subField = null) => {
+    const { value } = e.target;
+    setUserData((prevState) => {
+      if (subField) {
+        return { ...prevState, [field]: { ...prevState[field], [subField]: value } };
+      }
+      return { ...prevState, [field]: field === 'image' ? e.target.files[0] : value };
+    });
+  };
 
   return (
     <Modal
@@ -105,6 +149,13 @@ export const ModalCreateUser = ({ open }) => {
           />
           <br />
           <Form.Control
+            type="text"
+            placeholder="Telefone"
+            value={userData?.phone}
+            onChange={(e) => handleChange(e, "phone")}
+          />
+          <br />
+          <Form.Control
             type="email"
             required
             placeholder="E-mail"
@@ -122,38 +173,123 @@ export const ModalCreateUser = ({ open }) => {
             onChange={(e) => handleChange(e, "password")}
           />
           <br />
+          <Row className="w-100">
+            <Col md={9}>
+              <Form.Control
+                type="text"
+                placeholder="Rua"
+                value={userData?.address?.street}
+                onChange={(e) => handleChange(e, "address", "street")}
+              />
+            </Col>
+            <Col>
+              <Form.Control
+                type="text"
+                placeholder="Número"
+                value={userData?.address?.number}
+                onChange={(e) => handleChange(e, "address", "number")}
+              />
+            </Col>
+          </Row>
+          <br />
+          <Row className="w-100">
+            <Col md={3}>
+              <Form.Control
+                type="text"
+                placeholder="Bairro"
+                value={userData?.address?.neighborhood}
+                onChange={(e) => handleChange(e, "address", "neighborhood")}
+              />
+            </Col>
+            <Col md={7}>
+              <Form.Control
+                type="text"
+                placeholder="Cidade"
+                value={userData?.address?.city}
+                onChange={(e) => handleChange(e, "address", "city")}
+              />
+            </Col>
+            <Col>
+              <Form.Control
+                type="text"
+                placeholder="Estado (UF)"
+                value={userData?.address?.uf}
+                onChange={(e) => handleChange(e, "address", "uf")}
+              />
+            </Col>
+          </Row>
+          <br />
           <Form.Control
-            as="textarea" rows={3}
-            required
-            placeholder="Endereço"
-            value={userData?.address}
-            onChange={(e) => handleChange(e, "address")}
+            type="text"
+            placeholder="Ponto de Referência"
+            value={userData?.address?.referencePoint}
+            onChange={(e) => handleChange(e, "address", "referencePoint")}
           />
           <br />
-          <Form.Select
-            value={userData?.deliveryDay}
-            onChange={(e) => handleChange(e, "deliveryDay")}
-          >
-            <option value="">Selecione um dia</option>
-            <option value="Domingo">Domingo</option>
-            <option value="Segunda-feira">Segunda-feira</option>
-            <option value="Terça-feira">Terça-feira</option>
-            <option value="Quarta-feira">Quarta-feira</option>
-            <option value="Quinta-feira">Quinta-feira</option>
-            <option value="Sexta-feira">Sexta-feira</option>
-            <option value="Sábado">Sábado</option>
-          </Form.Select>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            placeholder="Observações"
+            value={userData?.observations}
+            onChange={(e) => handleChange(e, "observations")}
+          />
+          <br />          
+          <Row className="w-100">
+            <Col>
+              <Form.Label>Dia de Entrega</Form.Label>
+              <Form.Select
+                value={userData?.deliveryDay}
+                onChange={(e) => handleChange(e, "deliveryDay")}
+              >
+                <option value="">Selecione um dia</option>
+                <option value="Domingo">Domingo</option>
+                <option value="Segunda-feira">Segunda-feira</option>
+                <option value="Terça-feira">Terça-feira</option>
+                <option value="Quarta-feira">Quarta-feira</option>
+                <option value="Quinta-feira">Quinta-feira</option>
+                <option value="Sexta-feira">Sexta-feira</option>
+                <option value="Sábado">Sábado</option>
+              </Form.Select>
+            </Col>
+            <Col>
+              <Form.Label>Frequência</Form.Label>
+              <Form.Select
+                value={userData?.frequency}
+                onChange={(e) => handleChange(e, "frequency")}
+              >
+                <option value="">Nenhuma</option>
+                <option value="Semanal">Semanal</option>
+                <option value="Quinzenal">Quinzenal</option>
+                <option value="Mensal">Mensal</option>
+              </Form.Select>
+            </Col>
+          </Row>
           <br />
-          {["Master", "Gestor"].includes(state?.currentUser?.type) &&
-          (<Form.Select
-            required
-            value={userData?.type}
-            onChange={(e) => handleChange(e, "type")}
-          >
-            <option>Master</option>
-            <option>Gestor</option>
-            <option>Cliente</option>
-          </Form.Select>)}
+          <Row className="w-100">
+            <Col>
+              <Form.Label>Status</Form.Label>
+              <Form.Select
+                value={userData?.status || 'Ativo'}
+                onChange={(e) => handleChange(e, "status")}
+              >
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+          </Form.Select>
+            </Col>
+            {["Master", "Gestor"].includes(state?.currentUser?.type) &&
+            (<Col>
+              <Form.Label>Tipo de usuário</Form.Label>
+              <Form.Select
+                required
+                value={userData?.type}
+                onChange={(e) => handleChange(e, "type")}
+              >
+                <option>Master</option>
+                <option>Gestor</option>
+                <option>Cliente</option>
+              </Form.Select>
+            </Col>)}
+          </Row>
         </Form.Group>
       </Form>
     </Modal>

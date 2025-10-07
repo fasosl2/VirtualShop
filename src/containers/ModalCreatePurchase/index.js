@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { Modal } from "../../components/Modal/Modal";
-import { Form, Row, Col, Button, Dropdown, InputGroup, ListGroup } from "react-bootstrap";
+import { Form, Row, Col, Button, Dropdown, InputGroup, ListGroup, FormControl } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { closeModalsAction } from "../../actions/modalsActions";
 import {
@@ -11,8 +11,10 @@ import {
 import { savePurchasesAction } from "../../actions/purchasesAction";
 import { fetchUsersAction } from "../../actions/userActions";
 import { fetchProductsAction } from "../../actions/productActions";
+import { getPurchases } from "../../services/purchaseServices";
 import { Calendar } from "../../components/Calendar";
 import { Pagination } from "../../components/Pagination";
+import utilService from "../../services/utilService";
 import { CountButtonGroup } from "../../components/CountButtonGroup";
 
 export const ModalCreatePurchase = ({ open }) => {
@@ -26,6 +28,12 @@ export const ModalCreatePurchase = ({ open }) => {
     paymentStatus: 'Pendente',
     deliveryStatus: 'Pendente',
     paymentMethod: 'A Combinar',
+    discount: 0,
+    observations: '',
+    recurrence: {
+      isBase: 'Não',
+      baseID: ''
+    },
   });
 
   const [customerFilter, setCustomerFilter] = useState('');
@@ -34,6 +42,12 @@ export const ModalCreatePurchase = ({ open }) => {
   const [apiProductFilter, setApiProductFilter] = useState('');
   const [productPage, setProductPage] = useState(1);
   const [productLimit, setProductLimit] = useState(5); // A smaller limit for the modal view
+  const [basePurchases, setBasePurchases] = useState([]);
+
+  const baseProducts = useMemo(() => {
+    if (!productsData?.list) return [];
+    return productsData.list.filter(p => p.recurrence?.isBase === 'Sim');
+  }, [productsData?.list]);
 
   const deliveryDayOfWeek = useMemo(() => {
     if (!purchaseData.deliveryDate) return '';
@@ -58,6 +72,18 @@ export const ModalCreatePurchase = ({ open }) => {
     );
   }, [users?.list, customerFilter]);
 
+  const totalPrice = useMemo(() => {
+    return purchaseData.products.reduce((acc, product) => {
+      const price = parseFloat(product.price || product.id?.price || 0);
+      return acc + (price * product.count);
+    }, 0);
+  }, [purchaseData.products]);
+
+  const finalPrice = useMemo(() => {
+    const discount = Number(purchaseData.discount) || 0;
+    return totalPrice - discount;
+  }, [totalPrice, purchaseData.discount]);
+
   const isFormInvalid = useMemo(() => {
     return (
       !purchaseData.user ||
@@ -68,12 +94,7 @@ export const ModalCreatePurchase = ({ open }) => {
 
   useEffect(() => {
     // Fetch users and products if not available
-    if (open) {
-      if (!users?.list?.length) {
-        fetchUsersAction(dispatch, { limit: 0 });
-      }
-    }
-
+    fetchUsersAction(dispatch, { limit: 0 });
     // Populate form when editing
     if (isEditing) {
       setPurchaseData({
@@ -83,28 +104,45 @@ export const ModalCreatePurchase = ({ open }) => {
           : null,
         products:
           activePurchase.products?.map((p) => ({
-            id: p.id._id,
+            id: p.productDetails._id,
             count: p.count,
-            title: p.id.title,
-            image: p.id.image,
-            price: p.id.price,
+            title: p.productDetails.title,
+            image: p.productDetails.image,
+            price: p.productDetails.price,
           })) || [],
         paymentStatus: activePurchase.paymentStatus || 'Pendente',
         deliveryStatus: activePurchase.deliveryStatus || 'Pendente',
         paymentMethod: activePurchase.paymentMethod || 'A Combinar',
+        discount: activePurchase.discount || 0,
+        observations: activePurchase.observations || '',
+        recurrence: {
+          isBase: activePurchase.recurrence?.isBase || 'Não',
+          baseID: activePurchase.recurrence?.baseID || ''
+        }
       });
-    }
-
-    // Reset form on close
-    if (state.type === closeModalsType) {
-      setPurchaseData({ user: "", deliveryDate: null, products: [] });
+    } else if (state.type === closeModalsType) {
+      setPurchaseData({
+        user: "",
+        deliveryDate: null,
+        products: [],
+        paymentStatus: 'Pendente',
+        deliveryStatus: 'Pendente',
+        paymentMethod: 'A Combinar',
+        discount: 0,
+        observations: '',
+        recurrence: {
+          isBase: 'Não',
+          baseID: ''
+        },
+      });
       setCustomerFilter('');
       setProductSearch('');
       setApiProductFilter('');
       setProductPage(1);
+      setBasePurchases([]);
       setProductLimit(5);
     }
-  }, [open, isEditing, activePurchase, state.type, dispatch, users?.list?.length]);
+  }, [open, isEditing, activePurchase, dispatch]);
 
   // Fetch products when modal is open, page or filter changes
   useEffect(() => {
@@ -117,9 +155,18 @@ export const ModalCreatePurchase = ({ open }) => {
         fetchOpts.title = apiProductFilter;
       }
       fetchProductsAction(dispatch, fetchOpts);
+
+      const fetchBasePurchases = async () => {
+        // limit: 0 para buscar todos, sem paginação
+        const result = await getPurchases({ 'recurrence.isBase': 'Sim', limit: 0 });
+        if (result?.list) {
+          setBasePurchases(result.list);
+        }
+      };
+      fetchBasePurchases();
     }
   }, [open, productPage, apiProductFilter, dispatch, productLimit]);
-  
+
   useEffect(() => {
     if (state.type === savePurchasesSuccessType) {
       dispatch(closeModalsAction());
@@ -187,8 +234,11 @@ export const ModalCreatePurchase = ({ open }) => {
     e.preventDefault();
     const payload = {
       ...purchaseData,
-      // Garante que o backend receba apenas os campos necessários
+            // Garante que o backend receba apenas os campos necessários
       products: purchaseData.products.map(({ id, count }) => ({ id, count })),
+      discount: Number(purchaseData.discount) || 0,
+      observations: purchaseData.observations || '',
+
     };
     if (isEditing) {
       payload.id = activePurchase._id;
@@ -316,7 +366,7 @@ export const ModalCreatePurchase = ({ open }) => {
             </Form.Group>
           </Col>
         </Row>
-
+        
         <Row>
           <Col md={6}>
             <h5>Produtos no Pedido</h5>
@@ -335,6 +385,77 @@ export const ModalCreatePurchase = ({ open }) => {
                  {purchaseData.products.length === 0 && 
                   <p className="text-muted p-2">Nenhum produto adicionado.</p>}
               </ListGroup>
+            </div>
+            <hr />
+            <div>
+              <p className="d-flex justify-content-between">
+                <span>Subtotal:</span>
+                <span>{utilService.formatCurrency(totalPrice)}</span>
+              </p>
+              <Form.Group as={Row} className="mb-2 align-items-center">
+                <Form.Label column sm="5" className="text-danger">Desconto (R$):</Form.Label>
+                <Col sm="7">
+                  <FormControl type="number" name="discount" value={purchaseData.discount} onChange={(e) => setPurchaseData(prev => ({ ...prev, discount: e.target.value }))} placeholder="0,00" />
+                </Col>
+              </Form.Group>
+              <h5 className="d-flex justify-content-between">
+                <span>Total:</span>
+                <span>{utilService.formatCurrency(finalPrice)}</span>
+              </h5>
+              <br />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Observações"
+                value={purchaseData?.observations}
+                onChange={(e) => setPurchaseData(prev => ({ ...prev, observations: e.target.value }))}
+              />
+              <Row className="mt-3">
+                <Col md={4}>
+                  <Form.Group>
+                    <Form.Label>É a base de um pedido recorrente?</Form.Label>
+                    <div>
+                      <Form.Check
+                        inline
+                        disabled={purchaseData?.recurrence?.baseID?.length}
+                        type="radio"
+                        label="Sim"
+                        name="isBase"
+                        value="Sim"
+                        checked={purchaseData?.recurrence?.isBase === 'Sim'}
+                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, isBase: e.target.value } }))}
+                      />
+                      <Form.Check
+                        inline
+                        type="radio"
+                        label="Não"
+                        name="isBase"
+                        value="Não"
+                        checked={purchaseData?.recurrence?.isBase === 'Não'}
+                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, isBase: e.target.value } }))}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+                {purchaseData?.recurrence?.isBase !== 'Sim' && (
+                  <Col md={8}>
+                    <Form.Group>
+                      <Form.Label>Pedido base</Form.Label>
+                      <Form.Select
+                        disabled={true}
+                        name="baseID"
+                        value={purchaseData?.recurrence?.baseID}
+                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, baseID: e.target.value } }))}
+                      >
+                        <option value="">Nenhum</option>
+                        {basePurchases.map(p => (
+                          <option key={p._id} value={p._id}>Pedido #{p._id} - {p.user.name}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                )}
+              </Row>
             </div>
           </Col>
           <Col md={6}>
@@ -376,4 +497,4 @@ export const ModalCreatePurchase = ({ open }) => {
       </Form>
     </Modal>
   );
-};
+  }

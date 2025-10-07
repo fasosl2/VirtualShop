@@ -32,7 +32,7 @@ export const CountButtonGroup = ({
         ""
       )}
 
-      {total ? (
+      
         <>
           <Button
             variant="light"
@@ -48,7 +48,7 @@ export const CountButtonGroup = ({
           />
 
           <Button
-            label={total}
+            label={total || 0}
             badge="secondary"
             loadingLabel=""
             variant="light"
@@ -67,9 +67,7 @@ export const CountButtonGroup = ({
             }
           />
         </>
-      ) : (
-        ""
-      )}
+      
     </ButtonGroup>
   );
 };

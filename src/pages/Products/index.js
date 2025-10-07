@@ -1,4 +1,4 @@
-import { Row } from "react-bootstrap";
+import { Row, Col, Form, Button, Container } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { ProductCard } from "../../components/ProductCard";
 import {
@@ -6,6 +6,7 @@ import {
   openModalBuyProductType,
   openModalSaveItemsType,
   saveProductsSuccessType,
+  openModalCreateCategoriesType,
 } from "../../storage/types";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
@@ -15,7 +16,7 @@ import {
   saveProductsInChartAction,
   fetchProductsAction,
 } from "../../actions/productActions";
-
+import { fetchCategoriesAction } from "../../actions/categoriesActions";
 import { fetchChartsAction } from "../../actions/chartActions";
 import {
   openModalCreateProductAction,
@@ -26,30 +27,77 @@ import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 import { ProductCol, ProductContainer } from "./styles";
 import { ModalCreateSchedule } from "../../containers/ModalBuyProduct";
+
 import { ContentDiv } from "../../styles/global";
 import { Pagination } from "../../components/Pagination";
+import { ModalCreateCategories } from "../../containers/ModalCreateCategories";
 
 export const Products = () => {
   const { state, dispatch } = useAppContext();
   const [showFeedback, setShowFeedback] = useState(false);
   // pagination
   const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(state.products?.pages);
-  const [limit, setLimit] = useState(10);
+  const [filters, setFilters] = useState({
+    categories: "",
+    title: "",
+  });
+  const [pages, setPages] = useState(state.products?.pages);  
+  const [limit, setLimit] = useState(10);  
 
   // expect paginated response: state.products = { list, total, page, pages }
   const productsArray = state.products?.list || [];
-
   const productsTotalized = productsArray.map((product) => ({
     ...product,
     total: state.chart?.products?.find((chart) => chart.id === product.id)
       ?.count,
   }));
+  const [apiFilters, setApiFilters] = useState({});
 
   useEffect(() => {
-    fetchProductsAction(dispatch, { page, limit });
+    fetchProductsAction(dispatch, { page, limit,...apiFilters });
     fetchChartsAction(dispatch);
-  }, [dispatch, page, pages, limit]);
+  }, [dispatch, pages, page, limit, apiFilters]);
+
+
+  useEffect(() => {
+    fetchCategoriesAction(dispatch);
+  }, [dispatch]);
+  
+
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+const handleClearFilters = () => {
+    setFilters({
+    categories: "",
+    title: "",
+  });
+    setApiFilters({});
+    setPage(1);
+  };
+  const handleApplyFilters = () => {
+    const newFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+      if (value) {        
+        acc[key] = value;
+      }
+      return acc;
+    }, {});
+    setPage(1);
+    setApiFilters(newFilters);
+    fetchProductsAction(dispatch, { page: 1, limit, ...newFilters });
+  };
+
+  const handleCategory = (e) => {
+    e.preventDefault();
+
+    const name= e.target.name;
+    const value = e.target.value
+    setApiFilters((prev) => ({
+      ...prev,      [name]: value,
+    }));
+  };
 
   const handleShowFeedback = async () => {
     setShowFeedback(true);
@@ -77,7 +125,7 @@ export const Products = () => {
   };
 
   const handleBuyProduct = async (product) => {
-    await saveProductsInChartAction(dispatch, product);
+    //await saveProductsInChartAction(dispatch, product);
     dispatch(openModalBuyProductAction(product));
   };
 
@@ -85,12 +133,15 @@ export const Products = () => {
     if (state.type === saveProductsSuccessType) {
       handleShowFeedback();
     }
+    setPages(state.products?.pages || 1);
   }, [state.type]);
 
   return (
     <ContentDiv>
       <ModalCreateSchedule open={state.mode === openModalBuyProductType} />
+      {/*<ModalCreateCategories open={state.mode === openModalCreateCategoriesType} />*/}
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
+      <ModalCreateCategories open={state.mode === openModalCreateCategoriesType} />
       {/* <ModalSaveItems open={state.mode === openModalSaveItemsType} /> */}
       {["Master", "Gestor"].includes(state?.currentUser?.type) && (
         <FloatingPillButton label="+" onClick={handleCreateOrUpdate} />
@@ -104,7 +155,50 @@ export const Products = () => {
           }}
         />
       )}
-      <ProductContainer fluid>
+       <Container>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleApplyFilters();
+          }}
+        >
+          <Row className="align-items-end mb-3 gy-3">
+            <Col md={3}>
+              <Form.Group>
+                <Form.Label>Categoria</Form.Label>
+                <Form.Select name="categories" value={filters.categories} onChange={handleFilterChange}>
+                  <option value={null}>Todos</option>
+                  {state?.categories?.list?.map(category => 
+                    (<option value={category._id}>{category.name}</option>))}
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col md={3}>
+              <Form.Group>
+                <Form.Label>Título</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="title"
+                  value={filters.title}
+                  onChange={handleFilterChange}
+                  placeholder="Ex: Cesta básica"
+                />
+              </Form.Group>
+            </Col>
+            <Col md={3} className="d-flex gap-2 ms-auto">
+              <Button type="submit" className="w-100">
+                Filtrar
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleClearFilters}
+                className="w-100">
+                  Limpar
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Container><ProductContainer fluid>
         <Row>
           {productsTotalized.map((product) => (
             <ProductCol
@@ -171,5 +265,6 @@ export const Products = () => {
         itemsArray={productsArray}
       />
     </ContentDiv>
+
   );
 };

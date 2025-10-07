@@ -1,6 +1,6 @@
-import { closeModalsType, openModalCreateCalendarType, openModalCreateItemType, 
+import { closeModalsType, openModalCreateCalendarType, openModalCreateItemType,
   openModalCreateProductType, openModalBuyProductType, openModalCreateUserType, openModalCreatePurchaseType, 
-  openModalSaveItemsType } from "../storage/types";
+  openModalSaveItemsType, openModalCreateCategoriesType, showLoaderType, hideLoaderType } from "../storage/types";
 
 export const openModalCreateProductAction = (product) => ({
     type: openModalCreateProductType,
@@ -27,6 +27,11 @@ export const openModalSaveItemsAction = (selectedItems) => ({
   selectedItems: selectedItems
 });
   
+export const openModalCreateCategoriesAction = (category) => ({
+  type: openModalCreateCategoriesType,
+  activeCategory: category
+});
+
 export const openModalCreateUserAction = (user) => ({
   type: openModalCreateUserType,
   activeUser: user

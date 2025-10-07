@@ -26,7 +26,16 @@ const utilService = {
   sleep: (time) =>
     new Promise((resolve) => {
       setTimeout(resolve, time);
-    })
+    }),
+  formatCurrency: (value) => {
+    if (typeof value !== 'number') {
+      return 'R$ 0,00';
+    }
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
+  },
 };
 
 export default utilService;

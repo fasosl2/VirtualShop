@@ -10,6 +10,7 @@ import { Purchases } from "./pages/Purchases";
 //import { Calendar } from "./pages/Calendar";
 import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
+import { GlobalLoader } from "./components/GlobalLoader";
 //import { AboutPage } from "./pages/About";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   activeCalendar: null,
   // activeItem: null,
   // selectedItems: [],
+  isLoading: false,
   purchases: {},
   mode: null,
   chart: {
@@ -27,6 +29,7 @@ const initialState = {
   products: {},
   users: [],
   calendars: [],
+  categories: [],
   items: [],
   currentUser: null,
 };
@@ -44,6 +47,7 @@ function App() {
         <AppContext initialState={initialState} >
           <GlobalStyle />
           <HeaderPartial />
+          <GlobalLoader />
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/produtos" element={<Products />} />

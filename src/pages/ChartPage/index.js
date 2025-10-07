@@ -19,6 +19,8 @@ import {
   Row,
   Title5,
 } from "./styles";
+
+import { ContentDiv } from "../../styles/global";
 import bag from "../../assets/bag.svg";
 import moment from "moment";
 import { savePurchasesAction } from "../../actions/purchasesAction";
@@ -119,6 +121,7 @@ export const ChartPage = () => {
   };
 
   return (
+    <ContentDiv>
     <ChartPageContainer>
       {showFeedback && (
         <Notification
@@ -234,5 +237,6 @@ export const ChartPage = () => {
         </Col>
       </Row>
     </ChartPageContainer>
+    </ContentDiv>
   );
 };
