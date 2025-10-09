@@ -74,9 +74,9 @@ export const LoginContainer = () => {
         let formatted = onlyNumbers;
 
         // Adiciona DDD 81 se o usuário digitar 8 ou 9 números
-        if (formatted.length === 8 || formatted.length === 9) {
-          formatted = "81" + formatted;
-        }
+        // if (formatted.length === 8 || formatted.length === 9) {
+        //   formatted = "81" + formatted;
+        // }
 
         // Aplica a máscara (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
         formatted = formatted.slice(0, 11);
@@ -150,7 +150,7 @@ export const LoginContainer = () => {
                 <FormControl
                   type="text"
                   required
-                  placeholder="Telefone ou email"
+                  placeholder="Telefone (com DDD) ou email"
                   value={loginData?.email}
                   onChange={(e) => handleChange(e, "email")}
                 />
