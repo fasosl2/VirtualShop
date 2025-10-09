@@ -70,26 +70,26 @@ export const LoginContainer = () => {
       const onlyNumbers = value.replace(/\D/g, "");
 
       // Se o valor não contiver letras, consideramos que é um telefone
-      if (!/[a-zA-Z]/.test(value)) {
-        let formatted = onlyNumbers;
+      // if (!/[a-zA-Z]/.test(value)) {
+      //   let formatted = onlyNumbers;
 
-        // Adiciona DDD 81 se o usuário digitar 8 ou 9 números
-        // if (formatted.length === 8 || formatted.length === 9) {
-        //   formatted = "81" + formatted;
-        // }
+      //   // Adiciona DDD 81 se o usuário digitar 8 ou 9 números
+      //   // if (formatted.length === 8 || formatted.length === 9) {
+      //   //   formatted = "81" + formatted;
+      //   // }
 
-        // Aplica a máscara (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
-        formatted = formatted.slice(0, 11);
-        if (formatted.length > 10) {
-          value = formatted.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
-        } else if (formatted.length > 6) {
-          value = formatted.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
-        } else if (formatted.length > 2) {
-          value = formatted.replace(/(\d{2})(\d+)/, "($1) $2");
-        } else {
-          value = formatted;
-        }
-      }
+      //   // Aplica a máscara (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+      //   formatted = formatted.slice(0, 11);
+      //   if (formatted.length > 10) {
+      //     value = formatted.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+      //   } else if (formatted.length > 6) {
+      //     value = formatted.replace(/(\d{2})(\d{4})(\d{0,4})/, "($1) $2-$3");
+      //   } else if (formatted.length > 2) {
+      //     value = formatted.replace(/(\d{2})(\d+)/, "($1) $2");
+      //   } else {
+      //     value = formatted;
+      //   }
+      // }
     }
     setLoginData((prevState) => ({ ...prevState, [field]: value }));
   };
