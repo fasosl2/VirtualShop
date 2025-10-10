@@ -160,6 +160,7 @@ export const ModalCreateUser = ({ open }) => {
           <br />
           <Form.Control
             type="text"
+            required
             placeholder="Telefone"
             value={userData?.phone}
             onChange={(e) => handleChange(e, "phone")}
