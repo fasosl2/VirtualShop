@@ -23,14 +23,34 @@ export const ThumbnailContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-export const Thumbnail = styled.img`
-  width: 50px;
+export const ThumbnailWrapper = styled.div`
+  position: relative;
+  width: 100px;
   height: 50px;
-  object-fit: cover;
   border-radius: 8px;
+  overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
   &:hover {
     border-color: #007bff;
   }
+`;
+
+export const ThumbnailImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const ThumbnailText = styled.span`
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 14px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  text-align: center;
 `;

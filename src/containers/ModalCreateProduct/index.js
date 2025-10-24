@@ -33,6 +33,7 @@ export const ModalCreateProduct = ({ open }) => {
   const [apiCategoryFilter, setApiCategoryFilter] = useState("");
   const initialProduct = useRef({
     title: "",
+    shortTitle: "",
     description: "",
     price: 0,
     priceRecife: "",
@@ -220,11 +221,23 @@ export const ModalCreateProduct = ({ open }) => {
         >
           <Row>
             <Col md={3}>
+              <Row>
               <FormImg src={image} alt="" />
               <Form.Control
                 type="file"
                 onChange={(e) => handleChange(e, "image")}
               />
+              </Row>
+              <Row>
+                <Form.Label>Nome Curto</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  placeholder=""
+                  value={productData?.shortTitle}
+                  onChange={(e) => handleChange(e, "shortTitle")}
+                />
+              </Row>
             </Col>
             <Col md={9}>
               <Row>

@@ -4,6 +4,7 @@ import { Card as CardBS, Col, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { CountButtonGroup } from "../CountButtonGroup";
 import { CardButtomContainer, CardHeader, CardImg, CardPrice } from "./styles";
+import utilService from "../../services/utilService";
 
 export const ProductCard = ({
   id,
@@ -36,10 +37,7 @@ export const ProductCard = ({
           <Col>
             <CardPrice>
               {Number(price)
-                ? "R$ " + Number(price).toLocaleString("pt-BR", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }) : "(Consultar)"}
+                ? utilService.formatCurrency(Number(price)) : "(Consultar)"}
             </CardPrice>
           </Col>
         </Row>
@@ -64,7 +62,8 @@ export const ProductCard = ({
             }}
           >
             <Row className="prod-description" style={{ flexGrow: 1 }}>
-              <p>{props.description}</p>
+              <p>{props?.description?.slice(0,200) +
+                ((props?.description?.length || 0) > 200 ? '...' : '')}</p>
               {props?.items?.length
                 ? props.items.map((item) => <p>• {item.title}</p>)
                 : ""}
