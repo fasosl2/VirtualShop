@@ -193,13 +193,24 @@ export const ModalCreateSchedule = ({ open }) => {
             />
           </Col>
           <Col>
-            Valor Total:
-            <br />
-            <strong>
-              {utilService.formatCurrency(
-                (count || 0) * (state?.activeProduct?.price || 0)
-              )}
-            </strong>
+          <Row>
+            <Col>
+              Valor Unitário:
+              <br />
+              <strong>
+                {utilService.formatCurrency(Number(state?.activeProduct?.price || 0))}
+              </strong>
+            </Col>
+            <Col>
+              Valor Total:
+              <br />
+              <strong>
+                {utilService.formatCurrency(
+                  (count || 0) * (state?.activeProduct?.price || 0)
+                )}
+              </strong>
+            </Col>
+          </Row>
           </Col>
         </Row>
       </Col>
