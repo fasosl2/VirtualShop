@@ -160,7 +160,7 @@ export const AboutPage = () => {
                       controls={[
                         {
                           label: "saiba+",
-                          freeShow: true,
+                          freeshow: 'true',
                           loadingLabel: "saiba+",
                           variant: "primary",
                           onClick: () => {},

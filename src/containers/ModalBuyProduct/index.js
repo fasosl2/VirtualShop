@@ -180,6 +180,8 @@ export const ModalCreateSchedule = ({ open }) => {
         <br />
         <Row>
           <Col>
+          <Row>
+          <Col>
             quantidade:
             <br />
             <CountButtonGroup
@@ -192,15 +194,7 @@ export const ModalCreateSchedule = ({ open }) => {
               }}
             />
           </Col>
-          <Col>
-          <Row>
-            <Col>
-              Valor Unitário:
-              <br />
-              <strong>
-                {utilService.formatCurrency(Number(state?.activeProduct?.price || 0))}
-              </strong>
-            </Col>
+          
             <Col>
               Valor Total:
               <br />
@@ -208,6 +202,16 @@ export const ModalCreateSchedule = ({ open }) => {
                 {utilService.formatCurrency(
                   (count || 0) * (state?.activeProduct?.price || 0)
                 )}
+              </strong>
+            </Col>
+          </Row>
+          </Col>
+          <Col>
+          <Row>
+            <Col>
+              Valor Unitário: 
+              <strong>
+                {utilService.formatCurrency(Number(state?.activeProduct?.price || 0))}
               </strong>
             </Col>
           </Row>

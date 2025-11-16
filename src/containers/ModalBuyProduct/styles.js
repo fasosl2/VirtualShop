@@ -25,7 +25,8 @@ export const ThumbnailContainer = styled.div`
 
 export const ThumbnailWrapper = styled.div`
   position: relative;
-  width: 100px;
+  min-width: 50px;
+  width: fit-content;
   height: 50px;
   border-radius: 8px;
   overflow: hidden;
@@ -43,7 +44,9 @@ export const ThumbnailImage = styled.img`
 `;
 
 export const ThumbnailText = styled.span`
-  position: absolute;
+  display: block;
+  width: 100%;  
+  position: sticky;
   bottom: 2px;
   left: 2px;
   right: 2px;

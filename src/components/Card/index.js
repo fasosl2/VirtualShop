@@ -57,7 +57,7 @@ export const Card = ({
             {controls
               ? controls.map(
                   (button, index) =>
-                    (button.freeShow ||
+                    (button.freeshow ||
                       ["Master", "Gestor"].includes(
                         state?.currentUser?.type
                       )) && (
