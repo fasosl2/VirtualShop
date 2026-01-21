@@ -33,7 +33,7 @@ const api = {
     };
 
     // build URL: support array params (legacy) and object params (query string)
-    let url = process.env.REACT_APP_API + route;
+    let url = import.meta.env.VITE_APP_API + route;
     if (params) {
       if (Array.isArray(params)) {
         url += "/" + params.join("/");
@@ -67,7 +67,7 @@ const api = {
     };
 
     const response = await fetch(
-      process.env.REACT_APP_API + route,
+      import.meta.env.VITE_APP_API + route,
       requestOptions
     ).then((response) => response.json());
 
@@ -86,7 +86,7 @@ const api = {
     };
 
     const response = await fetch(
-      process.env.REACT_APP_API +
+      import.meta.env.VITE_APP_API +
         route +
         (params ? "/" + params.join("/") : ""),
       requestOptions
@@ -105,7 +105,7 @@ const api = {
     };
 
     const response = await fetch(
-      process.env.REACT_APP_API + route + "/" + id,
+      import.meta.env.VITE_APP_API + route + "/" + id,
       requestOptions
     ).then((response) => response.json());
 
