@@ -119,7 +119,7 @@ export const HomePage = () => {
                       controls={[
                         {
                           label: "saiba+",
-                          freeShow: true,
+                          freeshow: 'true',
                           loadingLabel: "saiba+",
                           variant: "primary",
                           onClick: () => {},
@@ -161,7 +161,7 @@ export const HomePage = () => {
                     controls={[
                       {
                         label: "saiba+",
-                        freeShow: true,
+                        freeshow: 'true',
                         loadingLabel: "saiba+",
                         variant: "primary",
                         onClick: async () => {
@@ -221,7 +221,7 @@ export const HomePage = () => {
                   marginLeft: "5%",
                 }}
               ></Circle>
-              <Frame image={image1} radius></Frame>
+              <Frame image={image1} radius={'true'}></Frame>
             </Container>
           </Col>
           <Col xs={12} md={6}>

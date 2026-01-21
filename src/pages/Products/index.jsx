@@ -169,7 +169,7 @@ const handleClearFilters = () => {
                 <Form.Select name="categories" value={filters.categories} onChange={handleFilterChange}>
                   <option value={null}>Todos</option>
                   {state?.categories?.list?.map(category => 
-                    (<option value={category._id}>{category.name}</option>))}
+                    (<option key={category._id} value={category._id}>{category.name}</option>))}
                 </Form.Select>
               </Form.Group>
             </Col>

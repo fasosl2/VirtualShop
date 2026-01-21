@@ -150,7 +150,7 @@ export const LoginContainer = () => {
                 <FormControl
                   type="text"
                   required
-                  placeholder="Telefone (com DDD) ou email"
+                  placeholder="(DDD)+telefone ou email"
                   value={loginData?.email}
                   onChange={(e) => handleChange(e, "email")}
                 />

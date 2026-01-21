@@ -33,6 +33,7 @@ export const ModalCreateProduct = ({ open }) => {
   const [apiCategoryFilter, setApiCategoryFilter] = useState("");
   const initialProduct = useRef({
     title: "",
+    shortTitle: "",
     description: "",
     price: 0,
     priceRecife: "",
@@ -132,9 +133,7 @@ export const ModalCreateProduct = ({ open }) => {
       }));
     }
     setChildList(
-      baseProducts?.filter((ele) => ele?.variant?.baseID == productData._id) ||
-        []
-    );
+      baseProducts?.filter(({ variant }) => variant?.baseID && variant?.baseID == productData._id) || []);
   }, [
     state.type,
     state.activeProduct,
@@ -220,11 +219,23 @@ export const ModalCreateProduct = ({ open }) => {
         >
           <Row>
             <Col md={3}>
+              <Row>
               <FormImg src={image} alt="" />
               <Form.Control
                 type="file"
                 onChange={(e) => handleChange(e, "image")}
               />
+              </Row>
+              <Row>
+                <Form.Label>Nome Curto</Form.Label>
+                <Form.Control
+                  type="text"
+                  required
+                  placeholder=""
+                  value={productData?.shortTitle}
+                  onChange={(e) => handleChange(e, "shortTitle")}
+                />
+              </Row>
             </Col>
             <Col md={9}>
               <Row>
@@ -255,7 +266,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <Row className="mt-3">
                     <p>Produtos Variantes</p>
                     {childList.map(product =>
-                      <p>{product.id} - {product.title}</p>
+                      <p key={product.id}>{product.id} - {product.title}</p>
                     )}
                   </Row>
                   : <Row className="mt-3">
@@ -359,7 +370,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <ListGroup style={{ maxHeight: "150px", overflowY: "auto" }}>
                     {categoriesData?.list?.map((category) => {
                       const isInProduct = productData.categories.some(
-                        (p) => p.id === category.id
+                        (p) => p._id === category._id
                       );
                       return (
                         <ListGroup.Item

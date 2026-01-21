@@ -19,6 +19,8 @@ import { ModalCreatePurchase } from "../../containers/ModalCreatePurchase";
 import { openModalCreatePurchaseAction } from "../../actions/modalsActions";
 import { Image } from "./styles";
 import ExcelJS from 'exceljs';
+import { handleExportExcel, handlePrintPurchases } from './purchaseUtils';
+import { PurchaseSummary } from './PurchaseSummary';
 
 export const Purchases = () => {
   const { state, dispatch } = useAppContext();
@@ -33,6 +35,8 @@ export const Purchases = () => {
     customerName: "",
     deliveryDay: "",
     isBase: "",
+    paymentStatus: "",
+    deliveryStatus: "",
   });
   const [apiFilters, setApiFilters] = useState({customerName: ["Master", "Gestor"].includes(state?.currentUser?.type) ? null : state?.currentUser?.name});
   const [showDateModal, setShowDateModal] = useState(false);
@@ -70,168 +74,6 @@ export const Purchases = () => {
     });
     return Object.values(totals).sort((a, b) => a.title.localeCompare(b.title));
   }, [purchasesProcessed]);
-
-  const handlePrintResumo = () => {
-    if (productTotals.length > 0) {
-      const printWindow = window.open("", "", "height=600,width=800");      
-      const productList = productTotals.map(product => 
-        `<li><strong>${product.title}:</strong> ${product.count} unidades</li>`
-      ).join('');
-
-      printWindow.document.body.innerHTML = `
-        <style>
-          body { font-family: Arial, sans-serif; padding: 20px; }
-          h1 { font-size: 24px; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
-          ul { list-style-type: none; padding: 0; }
-          li { font-size: 16px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        </style>
-        <h1>Resumo de Produtos</h1>
-        <ul>${productList}</ul>
-      `;
-      printWindow.document.title = "Resumo de Produtos";
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 250);
-    }
-  };
-
-  const handlePrintPurchases = () => {
-    if (purchasesProcessed.length === 0) return;
-
-    const printWindow = window.open("", "", "height=800,width=600");    
-    const purchasesHTML = purchasesProcessed.map(purchase => {
-      let cardHTML = `<div class="purchase-card">`;
-      cardHTML += `<h2>Pedido: ${purchase._id}</h2>`;
-      const { user } = purchase;
-      if (user) cardHTML += `<p><b>Cliente:</b> ${user.name}</p>`;
-      if (purchase.user?.phone) cardHTML += `<p><b>Telefone:</b> ${purchase.user.phone}</p>`;
-      if (user?.address) {
-        const { street, number, neighborhood, city, uf, referencePoint } = user.address;
-        const addressParts = [street, number, neighborhood, city, uf].filter(Boolean);
-        let fullAddress = addressParts.join(', ');
-        if (referencePoint) fullAddress += ` - Ponto de Referência: ${referencePoint}`;
-        cardHTML += `<p><b>Endereço:</b> ${fullAddress}</p>`;
-      }
-      if (user?.observations) cardHTML += `<p><b>Observações:</b> ${user.observations}</p>`;
-      if (purchase.deliveryDate) cardHTML += `<p><b>Data de Entrega:</b> ${new Date(purchase.deliveryDate).toLocaleDateString()}</p>`;
-      if (purchase.paymentMethod) cardHTML += `<p><b>Forma de Pagamento:</b> ${purchase.paymentMethod}</p>`;
-      if (purchase.paymentStatus) cardHTML += `<p><b>Status do Pagamento:</b> ${purchase.paymentStatus}</p>`;
-      if (purchase.deliveryStatus) cardHTML += `<p><b>Status da Entrega:</b> ${purchase.deliveryStatus}</p>`;
-      cardHTML += `<p><b>Produtos:</b></p><ul>`;
-      purchase.products?.forEach(product => { cardHTML += `<li>${product.productDetails?.title}: ${product.count} unidades</li>`; });
-      cardHTML += `</ul></div>`;
-      return cardHTML;
-    }).join('');
-
-    printWindow.document.body.innerHTML = `
-      <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .purchase-card { 
-          border: 1px solid #ccc; 
-          border-radius: 8px; 
-          padding: 15px; 
-          margin-bottom: 20px; 
-          page-break-inside: avoid;
-        }
-        h2 { font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 10px; }
-        p { margin: 5px 0; font-size: 14px; }
-        ul { list-style-type: none; padding-left: 15px; }
-        li { margin-bottom: 5px; font-size: 12px; }
-      </style>
-      <h1>Lista de Pedidos</h1>
-      ${purchasesHTML}
-    `;
-    printWindow.document.title = "Lista de Pedidos";
-    setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 250);
-  };
-
- const handleExportExcel = async () => {
-    if (purchasesProcessed.length === 0) return;
-
-    const workbook = new ExcelJS.Workbook();
-    const worksheet = workbook.addWorksheet("Pedidos");
-
-    // 1. Cabeçalhos
-    const productTitles = Array.from(
-      new Set(
-        purchasesProcessed.flatMap(p => p.products.map(prod => prod.productDetails?.title).filter(Boolean))
-      )
-    ).sort();
-
-    worksheet.columns = [
-      { header: "Ponto de Referência", key: "referencePoint", width: 30 },
-      { header: "Bairro", key: "neighborhood", width: 25 },
-      { header: "Nome do Cliente", key: "customerName", width: 35 },
-      ...productTitles.map(title => ({
-        header: title,
-        key: title,
-        width: 10,
-        style: { alignment: { horizontal: 'center' } }
-      }))
-    ];
-
-    // 2. Adicionar dados
-    const customerData = new Map();
-
-    purchasesProcessed.forEach(purchase => {
-      const user = purchase.user;
-      if (!user?._id) return; // Pula pedidos sem cliente associado
-
-      // Se o cliente ainda não está no mapa, inicializa seus dados
-      if (!customerData.has(user._id)) {
-        customerData.set(user._id, {
-          referencePoint: user.address?.referencePoint || '',
-          neighborhood: user.address?.neighborhood || '',
-          customerName: user.name || '',
-          products: new Map() // Usaremos um mapa para somar os produtos
-        });
-      }
-
-      const customerRecord = customerData.get(user._id);
-
-      // Itera sobre os produtos do pedido atual e soma as quantidades
-      purchase.products.forEach(product => {
-        if (product.productDetails?.title) {
-          const currentCount = customerRecord.products.get(product.productDetails.title) || 0;
-          customerRecord.products.set(product.productDetails.title, currentCount + product.count);
-        }
-      });
-    });
-
-    // 3. Adiciona os dados consolidados dos clientes na planilha
-    customerData.forEach(data => {
-      const rowData = {
-        referencePoint: data.referencePoint,
-        neighborhood: data.neighborhood,
-        customerName: data.customerName,
-      };
-      data.products.forEach((count, title) => {
-        rowData[title] = count;
-      });
-      worksheet.addRow(rowData);
-    });
-
-    // 4. Aplicar estilo de rotação no cabeçalho dos produtos
-    const headerRow = worksheet.getRow(1);
-    headerRow.height = 80; // Aumenta a altura da linha do cabeçalho
-    worksheet.columns.forEach((column, index) => {
-      if (index >= 3) { // A partir da 4ª coluna (produtos)
-        headerRow.getCell(index + 1).alignment = { vertical: 'middle', horizontal: 'center', textRotation: 90, wrapText: true };
-      }
-    });
-
-    // 5. Gerar e baixar o arquivo
-    const buffer = await workbook.xlsx.writeBuffer();
-    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'relatorio_pedidos.xlsx';
-    link.click();
-  };
 
   useEffect(() => {
     fetchPurchasesAction(dispatch, { page, limit, ...apiFilters });
@@ -299,6 +141,8 @@ export const Purchases = () => {
       customerName: "",
       deliveryDay: "",
       isBase: "",
+      paymentStatus: "",
+      deliveryStatus: "",
     });
     setApiFilters({});
     setPage(1);
@@ -431,6 +275,42 @@ export const Purchases = () => {
                 </Form.Group>
               </Col>
             )}
+            {["Master", "Gestor"].includes(state?.currentUser?.type) && (
+              <Col md={2} sm={6}>
+                <Form.Group>
+                  <Form.Label>Status do Pagamento</Form.Label>
+                  <Form.Select
+                    name="paymentStatus"
+                    value={filters.paymentStatus}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="">Todos</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Pago">Pago</option>
+                    <option value="Cancelado">Cancelado</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            )}
+            {["Master", "Gestor"].includes(state?.currentUser?.type) && (
+              <Col md={2} sm={6}>
+                <Form.Group>
+                  <Form.Label>Status da Entrega</Form.Label>
+                  <Form.Select
+                    name="deliveryStatus"
+                    value={filters.deliveryStatus}
+                    onChange={handleFilterChange}
+                  >
+                    <option value="">Todos</option>
+                    <option value="Pendente">Pendente</option>
+                    <option value="Em preparação">Em preparação</option>
+                    <option value="Em rota de entrega">Em rota de entrega</option>
+                    <option value="Entregue">Entregue</option>
+                    <option value="Cancelado">Cancelado</option>
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            )}
             
             {["Master", "Gestor"].includes(state?.currentUser?.type) &&
                 (
@@ -453,11 +333,11 @@ export const Purchases = () => {
             <Col md={3} sm={12} className="d-flex gap-2 ms-auto">
               <Button type="submit" className="w-100">Filtrar</Button>
               <Button variant="secondary" onClick={handleClearFilters} className="w-100">Limpar</Button>
-              <Button variant="info" onClick={handlePrintPurchases} className="w-100" disabled={purchasesProcessed.length === 0}>
+              <Button variant="info" onClick={() => handlePrintPurchases(purchasesProcessed)} className="w-100" disabled={purchasesProcessed.length === 0}>
                 {/* <Image src={bag} className="m-1 mt-0" /> */}
                 Imprimir Pedidos
               </Button>
-              <Button variant="success" onClick={handleExportExcel} className="w-100" disabled={purchasesProcessed.length === 0}>
+              <Button variant="success" onClick={() => handleExportExcel(purchasesProcessed)} className="w-100" disabled={purchasesProcessed.length === 0}>
                 Exportar Romaneio
               </Button>
             </Col>
@@ -587,26 +467,8 @@ export const Purchases = () => {
         </Row>
       </Container>
       {["Master", "Gestor"].includes(state?.currentUser?.type) &&
-      (<Container className="mt-4 pt-4 border-top">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4>Resumo de Pedidos</h4>
-          <Button variant="outline-secondary" onClick={handlePrintResumo} disabled={productTotals.length === 0}>
-            Imprimir
-          </Button>
-        </div>
-        {productTotals.length > 0 ? (
-          <Row>
-            {productTotals.map((product) => (
-              <Col md={4} sm={6} xs={12} key={product._id} className="mb-2">
-                <strong>{product.title}</strong> 
-                <p>{product.count} unidades</p>
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <p>Nenhum produto para exibir no resumo.</p>
-        )}
-      </Container>)}
+        <PurchaseSummary productTotals={productTotals} />
+      }
       <Pagination {...{ page, pages, setPage, limit, setLimit, totalItems: state.purchases?.total }} />
     </ContentDiv>
   );

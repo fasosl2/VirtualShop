@@ -25,7 +25,7 @@ export const ModalCreateUser = ({ open }) => {
       number: "",
       neighborhood: "",
       city: "",
-      uf: "",
+      uf: "PE",
       referencePoint: "",
     },
     observations: "",
@@ -153,6 +153,7 @@ export const ModalCreateUser = ({ open }) => {
           <br />
           <Form.Control
             type="text"
+            required
             placeholder="CPF"
             value={userData?.cpf}
             onChange={(e) => handleChange(e, "cpf")}
@@ -168,7 +169,6 @@ export const ModalCreateUser = ({ open }) => {
           <br />
           <Form.Control
             type="email"
-            required
             placeholder="E-mail"
             value={userData?.email}
             disabled={state?.activeUser?.id ? true : false}
@@ -188,6 +188,7 @@ export const ModalCreateUser = ({ open }) => {
             <Col md={9}>
               <Form.Control
                 type="text"
+                required
                 placeholder="Rua"
                 value={userData?.address?.street}
                 onChange={(e) => handleChange(e, "address", "street")}
@@ -196,6 +197,7 @@ export const ModalCreateUser = ({ open }) => {
             <Col>
               <Form.Control
                 type="text"
+                required
                 placeholder="Número"
                 value={userData?.address?.number}
                 onChange={(e) => handleChange(e, "address", "number")}
@@ -207,6 +209,7 @@ export const ModalCreateUser = ({ open }) => {
             <Col md={3}>
               <Form.Control
                 type="text"
+                required
                 placeholder="Bairro"
                 value={userData?.address?.neighborhood}
                 onChange={(e) => handleChange(e, "address", "neighborhood")}
@@ -215,18 +218,46 @@ export const ModalCreateUser = ({ open }) => {
             <Col md={7}>
               <Form.Control
                 type="text"
+                required
                 placeholder="Cidade"
                 value={userData?.address?.city}
                 onChange={(e) => handleChange(e, "address", "city")}
               />
             </Col>
             <Col>
-              <Form.Control
-                type="text"
-                placeholder="Estado (UF)"
+              <Form.Select
+                name="uf"
+                required
                 value={userData?.address?.uf}
-                onChange={(e) => handleChange(e, "address", "uf")}
-              />
+                onChange={(e) => handleChange(e, "address", "uf")}>
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </Form.Select>
             </Col>
           </Row>
           <br />
