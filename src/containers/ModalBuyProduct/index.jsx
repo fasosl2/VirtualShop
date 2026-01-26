@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal/Modal";
 import { Col, Form, Row } from "react-bootstrap";
-import { useAppContext, AppContextProvider } from "../../storage/AppContext";
+import { useAppContext } from "../../storage/AppContext";
 import {
   deleteProductsFromChartAction,
   saveProductsAction,
@@ -27,7 +27,6 @@ import {
   GalleryContainer,
   ImageContainer,
   ProductImage,
-  Thumbnail,
   ThumbnailContainer,
   ThumbnailImage,
   ThumbnailText,

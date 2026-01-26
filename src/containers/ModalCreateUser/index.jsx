@@ -43,7 +43,7 @@ export const ModalCreateUser = ({ open }) => {
     const { address, ...rest } = userData;
     const payload = {
       ...rest,
-      image: userData.image,
+      image,
       address: {
         street: address.street,
         number: address.number,

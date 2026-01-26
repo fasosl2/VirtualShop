@@ -15,9 +15,11 @@
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
+    "allowJs": true,          // <--- Remove after migrating all JS to TS
+    "checkJs": false,          // <--- Remove after migrating all JS to TS
 
     /* Linting */
-    "strict": false,
+    "strict": false,          // <--- UPDATE after migrating all JS to TS
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,

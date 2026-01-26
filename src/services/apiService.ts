@@ -1,6 +1,26 @@
 import { getUserToken, userLogout } from "./userServices";
 
-const checkAuth = async (response) => {
+interface UserToken {
+  token: string;
+}
+
+interface ApiResponse {
+  [key: string]: any;
+}
+
+interface ApiGetParams {
+  route: string;
+  params?: string[] | Record<string, any>;
+  header?: Record<string, string>;
+}
+
+interface ApiPutParams {
+  route: string;
+  body: any;
+  params?: string[];
+}
+
+const checkAuth = async (response: ApiResponse | null): Promise<ApiResponse | null> => {
   if (response?.message === "Autentication failed") {
     window.location.href = window.location.origin;
     await userLogout();
@@ -10,24 +30,24 @@ const checkAuth = async (response) => {
 };
 
 const api = {
-  read: async ({ route }) => {
+  read: async ({ route }: { route: string }): Promise<{ list: any[] } | any[]> => {
     const response = await api.get({ route });
 
     // Normaliza para garantir que sempre haja "list"
     const list = (Array.isArray(response) ? response : response.list || []).map(
-      (item) => ({ ...item, id: item._id })
+      (item: any) => ({ ...item, id: item._id })
     );
 
     // Se o backend retorna metadados, preserva eles
     return Array.isArray(response) ? list : { ...response, list };
   },
-  get: async ({ route, params, header }) => {
-    const user = (await getUserToken()) || "";
-    let requestOptions = {
+  get: async ({ route, params, header }: ApiGetParams): Promise<ApiResponse | null> => {
+    const user: UserToken | null = (await getUserToken()) || null;
+    let requestOptions: RequestInit = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": user.token,
+        "x-access-token": user?.token || "",
         ...header,
       },
     };
@@ -54,13 +74,13 @@ const api = {
 
     return checkAuth(response);
   },
-  post: async (route, body) => {
-    const user = (await getUserToken()) || "";
-    let requestOptions = {
+  post: async (route: string, body: any): Promise<ApiResponse | null> => {
+    const user: UserToken | null = (await getUserToken()) || null;
+    let requestOptions: RequestInit = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": user.token,
+        "x-access-token": user?.token || "",
       },
       body: JSON.stringify(body),
       keepalive: false,
@@ -73,13 +93,13 @@ const api = {
 
     return checkAuth(response);
   },
-  put: async ({ route, body, params }) => {
-    const user = (await getUserToken()) || "";
-    let requestOptions = {
+  put: async ({ route, body, params }: ApiPutParams): Promise<ApiResponse | null> => {
+    const user: UserToken | null = (await getUserToken()) || null;
+    let requestOptions: RequestInit = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": user.token,
+        "x-access-token": user?.token || "",
       },
       body: JSON.stringify(body),
       keepalive: false,
@@ -94,13 +114,13 @@ const api = {
 
     return checkAuth(response);
   },
-  delete: async (route, id) => {
-    const user = (await getUserToken()) || "";
-    let requestOptions = {
+  delete: async (route: string, id: string | number): Promise<ApiResponse | null> => {
+    const user: UserToken | null = (await getUserToken()) || null;
+    let requestOptions: RequestInit = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": user.token,
+        "x-access-token": user?.token || "",
       },
     };
 
