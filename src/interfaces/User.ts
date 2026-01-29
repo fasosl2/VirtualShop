@@ -4,8 +4,12 @@ export interface IUser {
   _id: string;
   email?: string;
   password?: string; // Password should be optional
-  token?: string;
+  token: string;
   [key: string]: any;
+}
+
+export interface IUserToken {
+  token?: string;
 }
 
 export interface ILoginData {

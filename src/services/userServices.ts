@@ -2,7 +2,7 @@ import type { ApiGetParams } from "../interfaces/Request";
 import type { IPaginatedResponse } from "../interfaces/Response";
 import api from "./apiService";
 import { getStoredItem, setStoredItem } from "./localStorageAPI";
-import type { IUser, ILoginData } from "../interfaces/User";
+import type { IUser, ILoginData, IUserToken } from "../interfaces/User";
 
 export const getUsers = async (opts?: ApiGetParams): Promise<IPaginatedResponse<IUser>> => {
   const res: any = await api.get({ route: "users", params: opts });
@@ -31,11 +31,11 @@ export const deleteUser = async (userId: string): Promise<IPaginatedResponse<IUs
   return await getUsers();
  };
  
- export const getUserToken = async (): Promise<IUser | null> => {
+ export const getUserToken = async (): Promise<IUserToken | null> => {
   return await getStoredItem("user") || null;
  }
  
- export const setUserToken = async (token: IUser | null): Promise<void> => {
+ export const setUserToken = async (token: IUserToken | null): Promise<void> => {
   return await setStoredItem("user",token);
  }
 
@@ -58,7 +58,7 @@ export const userLogout = async (): Promise<{error: string} | null> => {
   return {error: 'falha no logout!'}
 };
 
-export const userAuth = async (): Promise<IUser | null> => {
+export const userAuth = async (): Promise<IUserToken | null> => {
   const user = await getUserToken();
   if(!user){
     return null;

@@ -1,10 +1,7 @@
 import type { ApiGetParams, ApiPutParams } from "../interfaces/Request";
 import type { ApiResponse, IPaginatedResponse } from "../interfaces/Response";
+import type { IUserToken } from "../interfaces/User";
 import { getUserToken, userLogout } from "./userServices";
-
-interface UserToken {
-  token: string;
-}
 
 const checkAuth = async (response: IPaginatedResponse<any> | null): Promise<IPaginatedResponse<any> | null> => {
   if (response?.message === "Autentication failed") {
@@ -28,7 +25,7 @@ const api = {
     return Array.isArray(response) ? list : { ...response, list };
   },
   get: async ({ route, params, header }: ApiGetParams): Promise<IPaginatedResponse<any> | null> => {
-    const user: UserToken | null = (await getUserToken()) || null;
+    const user: IUserToken | null = (await getUserToken()) || null;
     let requestOptions: RequestInit = {
       method: "GET",
       headers: {
@@ -61,7 +58,7 @@ const api = {
     return checkAuth(response);
   },
   post: async (route: string, body: any): Promise<ApiResponse | null> => {
-    const user: UserToken | null = (await getUserToken()) || null;
+    const user: IUserToken | null = (await getUserToken()) || null;
     let requestOptions: RequestInit = {
       method: "POST",
       headers: {
@@ -80,7 +77,7 @@ const api = {
     return checkAuth(response);
   },
   put: async ({ route, body, params }: ApiPutParams): Promise<ApiResponse | null> => {
-    const user: UserToken | null = (await getUserToken()) || null;
+    const user: IUserToken | null = (await getUserToken()) || null;
     let requestOptions: RequestInit = {
       method: "PUT",
       headers: {
@@ -101,7 +98,7 @@ const api = {
     return checkAuth(response);
   },
   delete: async (route: string, id: string | number): Promise<ApiResponse | null> => {
-    const user: UserToken | null = (await getUserToken()) || null;
+    const user: IUserToken | null = (await getUserToken()) || null;
     let requestOptions: RequestInit = {
       method: "DELETE",
       headers: {
