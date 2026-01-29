@@ -6,7 +6,7 @@ import {
   saveProductInChart,
 } from "../services/productServices";
 import utilService from "../services/utilService";
-import { deleteProductsFromChartInitType, deleteProductsFromChartSuccessType, deleteProductsInitType, deleteProductsSuccessType, fetchProductsInitType, fetchProductsSuccessType, saveProductsInChartInitType, saveProductsInChartSuccessType, saveProductsInitType, saveProductsSuccessType } from "../storage/types";
+import { deleteProductsFromChartInitType, deleteProductsFromChartSuccessType, deleteProductsInitType, deleteProductsSuccessType, fetchProductsInitType, fetchProductsSuccessType, saveProductsInChartInitType, saveProductsInChartSuccessType, saveProductsInitType, saveProductsSuccessType } from "../storage/actionConstants";
 
 export const saveProductsInChartInitAction = () => ({
   type: saveProductsInChartInitType,

@@ -7,7 +7,7 @@ import {
   closeModalsType,
   saveUsersInitType,
   saveUsersSuccessType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import { closeModalsAction } from "../../actions/modalsActions";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";

@@ -14,7 +14,7 @@ import {
   fetchPurchasesSuccessType,
   savePurchasesInitType,
   savePurchasesSuccessType,
-} from "../storage/types";
+} from "../storage/actionConstants";
 
 export const fetchPurchasesInitAction = () => ({
   type: fetchPurchasesInitType,

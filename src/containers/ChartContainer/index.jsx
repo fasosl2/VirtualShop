@@ -8,7 +8,7 @@ import {
   loginUsersAction,
   logoutUsersAction,
 } from "../../actions/userActions";
-import { loginUsersSuccessType } from "../../storage/types";
+import { loginUsersSuccessType } from "../../storage/actionConstants";
 import { ChartList } from "../../components/ChartList";
 import {
   deleteProductsFromChartAction,

@@ -1,7 +1,7 @@
-import { deleteChart, getChart, postChart } from "../services/chartServices";
+import { deleteChart, getChart } from "../services/chartServices";
 import { saveProductInChart } from "../services/productServices";
 import utilService from "../services/utilService";
-import { deleteChartInitType, deleteChartSuccessType, fetchChartsInitType, fetchChartsSuccessType, saveChartsInitType, saveChartsSuccessType } from "../storage/types";
+import { deleteChartInitType, deleteChartSuccessType, fetchChartsInitType, fetchChartsSuccessType, saveChartsInitType, saveChartsSuccessType } from "../storage/actionConstants";
 
 export const fetchChartsInitAction = () => ({
     type: fetchChartsInitType,
@@ -27,13 +27,13 @@ export const fetchChartsInitAction = () => ({
     payload: charts,
   });
   
-  export const saveChartsAction = async (dispatch, chartName, productId) => {
+/*   export const saveChartsAction = async (dispatch, chartName, productId) => {
     dispatch(saveChartsInitAction());
     await utilService.sleep(1000);
     const newChart = await postChart(chartName);
     const resultChart = await saveProductInChart(newChart.id, productId);
     dispatch(saveChartsSuccessAction(resultChart));
-  };
+  }; */
   
   export const deleteChartInitAction = () => ({
     type: deleteChartInitType,

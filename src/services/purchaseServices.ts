@@ -1,11 +1,14 @@
+import type { IPurchase } from "../interfaces/Purchase";
+import type { ApiGetParams } from "../interfaces/Request";
+import type { IPaginatedResponse } from "../interfaces/Response";
 import api from "./apiService";
 
-export const getPurchases = async (opts) => {
-  const res = await api.get({ route: "purchases", params: opts });
+export const getPurchases = async (opts?: ApiGetParams): Promise<IPaginatedResponse<IPurchase>> => {
+  const res: any = await api.get({ route: "purchases", params: opts });
   if (!res) return { list: [], total: 0, page: opts?.page || 1, pages: 1 };
 
-  const raw = Array.isArray(res.list) ? res.list : Array.isArray(res) ? res : [];
-  const mapped = raw.map((purchase) => ({
+  const raw: any[] = Array.isArray(res.list) ? res.list : Array.isArray(res) ? res : [];
+  const mapped: IPurchase[] = raw.map((purchase) => ({
     ...purchase,
     id: purchase["_id"],
   }));
@@ -14,7 +17,7 @@ export const getPurchases = async (opts) => {
 };
 
 
-export const savePurchase = async (purchaseData) => {
+export const savePurchase = async (purchaseData: Partial<IPurchase>): Promise<IPaginatedResponse<IPurchase>> => {
   if(purchaseData.id){
     await api.put({body: purchaseData, route: "purchases", params: [purchaseData.id]})
   } else {
@@ -23,13 +26,13 @@ export const savePurchase = async (purchaseData) => {
   return await getPurchases();
 };
 
-export const deletePurchase = async (purchaseId) => {
+export const deletePurchase = async (purchaseId: string): Promise<IPaginatedResponse<IPurchase>> => {
   await api.delete("purchases", purchaseId);
   //DELETE FROM ALL PRODUCTS
   return await getPurchases();
  };
 
-export const selectPurchase = async (selectedPurchases,purchase) => {
+export const selectPurchase = (selectedPurchases: IPurchase[], purchase: IPurchase): IPurchase[] => {
   const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
   if(purchaseSelected){
     purchaseSelected.total += 1;
@@ -39,7 +42,7 @@ export const selectPurchase = async (selectedPurchases,purchase) => {
   return selectedPurchases;
 };
 
-export const removePurchase = async (selectedPurchases,purchase,negativeValue) => {
+export const removePurchase = (selectedPurchases: IPurchase[], purchase: IPurchase, negativeValue: number): IPurchase[] => {
   const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
   if(purchaseSelected){
     if(purchaseSelected.total > negativeValue){

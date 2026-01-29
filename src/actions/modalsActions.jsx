@@ -1,6 +1,6 @@
 import { closeModalsType, openModalCreateCalendarType, openModalCreateItemType,
   openModalCreateProductType, openModalBuyProductType, openModalCreateUserType, openModalCreatePurchaseType, 
-  openModalSaveItemsType, openModalCreateCategoriesType } from "../storage/types";
+  openModalSaveItemsType, openModalCreateCategoriesType } from "../storage/actionConstants";
 
 export const openModalCreateProductAction = (product) => ({
     type: openModalCreateProductType,

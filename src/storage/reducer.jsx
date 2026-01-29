@@ -36,7 +36,7 @@ import {
   openModalCreatePurchaseType,
   openModalCreateCategoriesType,
   fetchPurchasesInitType
-} from "./types";
+} from "./actionConstants";
 
 export function reducer(state, action) {
   let stateAction = { type: action?.type };

@@ -7,7 +7,7 @@ import {
   savePurchasesInitType,
   savePurchasesSuccessType,
   closeModalsType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import { savePurchasesAction } from "../../actions/purchasesAction";
 import { fetchUsersAction } from "../../actions/userActions";
 import { fetchProductsAction } from "../../actions/productActions";

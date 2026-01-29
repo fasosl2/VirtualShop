@@ -1,29 +1,15 @@
+import type { ApiGetParams, ApiPutParams } from "../interfaces/Request";
+import type { ApiResponse, IPaginatedResponse } from "../interfaces/Response";
 import { getUserToken, userLogout } from "./userServices";
 
 interface UserToken {
   token: string;
 }
 
-interface ApiResponse {
-  [key: string]: any;
-}
-
-interface ApiGetParams {
-  route: string;
-  params?: string[] | Record<string, any>;
-  header?: Record<string, string>;
-}
-
-interface ApiPutParams {
-  route: string;
-  body: any;
-  params?: string[];
-}
-
-const checkAuth = async (response: ApiResponse | null): Promise<ApiResponse | null> => {
+const checkAuth = async (response: IPaginatedResponse<any> | null): Promise<IPaginatedResponse<any> | null> => {
   if (response?.message === "Autentication failed") {
-    window.location.href = window.location.origin;
     await userLogout();
+    window.location.href = window.location.origin;
     return null;
   }
   return response;
@@ -41,7 +27,7 @@ const api = {
     // Se o backend retorna metadados, preserva eles
     return Array.isArray(response) ? list : { ...response, list };
   },
-  get: async ({ route, params, header }: ApiGetParams): Promise<ApiResponse | null> => {
+  get: async ({ route, params, header }: ApiGetParams): Promise<IPaginatedResponse<any> | null> => {
     const user: UserToken | null = (await getUserToken()) || null;
     let requestOptions: RequestInit = {
       method: "GET",

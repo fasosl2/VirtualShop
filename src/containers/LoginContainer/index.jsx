@@ -19,7 +19,7 @@ import {
 import {
   loginUsersSuccessType,
   openModalCreateUserType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
 

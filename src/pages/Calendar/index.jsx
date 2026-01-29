@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
-import { openModalCreateCalendarType, saveCalendarsSuccessType } from "../../storage/types";
+import { openModalCreateCalendarType, saveCalendarsSuccessType } from "../../storage/actionConstants";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {

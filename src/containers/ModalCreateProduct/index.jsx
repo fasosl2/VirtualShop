@@ -12,7 +12,7 @@ import {
   closeModalsType,
   saveProductsInitType,
   saveProductsSuccessType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import { fetchCategoriesAction } from "../../actions/categoriesActions";
 import { getProducts } from "../../services/productServices";
 import utilService from "../../services/utilService";
@@ -77,7 +77,7 @@ export const ModalCreateProduct = ({ open }) => {
     if (open) {
       const fetchOpts = {};
       if (apiCategoryFilter) {
-        fetchOpts.title = apiCategoryFilter;
+        fetchOpts.name = apiCategoryFilter;
       }
       fetchCategoriesAction(dispatch, fetchOpts);
 

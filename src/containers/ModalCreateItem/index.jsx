@@ -10,7 +10,7 @@ import {
   closeModalsType,
   saveItemsInitType,
   saveItemsSuccessType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
 

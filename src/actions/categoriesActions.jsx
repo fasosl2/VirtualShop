@@ -8,7 +8,7 @@ import {
     saveCategoriesSuccessType,
     fetchCategoriesInitType,
     fetchCategoriesSuccessType,
-  } from "../storage/types";
+  } from "../storage/actionConstants";
   
   export const fetchCategoriesInitAction = () => ({
     type: fetchCategoriesInitType,

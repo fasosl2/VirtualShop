@@ -11,7 +11,7 @@ import {
   logoutUsersSuccessType,
   saveUsersInitType,
   saveUsersSuccessType,
-} from "../storage/types";
+} from "../storage/actionConstants";
 import {
   deleteUser,
   getUsers,

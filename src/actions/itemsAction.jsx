@@ -18,7 +18,7 @@ import {
   saveItemsSuccessType,
   selectItemsInitType,
   selectItemsSuccessType,
-} from "../storage/types";
+} from "../storage/actionConstants";
 
 export const removeItemsInitAction = () => ({
   type: removeItemsInitType,

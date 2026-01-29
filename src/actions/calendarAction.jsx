@@ -12,7 +12,7 @@ import {
   fetchCalendarsSuccessType,
   saveCalendarsInitType,
   saveCalendarsSuccessType,
-} from "../storage/types";
+} from "../storage/actionConstants";
 
 export const fetchCalendarsInitAction = () => ({
   type: fetchCalendarsInitType,

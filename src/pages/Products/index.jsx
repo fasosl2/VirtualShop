@@ -7,7 +7,7 @@ import {
   openModalSaveItemsType,
   saveProductsSuccessType,
   openModalCreateCategoriesType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import {

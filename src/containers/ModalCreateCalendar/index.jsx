@@ -10,7 +10,7 @@ import {
   closeModalsType,
   saveCalendarsInitType,
   saveCalendarsSuccessType,
-} from "../../storage/types";
+} from "../../storage/actionConstants";
 
 export const ModalCreateCalendar = ({ open }) => {
   const { state, dispatch } = useAppContext();

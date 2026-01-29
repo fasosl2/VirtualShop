@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
-import { logoutUsersSuccessType, saveUsersSuccessType } from "../../storage/types";
+import { logoutUsersSuccessType, saveUsersSuccessType } from "../../storage/actionConstants";
 import { Notification } from "../../components/Notification/Notification";
 import { useEffect, useState } from "react";
 import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
