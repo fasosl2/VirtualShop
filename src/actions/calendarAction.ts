@@ -1,9 +1,12 @@
+import React from "react";
+import utilService from "../services/utilService";
+import type { IAction } from "../interfaces/AppState";
 import {
   deleteCalendar,
   getCalendars,
   saveCalendar,
+  type ICalendar,
   } from "../services/calendarServices";
-import utilService from "../services/utilService";
 
 import {
   deleteCalendarsInitType,
@@ -14,16 +17,17 @@ import {
   saveCalendarsSuccessType,
 } from "../storage/actionConstants";
 
+
 export const fetchCalendarsInitAction = () => ({
   type: fetchCalendarsInitType,
 });
 
-export const fetchCalendarsSuccessAction = (calendars) => ({
+export const fetchCalendarsSuccessAction = (calendars: ICalendar[]) => ({
   type: fetchCalendarsSuccessType,
   payload: calendars,
 });
 
-export const fetchCalendarsAction = async (dispatch) => {
+export const fetchCalendarsAction = async (dispatch: React.Dispatch<IAction>) => {
   dispatch(fetchCalendarsInitAction());
   const calendars = await getCalendars();
   dispatch(fetchCalendarsSuccessAction(calendars));
@@ -33,12 +37,12 @@ export const saveCalendarsInitAction = () => ({
   type: saveCalendarsInitType,
 });
 
-export const saveCalendarsSuccessAction = (calendars) => ({
+export const saveCalendarsSuccessAction = (calendars: ICalendar[]) => ({
   type: saveCalendarsSuccessType,
   payload: calendars,
 });
 
-export const saveCalendarsAction = async (dispatch, calendarData) => {
+export const saveCalendarsAction = async (dispatch: React.Dispatch<IAction>, calendarData: ICalendar) => {
   dispatch(saveCalendarsInitAction());
   await utilService.sleep(1000);
   const newCalendar = await saveCalendar(calendarData);
@@ -49,14 +53,14 @@ export const deleteCalendarInitAction = () => ({
   type: deleteCalendarsInitType,
 });
 
-export const deleteCalendarSuccessAction = (calendars) => ({
+export const deleteCalendarSuccessAction = (calendars: ICalendar[]) => ({
   type: deleteCalendarsSuccessType,
   payload: calendars,
 });
 
-export const deleteCalendarAction = async (dispatch, calendar) => {
+export const deleteCalendarAction = async (dispatch: React.Dispatch<IAction>, calendarId: string) => {
   dispatch(deleteCalendarInitAction());
   await utilService.sleep(1000);
-  const calendars = await deleteCalendar(calendar);
+  const calendars = await deleteCalendar(calendarId);
   dispatch(deleteCalendarSuccessAction(calendars));
 };

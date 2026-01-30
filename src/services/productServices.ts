@@ -38,11 +38,11 @@ export const deleteProduct = async (productId: string): Promise<IPaginatedRespon
   return await getProducts({page: 1});
 };
 
-export const saveProductInChart = async (product: IProduct): Promise<IChart | {}> => {
+export const saveProductInChart = async (product: IProduct): Promise<IChart> => {
   const chart: IChart = await getChart();
 
   if (!chart?.products) {
-    return {};
+    return chart;
   }
 
   const prodIndex = chart.products.findIndex((elem) => elem.id === product.id);
@@ -57,9 +57,9 @@ export const saveProductInChart = async (product: IProduct): Promise<IChart | {}
   return { ...chart };
 };
 
-export const deleteProductFromChart = async (product: Partial<IProduct>, negativeValue: number): Promise<IChart | {}> => {
+export const deleteProductFromChart = async (product: Partial<IProduct>, negativeValue: number): Promise<IChart> => {
   const chart: IChart = await getChart();
-  if (!chart || !chart.products) return {};
+  if (!chart || !chart.products) return chart;
 
   const prodIndex = chart.products.findIndex((elem) => elem.id === product.id);
 

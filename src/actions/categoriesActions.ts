@@ -1,3 +1,5 @@
+import React from "react";
+import type { ICategory } from "../interfaces/Category";
 import {
     saveCategories,
     getCategories,
@@ -9,17 +11,19 @@ import {
     fetchCategoriesInitType,
     fetchCategoriesSuccessType,
   } from "../storage/actionConstants";
+import type { IAction } from "../interfaces/AppState";
+import type { IPaginatedResponse } from "../interfaces/Response";
   
   export const fetchCategoriesInitAction = () => ({
     type: fetchCategoriesInitType,
   });
   
-  export const fetchCategoriesSuccessAction = (categories) => ({
+  export const fetchCategoriesSuccessAction = (categories: IPaginatedResponse<ICategory>) => ({
     type: fetchCategoriesSuccessType,
     payload: categories,
   });
   
-  export const fetchCategoriesAction = async (dispatch, opts) => {
+  export const fetchCategoriesAction = async (dispatch: React.Dispatch<IAction>, opts) => {
     dispatch(fetchCategoriesInitAction());
     const categories = await getCategories(opts);
     dispatch(fetchCategoriesSuccessAction(categories));

@@ -1,5 +1,6 @@
+import type { IChart } from "../interfaces/Chart";
 import { deleteChart, getChart } from "../services/chartServices";
-import { saveProductInChart } from "../services/productServices";
+//import { saveProductInChart } from "../services/productServices";
 import utilService from "../services/utilService";
 import { deleteChartInitType, deleteChartSuccessType, fetchChartsInitType, fetchChartsSuccessType, saveChartsInitType, saveChartsSuccessType } from "../storage/actionConstants";
 
@@ -7,24 +8,24 @@ export const fetchChartsInitAction = () => ({
     type: fetchChartsInitType,
   });
   
-  export const fetchChartsSuccessAction = (charts) => ({
+  export const fetchChartsSuccessAction = (chart: IChart) => ({
     type: fetchChartsSuccessType,
-    payload: charts,
+    payload: chart,
   });
   
   export const fetchChartsAction = async (dispatch) => {
     dispatch(fetchChartsInitAction());
-    const charts = await getChart();
-    dispatch(fetchChartsSuccessAction(charts));
+    const chart = await getChart();
+    dispatch(fetchChartsSuccessAction(chart));
   };
   
   export const saveChartsInitAction = () => ({
     type: saveChartsInitType,
   });
   
-  export const saveChartsSuccessAction = (charts) => ({
+  export const saveChartsSuccessAction = (chart: IChart) => ({
     type: saveChartsSuccessType,
-    payload: charts,
+    payload: chart,
   });
   
 /*   export const saveChartsAction = async (dispatch, chartName, productId) => {
@@ -39,14 +40,14 @@ export const fetchChartsInitAction = () => ({
     type: deleteChartInitType,
   });
   
-  export const deleteChartSuccessAction = (charts) => ({
+  export const deleteChartSuccessAction = (chart: IChart) => ({
     type: deleteChartSuccessType,
-    payload: charts,
+    payload: chart,
   });
   
   export const deleteChartAction = async (dispatch) => {
     dispatch(deleteChartInitAction());
     await utilService.sleep(500);
-    const charts = await deleteChart();
-    dispatch(deleteChartSuccessAction(charts));
+    const chart = await deleteChart();
+    dispatch(deleteChartSuccessAction(chart));
   };

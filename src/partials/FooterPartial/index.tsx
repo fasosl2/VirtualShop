@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Footer,
   FooterCol,
@@ -9,7 +8,7 @@ import {
 } from "./styles";
 import { Container, Row, Col } from "react-bootstrap";
 import roundedLogo from "../../assets/logo.png";
-import facebook from "../../assets/facebook.svg";
+//import facebook from "../../assets/facebook.svg";
 import instagram from "../../assets/instagram.svg";
 import whatsapp from "../../assets/whatsapp.svg";
 

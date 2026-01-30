@@ -9,8 +9,8 @@ export interface ICalendar {
 
 export const getCalendars = async (): Promise<ICalendar[]> => {
   const result: any = await api.read({route: "calendars"});
-  return  result.map((prod: ICalendar) => ({...prod,
-  date: prod?.date ? new Date(prod.date as string) : null}));
+  return  result.map((calendar: ICalendar) => ({...calendar,
+  date: calendar?.date ? new Date(calendar.date as string) : null}));
 
 };
 

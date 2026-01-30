@@ -6,9 +6,10 @@ import { useAppContext } from "../../storage/AppContext";
 import navbarLogo from "../../assets/logo.png";
 import { useLocation } from "react-router-dom";
 import { ChartContainer } from "../../containers/ChartContainer";
+import type { AppState } from "../../interfaces/AppState";
 
 export const HeaderPartial = () => {
-  const { state } = useAppContext();
+  const { state } = useAppContext() as { state: AppState };
   const location = useLocation();
 
   return (

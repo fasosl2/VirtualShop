@@ -143,7 +143,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                         contentlabel: "Compra",
                       }}
                     />
-                    {console.log(item.date)}
+                    {/* console.log(item.date) */}
                   </ColListGroup>
                 )}
 
@@ -171,7 +171,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
       </RowBody>
 
       {compact ? (
-        <DropdownItem>
+        <DropdownItem as="div">
           <RowFooter compact={compact} className="m-0">
             <span>
               <Link currentpath={location.pathname} to="/chart">
