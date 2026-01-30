@@ -1,9 +1,9 @@
-import { HomePage } from "./pages/Home";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import { Products } from "./pages/Products";
 import { Users } from "./pages/Users";
 import { ChartPage } from "./pages/ChartPage";
 import { HeaderPartial } from "./partials/HeaderPartial";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext } from "./storage/AppContext";
 // import { Items } from "./pages/Items";
 import { Purchases } from "./pages/Purchases";
@@ -11,22 +11,23 @@ import { Purchases } from "./pages/Purchases";
 import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
 import { GlobalLoader } from "./components/GlobalLoader";
-//import { AboutPage } from "./pages/About";
+import { HomePage } from "./pages/Home";
+import type { AppState } from "./interfaces/AppState";
 
-const initialState = {
+const initialState: AppState = {
   activeProduct: null,
   activeUser: null,
   activeCalendar: null,
   // activeItem: null,
   // selectedItems: [],
   isLoading: false,
-  purchases: {},
+  purchases: [],
   mode: null,
   chart: {
     products: []
   },
   type: null,
-  products: {},
+  products: [],
   users: [],
   calendars: [],
   categories: [],

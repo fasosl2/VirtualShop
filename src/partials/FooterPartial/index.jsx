@@ -84,13 +84,18 @@ export const FooterPartial = () => {
                 {" "}
                 +55 81 98108-3818{" "}
               </FooterLink>
-              <br />
+              <br /><br />
               {/* Endereço:{" "}
               <FooterLink href="https://www.google.com/maps?q=Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife,Pernambuco, Brasil. CEP: 50070-000">
                 {" "}
                 Av. Manoel Borba, nº 545, 1º andar, Boa Vista, Recife, <br />{" "}
                 Pernambuco, Brasil. CEP: 50070-000
               </FooterLink> */}
+              
+              <FooterLink href="https://personal-portfolio-one-bice.vercel.app/" style={{ fontSize: 'small' }}>
+                {" "}
+                Criador Por Flávio Oliveira{" "}
+              </FooterLink>
             </FooterText>
           </Col>
         </Row>

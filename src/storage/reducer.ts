@@ -38,8 +38,10 @@ import {
   fetchPurchasesInitType
 } from "./actionConstants";
 
-export function reducer(state, action) {
-  let stateAction = { type: action?.type };
+import type { AppState, IAction } from "../interfaces/AppState";
+
+export function reducer(state: AppState, action: IAction) {
+  let stateAction : IAction = { type: action?.type };
 
   switch (action?.type) {
     case openModalSaveItemsType:
@@ -87,7 +89,7 @@ export function reducer(state, action) {
       stateAction.chart = action.payload;
       break;
     case saveChartsSuccessType:
-      stateAction.chart = [...state.chart, action.payload];
+      stateAction.chart = {...state.chart/* , action.payload */};
       break;
     case deleteChartSuccessType:
       stateAction.chart = action.payload;
