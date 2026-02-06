@@ -12,7 +12,7 @@ import { GlobalStyle } from "./styles/global";
 import { FooterPartial } from "./partials/FooterPartial";
 import { GlobalLoader } from "./components/GlobalLoader";
 import { HomePage } from "./pages/Home";
-import type { AppState } from "./interfaces/AppState";
+import type { AppState } from "./interfaces/Context";
 
 const initialState: AppState = {
   activeProduct: null,
@@ -20,7 +20,7 @@ const initialState: AppState = {
   activeCalendar: null,
   // activeItem: null,
   // selectedItems: [],
-  isLoading: false,
+  isLoading: 0,
   purchases: [],
   mode: null,
   chart: {

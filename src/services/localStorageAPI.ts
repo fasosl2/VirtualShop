@@ -3,7 +3,7 @@ interface HasId {
 }
 
 export const generateId = (table: HasId[]): number => {
-    return table.reduce((prev, current) => (prev > current.id) ? prev : current.id, 0) + 1;
+    return table.reduce((prev, current) => (prev > current._id) ? prev : current._id, 0) + 1;
 }
 
 export const saveStoredTable = async (table: any, tableName: string): Promise<void> => {

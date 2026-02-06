@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { openModalCreateCalendarType, saveCalendarsSuccessType } from "../../storage/actionConstants";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import { useEffect, useState } from "react";
 import {
   deleteCalendarAction,
@@ -60,7 +60,7 @@ export const Calendar = () => {
       <Container fluid>
           <Row>
           {calendarsProcessed.map((calendar) => (
-            <Col key={calendar.id} xs={13} md={4} style={{ marginTop: "1em" }}>
+            <Col key={calendar._id} xs={13} md={4} style={{ marginTop: "1em" }}>
               <Card
                 {...{
                   ...calendar,
@@ -81,7 +81,7 @@ export const Calendar = () => {
                       loadingLabel: 'Excluindo',
                       variant: 'danger',
                       onClick: async () => {
-                        await deleteCalendarAction(dispatch, calendar.id);
+                        await deleteCalendarAction(dispatch, calendar._id);
                       }
                   },
                 ],

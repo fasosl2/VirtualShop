@@ -15,8 +15,8 @@ export const getCalendars = async (): Promise<ICalendar[]> => {
 };
 
 export const saveCalendar = async (calendarData: ICalendar): Promise<ICalendar[]> => {
-  if(calendarData.id){
-    await api.put({body: calendarData, route: "calendars", params: [calendarData.id]})
+  if(calendarData._id){
+    await api.put({body: calendarData, route: "calendars", params: [calendarData._id]})
   } else {
     await api.post("calendars", calendarData)
   }

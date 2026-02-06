@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveCalendarsAction } from "../../actions/calendarAction";
@@ -36,7 +36,7 @@ export const ModalCreateCalendar = ({ open }) => {
     if (state.type === closeModalsType) {
       setCalendarData(initialCalendar.current);
     }
-    if (state?.activeCalendar?.id && calendarData === initialCalendar.current) {
+    if (state?.activeCalendar?._id && calendarData === initialCalendar.current) {
       setCalendarData((prevState) => ({ ...prevState, ...state.activeCalendar, date: state.activeCalendar.date?.toISOString()?.slice(0,10)}));
     }
   }, [state.type, state.activeCalendar, dispatch, calendarData]);
@@ -46,11 +46,11 @@ export const ModalCreateCalendar = ({ open }) => {
 
   return (
     <Modal
-      title={(state?.activeCalendar?.id ? "Editar" : "Criar") + " Evento"}
+      title={(state?.activeCalendar?._id ? "Editar" : "Criar") + " Evento"}
       open={open}
       controls={[
         {
-          label: (state?.activeCalendar?.id ? "Editar" : "Criar") + " e Salvar",
+          label: (state?.activeCalendar?._id ? "Editar" : "Criar") + " e Salvar",
           loadingLabel: "Criando",
           loading: state.type === saveCalendarsInitType,
           variant: "secondary",

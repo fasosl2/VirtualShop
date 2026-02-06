@@ -35,10 +35,13 @@ import {
   openModalCreateCalendarType,
   openModalCreatePurchaseType,
   openModalCreateCategoriesType,
-  fetchPurchasesInitType
+  fetchPurchasesInitType,
+  fetchProductsInitType,
+  fetchUsersInitType,
+  fetchCategoriesInitType
 } from "./actionConstants";
 
-import type { AppState, IAction } from "../interfaces/AppState";
+import type { AppState, IAction } from "../interfaces/Context";
 
 export function reducer(state: AppState, action: IAction) {
   let stateAction : IAction = { type: action?.type };
@@ -106,15 +109,6 @@ export function reducer(state: AppState, action: IAction) {
     case deleteProductsSuccessType:
       stateAction.products = action.payload;
       break;
-    case fetchProductsSuccessType:
-      stateAction.products = { ...action.payload };
-      break;
-      case fetchCategoriesSuccessType:
-        stateAction.categories = { ...action.payload };
-        break;
-    case fetchUsersSuccessType:
-      stateAction.users = { ...action.payload };
-      break;
     case saveUsersSuccessType:
       stateAction.users = action.payload;
       break;
@@ -150,11 +144,26 @@ export function reducer(state: AppState, action: IAction) {
       stateAction.purchases = action.payload;
       break;
     case fetchPurchasesInitType:
-      stateAction.isLoading = true;
+    case fetchProductsInitType:
+    case fetchUsersInitType:
+    case fetchCategoriesInitType:
+      stateAction.isLoading = state.isLoading + 1;
       break;
     case fetchPurchasesSuccessType:
       stateAction.purchases = {...action.payload};
-      stateAction.isLoading = false;
+      stateAction.isLoading = state.isLoading - 1;
+      break;
+    case fetchProductsSuccessType:
+      stateAction.products = { ...action.payload };
+      stateAction.isLoading = state.isLoading - 1;
+      break;
+    case fetchCategoriesSuccessType:
+      stateAction.categories = { ...action.payload };
+      stateAction.isLoading = state.isLoading - 1;
+      break;
+    case fetchUsersSuccessType:
+      stateAction.users = { ...action.payload };
+      stateAction.isLoading = state.isLoading - 1;
       break;
     case saveCalendarsSuccessType:
       stateAction.calendars = action.payload;

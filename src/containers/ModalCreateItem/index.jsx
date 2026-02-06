@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveItemsAction } from "../../actions/itemsAction";
@@ -40,7 +40,7 @@ export const ModalCreateItem = ({ open }) => {
       setImage(userLogo);
       setItemData(initialItem.current);
     }
-    if (state?.activeItem?.id && itemData === initialItem.current) {
+    if (state?.activeItem?._id && itemData === initialItem.current) {
       setItemData((prevState) => ({ ...prevState, ...state.activeItem }));
     }
     
@@ -61,11 +61,11 @@ export const ModalCreateItem = ({ open }) => {
 
   return (
     <Modal
-      title={(state?.activeItem?.id ? "Editar" : "Criar") + " Item"}
+      title={(state?.activeItem?._id ? "Editar" : "Criar") + " Item"}
       open={open}
       controls={[
         {
-          label: (state?.activeItem?.id ? "Editar" : "Criar") + " e Salvar",
+          label: (state?.activeItem?._id ? "Editar" : "Criar") + " e Salvar",
           loadingLabel: "Criando",
           loading: state.type === saveItemsInitType,
           variant: "secondary",

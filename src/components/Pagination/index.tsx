@@ -1,7 +1,16 @@
 import { Container } from "./styles";
 import { Pagination as PaginationBS, Form } from "react-bootstrap";
+import type { IPagination } from "./type";
 
-export const Pagination = ({ page, pages, setPage, limit, setLimit, state, itemsArray }) => {
+
+export const Pagination = ({
+  page,
+  pages,
+  setPage,
+  limit,
+  setLimit,
+  itemsArray,
+}: IPagination) => {
   return (
     <Container>
       <PaginationBS>
@@ -22,7 +31,7 @@ export const Pagination = ({ page, pages, setPage, limit, setLimit, state, items
 
       <Form.Select
         value={limit}
-        onChange={(e) => {
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
           setLimit(parseInt(e.target.value, 10));
           setPage(1);
         }}

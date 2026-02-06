@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Button, Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import {

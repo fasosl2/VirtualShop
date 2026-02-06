@@ -18,8 +18,8 @@ export const getUsers = async (opts?: ApiGetParams): Promise<IPaginatedResponse<
 };
 
 export const saveUser = async (userData: Partial<IUser>): Promise<IPaginatedResponse<IUser>> => {
-  if(userData.id){
-    await api.put({body: userData, route: "users", params: [userData.id]})
+  if(userData._id){
+    await api.put({body: userData, route: "users", params: [userData._id]})
   } else {
     await api.post("users", userData)
   }

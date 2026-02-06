@@ -13,7 +13,6 @@ export const getProducts = async (opts: ApiGetParams): Promise<IPaginatedRespons
 
     const mapped: IProduct[] = raw.map((prod) => ({
       ...prod,
-      id: prod["_id"],
       items: typeof prod.items === 'string' && prod.items.length > 0 ? JSON.parse(prod.items) : [],
       endDate: prod?.endDate?.length ? new Date(prod.endDate) : null,
       startDate: prod?.startDate?.length ? new Date(prod.startDate) : null,
@@ -24,17 +23,17 @@ export const getProducts = async (opts: ApiGetParams): Promise<IPaginatedRespons
 
 export const saveProduct = async (productData: IProduct): Promise<IPaginatedResponse<IProduct>> => {
   const dataToSave = { ...productData, items: productData?.items?.length ? JSON.stringify(productData.items) : '[]' };
-  if (dataToSave.id) {
-    await api.put({ body: dataToSave, route: "products", params: [dataToSave.id] });
+  if (dataToSave._id) {
+    await api.put({ body: dataToSave, route: "products", params: [dataToSave._id] });
   } else {
     await api.post("products", dataToSave);
   }
   return await getProducts({page: 1}); // Assuming default page is 1
 };
 
-export const deleteProduct = async (productId: string): Promise<IPaginatedResponse<IProduct>> => {
-  await api.delete("products", productId);
-  await deleteProductFromChart({ id: productId } as IProduct, 99999999999);
+export const deleteProduct = async (product_id: string): Promise<IPaginatedResponse<IProduct>> => {
+  await api.delete("products", product_id);
+  await deleteProductFromChart({ id: product_id } as IProduct, 99999999999);
   return await getProducts({page: 1});
 };
 
@@ -45,7 +44,7 @@ export const saveProductInChart = async (product: IProduct): Promise<IChart> => 
     return chart;
   }
 
-  const prodIndex = chart.products.findIndex((elem) => elem.id === product.id);
+  const prodIndex = chart.products.findIndex((elem) => elem._id === product._id);
 
   if (prodIndex !== -1) {
     chart.products[prodIndex].count = (chart.products[prodIndex].count || 0) + 1;
@@ -61,7 +60,7 @@ export const deleteProductFromChart = async (product: Partial<IProduct>, negativ
   const chart: IChart = await getChart();
   if (!chart || !chart.products) return chart;
 
-  const prodIndex = chart.products.findIndex((elem) => elem.id === product.id);
+  const prodIndex = chart.products.findIndex((elem) => elem._id === product._id);
 
   if (prodIndex !== -1) {
     const prod = chart.products[prodIndex];

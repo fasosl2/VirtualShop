@@ -44,8 +44,7 @@ export const ChartContainer = (...props) => {
         <Container>
           <ChartList
             items={state.chart?.products.map((product) => ({
-              key: product.id,
-              id: product.id,
+              _id: product._id,
               value: product.price || 0,
               title: product.title,
               total: product.count,

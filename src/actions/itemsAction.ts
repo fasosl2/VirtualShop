@@ -8,7 +8,7 @@ import {
 import utilService from "../services/utilService";
 import React from "react";
 import type { Item, SelectedItem } from "../interfaces/Item";
-import type { IAction } from "../interfaces/AppState";
+import type { IAction } from "../interfaces/Context";
 
 import {
   deleteItemsInitType,

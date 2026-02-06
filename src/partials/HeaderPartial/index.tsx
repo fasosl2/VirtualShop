@@ -6,7 +6,7 @@ import { useAppContext } from "../../storage/AppContext";
 import navbarLogo from "../../assets/logo.png";
 import { useLocation } from "react-router-dom";
 import { ChartContainer } from "../../containers/ChartContainer";
-import type { AppState } from "../../interfaces/AppState";
+import type { AppState } from "../../interfaces/Context";
 
 export const HeaderPartial = () => {
   const { state } = useAppContext() as { state: AppState };

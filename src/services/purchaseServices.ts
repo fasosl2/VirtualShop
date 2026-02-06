@@ -18,8 +18,8 @@ export const getPurchases = async (opts?: ApiGetParams): Promise<IPaginatedRespo
 
 
 export const savePurchase = async (purchaseData: Partial<IPurchase>): Promise<IPaginatedResponse<IPurchase>> => {
-  if(purchaseData.id){
-    await api.put({body: purchaseData, route: "purchases", params: [purchaseData.id]})
+  if(purchaseData._id){
+    await api.put({body: purchaseData, route: "purchases", params: [purchaseData._id]})
   } else {
     await api.post("purchases", purchaseData)
   }
@@ -33,22 +33,22 @@ export const deletePurchase = async (purchaseId: string): Promise<IPaginatedResp
  };
 
 export const selectPurchase = (selectedPurchases: IPurchase[], purchase: IPurchase): IPurchase[] => {
-  const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
+  const purchaseSelected = selectedPurchases.find(ele => ele._id === purchase._id);
   if(purchaseSelected){
     purchaseSelected.total += 1;
     return selectedPurchases;
   }
-  selectedPurchases.push({id:purchase.id, title: purchase.title, total:1});
+  selectedPurchases.push({id:purchase._id, title: purchase.title, total:1});
   return selectedPurchases;
 };
 
 export const removePurchase = (selectedPurchases: IPurchase[], purchase: IPurchase, negativeValue: number): IPurchase[] => {
-  const purchaseSelected = selectedPurchases.find(ele => ele.id === purchase.id);
+  const purchaseSelected = selectedPurchases.find(ele => ele._id === purchase._id);
   if(purchaseSelected){
     if(purchaseSelected.total > negativeValue){
       purchaseSelected.total -= negativeValue;
     } else {
-      const purchaseIndex = selectedPurchases.findIndex(ele => ele.id === purchase.id);
+      const purchaseIndex = selectedPurchases.findIndex(ele => ele._id === purchase._id);
       if(purchaseIndex >= 0){
         selectedPurchases.splice(purchaseIndex,1)
       }

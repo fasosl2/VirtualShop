@@ -1,6 +1,6 @@
 import React from "react";
 import utilService from "../services/utilService";
-import type { IAction } from "../interfaces/AppState";
+import type { IAction } from "../interfaces/Context";
 import {
   deleteCalendar,
   getCalendars,

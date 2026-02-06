@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Form, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveUsersAction } from "../../actions/userActions";
@@ -65,7 +65,7 @@ export const ModalCreateUser = ({ open }) => {
       setImage(userLogo);
       setUserData(initialUser.current);
     }
-    if (state?.activeUser?.id && userData === initialUser.current) {
+    if (state?.activeUser?._id && userData === initialUser.current) {
       const { address, ...rest } = state.activeUser;
       setUserData((prevState) => ({
         ...prevState,
@@ -115,11 +115,11 @@ export const ModalCreateUser = ({ open }) => {
 
   return (
     <Modal
-      title={(state?.activeUser?.id ? "Editar" : "Criar") + " Usuário"}
+      title={(state?.activeUser?._id ? "Editar" : "Criar") + " Usuário"}
       open={open}
       controls={[
         {
-          label: (state?.activeUser?.id ? "Editar" : "Criar") + " e Salvar",
+          label: (state?.activeUser?._id ? "Editar" : "Criar") + " e Salvar",
           loadingLabel: "Criando",
           loading: state.type === saveUsersInitType,
           variant: "secondary",
@@ -171,14 +171,14 @@ export const ModalCreateUser = ({ open }) => {
             type="email"
             placeholder="E-mail"
             value={userData?.email}
-            disabled={state?.activeUser?.id ? true : false}
+            disabled={state?.activeUser?._id ? true : false}
             onChange={(e) => handleChange(e, "email")}
           />
           <br />
           <Form.Control
             type="password"
-            required={state?.activeUser?.id ? false : true}
-            disabled={state?.activeUser?.id ? true : false}
+            required={state?.activeUser?._id ? false : true}
+            disabled={state?.activeUser?._id ? true : false}
             placeholder="Senha"
             value={userData?.password}
             onChange={(e) => handleChange(e, "password")}

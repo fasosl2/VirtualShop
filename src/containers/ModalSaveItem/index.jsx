@@ -1,4 +1,4 @@
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import { Button } from "../../components/Button";
 import { useAppContext } from "../../storage/AppContext";
@@ -41,7 +41,7 @@ export const ModalSaveItems = ({ open }) => {
     >
       <ListGroup variant="flush">
         {state?.items?.map((item, itemIndex) => {
-          let itemSaved = state?.selectedItems.find(selectedItem => selectedItem.id === item.id)
+          let itemSaved = state?.selectedItems.find(selectedItem => selectedItem._id === item._id)
           return (
           <ListGroup.Item key={itemIndex}>
             <Row>

@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { openModalCreateItemType, saveItemsSuccessType } from "../../storage/actionConstants";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import { useEffect, useState } from "react";
 import {
   deleteItemAction,
@@ -60,7 +60,7 @@ export const Items = () => {
       <Container fluid>
           <Row>
           {itemsProcessed.map((item) => (
-            <Col key={item.id} xs={13} md={4} style={{ marginTop: "1em" }}>
+            <Col key={item._id} xs={13} md={4} style={{ marginTop: "1em" }}>
               <Card
                 {...{
                   ...item,
@@ -77,7 +77,7 @@ export const Items = () => {
                       loadingLabel: 'Excluindo',
                       variant: 'danger',
                       onClick: async () => {
-                        await deleteItemAction(dispatch, item.id);
+                        await deleteItemAction(dispatch, item._id);
                       }
                   },
                 ],

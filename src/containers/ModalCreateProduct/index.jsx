@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { saveProductsAction } from "../../actions/productActions";
@@ -37,9 +37,6 @@ export const ModalCreateProduct = ({ open }) => {
     description: "",
     price: 0,
     priceRecife: "",
-    priceRMR: "",
-    minPeople: "",
-    maxPeople: "",
     stock: "",
     image: "",
     categories: [],
@@ -54,7 +51,7 @@ export const ModalCreateProduct = ({ open }) => {
   const [productData, setProductData] = useState(initialProduct.current);
 
   const isEditing = useMemo(
-    () => !!state.activeProduct?.id,
+    () => !!state.activeProduct?._id,
     [state.activeProduct]
   );
 
@@ -74,24 +71,6 @@ export const ModalCreateProduct = ({ open }) => {
   };
 
   useEffect(() => {
-    if (open) {
-      const fetchOpts = {};
-      if (apiCategoryFilter) {
-        fetchOpts.name = apiCategoryFilter;
-      }
-      fetchCategoriesAction(dispatch, fetchOpts);
-
-      const fetchBaseProducts = async () => {
-        const result = await getProducts({ limit: 999 });
-        if (result?.list) {
-          setBaseProducts(result.list);
-        }
-      };
-      fetchBaseProducts();
-    }
-  }, [open, apiCategoryFilter, dispatch]);
-
-  useEffect(() => {
     if (state.type === saveProductsSuccessType) {
       dispatch(closeModalsAction());
       setProductData(initialProduct.current);
@@ -100,7 +79,7 @@ export const ModalCreateProduct = ({ open }) => {
       setImage(rectangle);
       setProductData(initialProduct.current);
     }
-    if (state?.activeProduct?.id && productData === initialProduct.current) {
+    if (state?.activeProduct?._id && productData === initialProduct.current) {
       const { variant, ...rest } = state.activeProduct;
       setProductData((prevState) => ({
         ...prevState,
@@ -132,8 +111,10 @@ export const ModalCreateProduct = ({ open }) => {
         items: state.selectedItems,
       }));
     }
-    setChildList(
-      baseProducts?.filter(({ variant }) => variant?.baseID && variant?.baseID == productData._id) || []);
+    if(productData?._id && baseProducts?.length) {
+        setChildList(
+          baseProducts?.filter(({ variant }) => variant?.baseID && variant?.baseID == productData._id) || []);
+    }
   }, [
     state.type,
     state.activeProduct,
@@ -141,6 +122,30 @@ export const ModalCreateProduct = ({ open }) => {
     productData.image,
     state.selectedItems,
   ]);
+
+  useEffect(() => {
+    if (open) {
+      const fetchOpts = {};
+      if (apiCategoryFilter) {
+        fetchOpts.name = apiCategoryFilter;
+      }
+      fetchCategoriesAction(dispatch, fetchOpts);
+
+      const fetchBaseProducts = async () => {
+        const result = await getProducts({ limit: 999 });
+        if (result?.list) {
+          setBaseProducts(result.list);
+
+          if(productData?._id && baseProducts?.length) {
+            setChildList(
+              result.list?.filter(({ variant }) => productData?._id && variant?.baseID && variant?.baseID == productData._id) || []
+            );
+          }
+        }
+      };
+      fetchBaseProducts();
+    }
+  }, [open, apiCategoryFilter, dispatch]);
 
   const handleChange = (e, field, variantValue) =>
     setProductData((prevState) => ({
@@ -167,7 +172,7 @@ export const ModalCreateProduct = ({ open }) => {
     // to a quick double-call event. Both calls will operate on the
     // same initial state, preventing a double increment/decrement.
     const { categories, ...restOfProductData } = productData;
-    const existingProduct = categories.find((p) => p.id === element.id);
+    const existingProduct = categories.find((p) => p._id === element._id);
 
     let newCategories;
 
@@ -201,8 +206,8 @@ export const ModalCreateProduct = ({ open }) => {
       open={open}
       controls={[
         {
-          label: (state?.activeProduct?.id ? "Editar" : "Criar") + " e Salvar",
-          loadingLabel: (state?.activeProduct?.id ? "Edit" : "Cri") + "ando",
+          label: (state?.activeProduct?._id ? "Editar" : "Criar") + " e Salvar",
+          loadingLabel: (state?.activeProduct?._id ? "Edit" : "Cri") + "ando",
           loading: state.type === saveProductsInitType,
           variant: "secondary",
           type: "submit",
@@ -266,7 +271,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <Row className="mt-3">
                     <p>Produtos Variantes</p>
                     {childList.map(product =>
-                      <p key={product.id}>{product.id} - {product.title}</p>
+                      <p key={product._id}>{product._id} - {product.title}</p>
                     )}
                   </Row>
                   : <Row className="mt-3">
@@ -370,7 +375,7 @@ export const ModalCreateProduct = ({ open }) => {
                   <ListGroup style={{ maxHeight: "150px", overflowY: "auto" }}>
                     {categoriesData?.list?.map((category) => {
                       const isInProduct = productData.categories.some(
-                        (p) => p._id === category._id
+                        (currentCategory) => currentCategory._id === category._id
                       );
                       return (
                         <ListGroup.Item

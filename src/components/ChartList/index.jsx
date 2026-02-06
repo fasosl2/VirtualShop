@@ -10,10 +10,11 @@ import {
   RowBody,
   RowFooter,
   ColListGroup,
-  ButtonLink,
+  TextLink,
+  TextButton,
   ListGroupBSItem,
   DropdownItem,
-  Link,
+  ButtonLink,
 } from "./styles";
 import lixeira from "../../assets/lixeira.svg";
 import x from "../../assets/x.svg";
@@ -45,7 +46,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
       <RowBody>
         <ListGroupBS className="p-0">
           {items.map((item) => (
-            <ListGroupBSItem compact={compact} key={item.id}>
+            <ListGroupBSItem compact={compact} key={item._id}>
               <noscript>{(total += item.value * item.total)}</noscript>
               <Row className="g-4 d-flex justify-content-center align-items-center">
                 {/* Botão excluir e img para o pop ou so img */}
@@ -54,10 +55,10 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                     ""
                   ) : (
                     <Col style={{ paddingLeft: "0" }}>
-                      <ButtonLink
+                      <TextButton
                         onClick={() =>
                           handleClick(
-                            item.id + "excluir",
+                            item._id + "excluir",
                             item,
                             item.total,
                             item.onClick
@@ -68,7 +69,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                           src={x}
                           style={{ width: "25px", height: "25px" }}
                         />
-                      </ButtonLink>
+                      </TextButton>
                     </Col>
                   )}
                   <Col>
@@ -96,10 +97,10 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                       </Col>
                     ) : (
                       <Col style={{ paddingLeft: "0" }}>
-                        <ButtonLink
+                        <TextButton
                           onClick={() =>
                             handleClick(
-                              item.id + "excluir",
+                              item._id + "excluir",
                               item,
                               item.total,
                               item.onClick
@@ -107,8 +108,8 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                           }
                         >
                           {item.total ? "Exclui" : ""}
-                          {itemsLoading[item.id + "excluir"] ? "ndo" : "r"}{" "}
-                          {itemsLoading[item.id + "excluir"] && (
+                          {itemsLoading[item._id + "excluir"] ? "ndo" : "r"}{" "}
+                          {itemsLoading[item._id + "excluir"] && (
                             <>
                               <Spinner
                                 as="span"
@@ -123,7 +124,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                               </Spinner>
                             </>
                           )}
-                        </ButtonLink>
+                        </TextButton>
                       </Col>
                     )}
                   </Row>
@@ -174,16 +175,18 @@ export const ChartList = ({ items = [], compact, ...props }) => {
         <DropdownItem as="div">
           <RowFooter compact={compact} className="m-0">
             <span>
-              <Link currentpath={location.pathname} to="/chart">
+              <ButtonLink currentpath={location.pathname} to="/chart">
                 finalizar compra
-              </Link>
+              </ButtonLink>
             </span>
           </RowFooter>
         </DropdownItem>
       ) : (
         <RowFooter>
           <span>
-            <ButtonLink>Adicione mais produtos!</ButtonLink>
+            <TextLink currentpath={location.pathname} to="/produtos">
+              Adicione {items?.length ? 'mais' : ''} produtos!
+            </TextLink>
           </span>
         </RowFooter>
       )}

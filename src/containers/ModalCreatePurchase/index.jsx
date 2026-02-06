@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Form, Row, Col, Button, Dropdown, InputGroup, ListGroup, FormControl } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { closeModalsAction } from "../../actions/modalsActions";
@@ -74,7 +74,7 @@ export const ModalCreatePurchase = ({ open }) => {
 
   const totalPrice = useMemo(() => {
     return purchaseData.products.reduce((acc, product) => {
-      const price = parseFloat(product.price || product.id?.price || 0);
+      const price = parseFloat(product.price || product._id?.price || 0);
       return acc + (price * product.count);
     }, 0);
   }, [purchaseData.products]);
@@ -206,7 +206,7 @@ export const ModalCreatePurchase = ({ open }) => {
     // to a quick double-call event. Both calls will operate on the
     // same initial state, preventing a double increment/decrement.
     const { products, ...restOfPurchaseData } = purchaseData;
-    const existingProduct = products.find((p) => p.id === element.id);
+    const existingProduct = products.find((p) => p._id === element._id);
 
     let newProducts;
 
@@ -214,11 +214,11 @@ export const ModalCreatePurchase = ({ open }) => {
       const newCount = existingProduct.count + (negativeValue ? -1 : 1);
       if (newCount <= 0) {
         // Remove product using filter for immutability
-        newProducts = products.filter((p) => p.id !== element.id);
+        newProducts = products.filter((p) => p._id !== element._id);
       } else {
         // Update product count using map for immutability
         newProducts = products.map((p) =>
-          p.id === element.id ? { ...p, count: newCount } : p
+          p._id === element._id ? { ...p, count: newCount } : p
         );
       }
     } else if (!negativeValue) {
@@ -241,7 +241,7 @@ export const ModalCreatePurchase = ({ open }) => {
 
     };
     if (isEditing) {
-      payload.id = activePurchase._id;
+      payload._id = activePurchase._id;
     }
     savePurchasesAction(dispatch, payload);
   };
@@ -373,7 +373,7 @@ export const ModalCreatePurchase = ({ open }) => {
             <div style={{maxHeight: '400px', overflowY: 'auto'}}>
               <ListGroup variant="flush">
                 {purchaseData.products.map((productInPurchase) => (
-                  <ListGroup.Item key={productInPurchase.id} className="d-flex justify-content-between align-items-center">
+                  <ListGroup.Item key={productInPurchase._id} className="d-flex justify-content-between align-items-center">
                     <span>{productInPurchase.title}</span>
                     <CountButtonGroup
                       total={productInPurchase.count}
@@ -471,9 +471,9 @@ export const ModalCreatePurchase = ({ open }) => {
             </InputGroup>
             <ListGroup style={{maxHeight: '300px', overflowY: 'auto'}}>
               {productsData?.list?.map(product => {
-                const isInPurchase = purchaseData.products.some(p => p.id === product.id);
+                const isInPurchase = purchaseData.products.some(p => p._id === product._id);
                 return (
-                  <ListGroup.Item key={product.id} className="d-flex justify-content-between align-items-center">
+                  <ListGroup.Item key={product._id} className="d-flex justify-content-between align-items-center">
                     <span className="me-2">{product.title}</span>
                     <Button
                       variant="outline-success"

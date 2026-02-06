@@ -11,7 +11,7 @@ import {
     fetchCategoriesInitType,
     fetchCategoriesSuccessType,
   } from "../storage/actionConstants";
-import type { IAction } from "../interfaces/AppState";
+import type { IAction } from "../interfaces/Context";
 import type { IPaginatedResponse } from "../interfaces/Response";
   
   export const fetchCategoriesInitAction = () => ({

@@ -24,7 +24,7 @@ import { ContentDiv } from "../../styles/global";
 import bag from "../../assets/bag.svg";
 import moment from "moment";
 import { savePurchasesAction } from "../../actions/purchasesAction";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import utilService from "../../services/utilService";
 import { Form } from "react-bootstrap";
 
@@ -72,13 +72,13 @@ export const ChartPage = () => {
     setItensLoading,
     field,
   }) => {
-    setItensLoading((prevState) => ({ ...prevState, [product.id]: true }));
+    setItensLoading((prevState) => ({ ...prevState, [product._id]: true }));
     dispatch(
       negativeValue
         ? await deleteProductsFromChartAction(dispatch, product, negativeValue)
         : await saveProductsInChartAction(dispatch, product)
     );
-    setItensLoading((prevState) => ({ ...prevState, [product.id]: false }));
+    setItensLoading((prevState) => ({ ...prevState, [product._id]: false }));
   };
   useEffect(() => {
     fetchChartsAction(dispatch);
@@ -113,7 +113,7 @@ export const ChartPage = () => {
         deliveryStatus: 'Pendente',
         paymentMethod: paymentMethod,
         // Envia para o backend apenas os campos necessários
-        products: state.chart?.products?.map(({ id, count }) => ({ id, count })),
+        products: state.chart?.products?.map(({ _id, count }) => ({ _id, count })),
       });
       deleteChartAction(dispatch);
       handleShowFeedback('success');
@@ -136,8 +136,7 @@ export const ChartPage = () => {
         <Col md={9}>
           <ChartList
             items={state.chart?.products?.map((product) => ({
-              key: product.id,
-              id: product.id,
+              _id: product._id,
               value: product.price || 0,
               title: product.title,
               total: product.count,

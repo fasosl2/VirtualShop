@@ -115,10 +115,10 @@ export const deleteProductSuccessAction = (products: IPaginatedResponse<IProduct
 
 export const deleteProductAction = async (
   dispatch: React.Dispatch<Action>,
-  productId: string
+  product_id: string
 ) => {
   dispatch(deleteProductInitAction());
   await utilService.sleep(1000);
-  const products = await deleteProduct(productId);
+  const products = await deleteProduct(product_id);
   dispatch(deleteProductSuccessAction(products));
 };

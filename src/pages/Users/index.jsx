@@ -2,7 +2,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { logoutUsersSuccessType, saveUsersSuccessType } from "../../storage/actionConstants";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import { useEffect, useState } from "react";
 import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
@@ -167,7 +167,7 @@ export const Users = () => {
                     loadingLabel: 'Excluindo',
                     variant: 'danger',
                     onClick: async () => {
-                      await deleteUserAction(dispatch, user.id);
+                      await deleteUserAction(dispatch, user._id);
                     }
                   }
                 ]

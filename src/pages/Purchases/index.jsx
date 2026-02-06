@@ -2,7 +2,7 @@ import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { openModalCreatePurchaseType, savePurchasesSuccessType } from "../../storage/actionConstants";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import { useEffect, useState, useMemo } from "react";
 import {
   deletePurchaseAction,

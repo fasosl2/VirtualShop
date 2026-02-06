@@ -8,7 +8,7 @@ import {
   saveProductsSuccessType,
   openModalCreateCategoriesType,
 } from "../../storage/actionConstants";
-import { Notification } from "../../components/Notification/Notification";
+import { Notification } from "../../components/Notification";
 import { useEffect, useState } from "react";
 import {
   deleteProductAction,
@@ -48,7 +48,7 @@ export const Products = () => {
   const productsArray = state.products?.list || [];
   const productsTotalized = productsArray.map((product) => ({
     ...product,
-    total: state.chart?.products?.find((chart) => chart.id === product.id)
+    total: state.chart?.products?.find((chartProduct) => chartProduct._id === product._id)
       ?.count,
   }));
   const [apiFilters, setApiFilters] = useState({});
@@ -202,12 +202,12 @@ const handleClearFilters = () => {
         <Row>
           {productsTotalized.map((product) => (
             <ProductCol
-              key={product.id}
+              key={product._id}
               xl={6}
               xs={12}
               style={{ marginTop: "1em" }}
             >
-              {console.log(product)}
+              {/* {console.log(product)} */}
               <ProductCard
                 {...{
                   ...product,
@@ -226,7 +226,7 @@ const handleClearFilters = () => {
                         loadingLabel: "Excluindo",
                         variant: "danger",
                         onClick: async () => {
-                          await deleteProductAction(dispatch, product.id);
+                          await deleteProductAction(dispatch, product._id);
                         },
                       },
                     ];

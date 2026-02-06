@@ -1,10 +1,22 @@
 
+import type { ICategory } from "./Category";
+import type { Item } from "./Item";
+
 export interface IProduct {
-    id: string;
+    id?: string;
     _id: string;
-    items: string | any[];
-    endDate: Date | string | null;
-    startDate: Date | string | null;
-    count?: number;
+    items?: string | Item[];
+    title: string;
+    shortTitle?: string;
+    description?: string;
+    price?: number;
+    stock: string;
+    image: string;
+    categories: ICategory[];
+    variant: {
+      isBase: "Não" | "Sim";
+      baseID: string;
+    }
     [key: string]: any;
 }
+

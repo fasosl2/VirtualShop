@@ -6,7 +6,7 @@ import { LoaderContainer } from './styles';
 export const GlobalLoader = () => {
   const { state } = useAppContext();
 
-  return (state.isLoading ?
+  return (state?.isLoading > 0 ?
     <LoaderContainer>
       <Spinner animation="border" variant="light" style={{ width: '3rem', height: '3rem' }} />
     </LoaderContainer> : null

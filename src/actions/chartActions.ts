@@ -32,7 +32,7 @@ export const fetchChartsInitAction = () => ({
     dispatch(saveChartsInitAction());
     await utilService.sleep(1000);
     const newChart = await postChart(chartName);
-    const resultChart = await saveProductInChart(newChart.id, productId);
+    const resultChart = await saveProductInChart(newChart._id, productId);
     dispatch(saveChartsSuccessAction(resultChart));
   }; */
   

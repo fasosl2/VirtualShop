@@ -256,49 +256,47 @@ export const HomePage = () => {
         </Row>
       </ContentSection>
 
-      <ContentSection>
-        {
-          // <HomeSwiperContainer>
-          //   <H4 footer>Clientes+</H4>
-          //   <SlideContainerLogo>
-          //     <SwiperContainer>
-          //       <SwiperSlide>
-          //         <SwiperImage
-          //           src={ufpeLogo}
-          //           alt={"Universidade Federal de Pernambuco"}
-          //         />
-          //         <p>Universidade Federal de Pernambuco</p>
-          //       </SwiperSlide>
+      {/* <ContentSection>
+          <HomeSwiperContainer>
+            <H4 footer>Clientes+</H4>
+            <SlideContainerLogo>
+              <SwiperContainer>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={ufpeLogo}
+                    alt={"Universidade Federal de Pernambuco"}
+                  />
+                  <p>Universidade Federal de Pernambuco</p>
+                </SwiperSlide>
 
-          //       <SwiperSlide>
-          //         <SwiperImage src={oi} alt={"Oi Telefonia"} />
-          //         <p>Oi telefonia</p>
-          //       </SwiperSlide>
-          //       <SwiperSlide>
-          //         <SwiperImage
-          //           src={unicapLogo}
-          //           alt={"Universidade Católica de Pernambuco"}
-          //         />
-          //         <p>Universidade Católica de Pernambuco</p>
-          //       </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperImage src={oi} alt={"Oi Telefonia"} />
+                  <p>Oi telefonia</p>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={unicapLogo}
+                    alt={"Universidade Católica de Pernambuco"}
+                  />
+                  <p>Universidade Católica de Pernambuco</p>
+                </SwiperSlide>
 
-          //       <SwiperSlide>
-          //         <SwiperImage
-          //           src={prefeituraRecifeLogo}
-          //           alt={"Prefeitura do Recife"}
-          //         />
-          //         <p>Prefeitura de Recife</p>
-          //       </SwiperSlide>
-          //       <SwiperSlide>
-          //         <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
-          //         <p>Clube Metrópole</p>
-          //       </SwiperSlide>
-          //     </SwiperContainer>
-          //   </SlideContainerLogo>
-          // </HomeSwiperContainer>
-        }
-        {/* Slider main container */}
-      </ContentSection>
+                <SwiperSlide>
+                  <SwiperImage
+                    src={prefeituraRecifeLogo}
+                    alt={"Prefeitura do Recife"}
+                  />
+                  <p>Prefeitura de Recife</p>
+                </SwiperSlide>
+                <SwiperSlide>
+                  <SwiperImage src={metropoleLogo} alt={"Metrópole"} />
+                  <p>Clube Metrópole</p>
+                </SwiperSlide>
+              </SwiperContainer>
+            </SlideContainerLogo>
+          </HomeSwiperContainer>
+      </ContentSection> */}
+
     </ContentDiv>
   );
 };

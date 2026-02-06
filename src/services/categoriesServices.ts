@@ -12,8 +12,8 @@ export const getCategories = async (opts?: Record<string, any>): Promise<IPagina
   };
 
 export const saveCategories = async (categoryData: ICategory): Promise<IPaginatedResponse<ICategory>> => {
-  if(categoryData.id){
-    await api.put({body: categoryData, route: "categories", params: [categoryData.id]})
+  if(categoryData._id){
+    await api.put({body: categoryData, route: "categories", params: [categoryData._id]})
   } else {
     await api.post("categories", categoryData)
   }

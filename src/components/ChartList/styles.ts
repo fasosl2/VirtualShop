@@ -9,7 +9,7 @@ import {
 import { ListGroup,  Dropdown } from "react-bootstrap";
 import { Link as LinkBS } from "react-router-dom";
 
-export const Link = styled(LinkBS).attrs({
+export const ButtonLink = styled(LinkBS).attrs({
   className:"btn text-decoration-none mt-3 mb-2 d-flex justify-content-center align-items-center"
 })`
   color: white;
@@ -22,6 +22,13 @@ export const Link = styled(LinkBS).attrs({
     background-color: rgba(71, 91, 109); 
     color: white;
   }
+`;
+
+
+export const TextLink = styled(LinkBS).attrs({
+  className: "text-decoration-none",
+})`
+  font-size: 0.8rem;
 `;
 
 export const DropdownItem = styled(Dropdown.Item).attrs({
@@ -63,7 +70,7 @@ export const Button = styled(ButtonBS)`
   font-size: 0.8rem;
 `;
 
-export const ButtonLink = styled(ButtonBS).attrs({
+export const TextButton = styled(ButtonBS).attrs({
   variant: "link",
   className: "text-decoration-none",
 })`

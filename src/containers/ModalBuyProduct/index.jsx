@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Modal } from "../../components/Modal/Modal";
+import { Modal } from "../../components/Modal";
 import { Col, Form, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import {
@@ -48,7 +48,7 @@ export const ModalCreateSchedule = ({ open }) => {
     } else {
       setCount(
         state.chart?.products?.find(
-          (chart) => chart.id === state.activeProduct?.id
+          (chart) => chart._id === state.activeProduct?._id
         )?.count || 0
       );
     }
@@ -127,7 +127,7 @@ export const ModalCreateSchedule = ({ open }) => {
           onClick: async () => {
             if (state.activeProduct && state.chart?.products) {
               const productInChart = state.chart.products.find(
-                (p) => p.id === state.activeProduct.id
+                (p) => p._id === state.activeProduct._id
               );
               const quantityToRemove = productInChart
                 ? productInChart.count
@@ -163,7 +163,7 @@ export const ModalCreateSchedule = ({ open }) => {
                 <ThumbnailContainer>
                   {relatedProducts.map((prod) => (
                     <ThumbnailWrapper
-                      key={prod.id}
+                      key={prod._id}
                       onClick={() => dispatch(openModalBuyProductAction(prod))}
                     >
                       <ThumbnailImage src={prod.image} alt={prod.shortTitle} />

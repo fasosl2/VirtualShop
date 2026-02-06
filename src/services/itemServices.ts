@@ -8,8 +8,8 @@ export const getItems = async (): Promise<Item[]> => {
 };
 
 export const saveItem = async (itemData: Item): Promise<Item[]> => {
-  if(itemData.id){
-    await api.put({body: itemData, route: "items", params: [itemData.id]})
+  if(itemData._id){
+    await api.put({body: itemData, route: "items", params: [itemData._id]})
   } else {
     await api.post("items", itemData)
   }
@@ -23,24 +23,24 @@ export const deleteItem = async (itemId: string): Promise<Item[]> => {
  };
 
 export const selectItem = (selectedItems: SelectedItem[], item: Item): SelectedItem[] => {
-  const itemSelected = selectedItems.find(ele => ele.id === item.id);
+  const itemSelected = selectedItems.find(ele => ele._id === item._id);
   if(itemSelected){
     itemSelected.total += 1;
     return selectedItems;
   }
-  if(item.id){
-    selectedItems.push({id: item.id, title: item.title, total:1});
+  if(item._id){
+    selectedItems.push({id: item._id, title: item.title, total:1});
   }
   return selectedItems;
 };
 
 export const removeItem = (selectedItems: SelectedItem[], item: Item, negativeValue: number): SelectedItem[] => {
-  const itemSelected = selectedItems.find(ele => ele.id === item.id);
+  const itemSelected = selectedItems.find(ele => ele._id === item._id);
   if(itemSelected){
     if(itemSelected.total > negativeValue){
       itemSelected.total -= negativeValue;
     } else {
-      const itemIndex = selectedItems.findIndex(ele => ele.id === item.id);
+      const itemIndex = selectedItems.findIndex(ele => ele._id === item._id);
       if(itemIndex >= 0){
         selectedItems.splice(itemIndex,1)
       }
