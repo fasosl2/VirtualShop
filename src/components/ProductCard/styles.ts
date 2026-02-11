@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { Card as CardBS, Col, Row } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
-export const CardHeader = styled(CardBS.Header)`
+export const CardHeader = styled(Card.Header)`
   border-radius: 16px 16px 0px 0px;
   background: #aecd46;
   color: white;
 `;
-export const CardPrice = styled(CardBS.Title)`
+export const CardPrice = styled(Card.Title)`
     text-align: end;
 `;
 
@@ -24,7 +24,7 @@ export const CardButtomContainer = styled.div`
 `;
 
 
-export const CardImg = styled(CardBS.Img)`
+export const CardImg = styled(Card.Img)`
     max-width: 100%;
     max-height: 100%;
     width: auto;  

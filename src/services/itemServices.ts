@@ -29,7 +29,7 @@ export const selectItem = (selectedItems: SelectedItem[], item: Item): SelectedI
     return selectedItems;
   }
   if(item._id){
-    selectedItems.push({id: item._id, title: item.title, total:1});
+    selectedItems.push({_id: item._id, title: item.title, total:1});
   }
   return selectedItems;
 };

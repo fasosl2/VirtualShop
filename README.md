@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# VirtualShop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a web application for a virtual shop, built with React and TypeScript. It provides a platform for users to browse products, add them to a cart, and make purchases.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Product Management:** Create, edit, and delete products.
+*   **User Management:** Manage user accounts and roles.
+*   **Shopping Cart:** Add products to a cart and proceed to checkout.
+*   **Purchase History:** View a history of past purchases.
+*   **Categories:** Organize products into categories.
+*   **Reporting:** Generate reports in PDF and Excel formats.
+*   **Calendar:** A calendar feature for scheduling or tracking events.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Frontend:**
+    *   [React](https://reactjs.org/)
+    *   [TypeScript](https://www.typescriptlang.org/)
+    *   [Vite](https://vitejs.dev/)
+    *   [React Router](https://reactrouter.com/) for routing.
+    *   [Styled Components](https://styled-components.com/) for styling.
+    *   [Bootstrap](https://getbootstrap.com/) and [React-Bootstrap](https://react-bootstrap.github.io/) for UI components.
+    *   [Swiper](https://swiperjs.com/) for carousels.
+*   **Tooling:**
+    *   [ESLint](https://eslint.org/) for linting.
+    *   [TypeScript](https://www.typescriptlang.org/) for type checking.
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+To get a local copy up and running, follow these simple steps.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+*   [Node.js](https://nodejs.org/en/) (v18 or higher)
+*   [npm](https://www.npmjs.com/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+1.  Clone the repo
+    ```sh
+    git clone https://github.com/your_username/VirtualShop.git
+    ```
+2.  Install NPM packages
+    ```sh
+    npm install
+    ```
+
+### Usage
+
+To run the app in development mode, run the following command:
+
+```sh
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This will start the development server at `http://localhost:5173`.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+To build the app for production, run the following command:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```sh
+npm run build
 ```
+
+This will create a `dist` folder with the production-ready files.
+
+## Project Structure
+
+The project structure is as follows:
+
+```
+├── src
+│   ├── actions       # Redux-like actions
+│   ├── assets        # Images, fonts, etc.
+│   ├── components    # Reusable React components
+│   ├── containers    # Components that are connected to the store
+│   ├── interfaces    # TypeScript interfaces
+│   ├── pages         # Top-level page components
+│   ├── partials      # Partials like header and footer
+│   ├── services      # API calls and other services
+│   ├── storage       # AppContext and reducer
+│   └── styles        # Global styles
+├── public            # Public assets
+├── package.json
+└── vite.config.ts
+```
+
+## Env File
+Use VITE_APP_API to consume backend API

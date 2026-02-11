@@ -1,5 +1,5 @@
 interface HasId {
-    id: number;
+    _id: number;
 }
 
 export const generateId = (table: HasId[]): number => {
