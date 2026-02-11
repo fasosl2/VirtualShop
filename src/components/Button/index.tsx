@@ -1,7 +1,8 @@
 import {Badge, Spinner} from 'react-bootstrap';
 import { ButtonBS } from './styles';
+import type { IButton } from './type';
 
-export const Button = ({loading, label, loadingLabel, ...buttonProps}) => {
+export const Button = ({loading, label, loadingLabel, ...buttonProps} : IButton) => {
   return (
       <ButtonBS {...buttonProps}>
         {loading && (<>

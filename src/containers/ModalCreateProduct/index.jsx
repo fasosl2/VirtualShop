@@ -21,7 +21,7 @@ import rectangle from "../../assets/rectangle.png";
 import { Col, FormImg, Row } from "./styles";
 
 import { MultiRatio } from "../../components/MultiRatio";
-import { InputTime } from "../../components/InputTime";
+//import { InputTime } from "../../components/InputTime";
 
 export const ModalCreateProduct = ({ open }) => {
   const { state, dispatch } = useAppContext();
@@ -161,11 +161,11 @@ export const ModalCreateProduct = ({ open }) => {
   const handleCreateOrUpdateCategories = (category) => {
     dispatch(openModalCreateCategoriesAction(category));
   };
-  const handleHours = (value, field) =>
-    setProductData((prevState) => ({
-      ...prevState,
-      [field]: value,
-    }));
+  // const handleHours = (value, field) =>
+  //   setProductData((prevState) => ({
+  //     ...prevState,
+  //     [field]: value,
+  //   }));
 
   const handleToggleCategory = ({ element, remove }) => {
     // This logic reads the state at render time, making it resilient
@@ -475,15 +475,15 @@ export const ModalCreateProduct = ({ open }) => {
                     <Col>
                       <InputTime
                         className="col-12"
-                        startDate={productData?.startDate}
-                        setStartDate={(e) => handleHours(e, "startDate")}
+                        inputDate={productData?.startDate}
+                        setInputDate={(value) => handleHours(value, "startDate")}
                       />
                     </Col>
                     <Col>
                       <InputTime
                         className="col-12"
-                        startDate={productData?.endDate}
-                        setStartDate={(e) => handleHours(e, "endDate")}
+                        inputDate={productData?.endDate}
+                        setInputDate={(value) => handleHours(value, "endDate")}
                       />
                     </Col>
                   </Row>

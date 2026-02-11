@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import {Card as BSCard} from 'react-bootstrap/';
+import {Card } from 'react-bootstrap/';
 
-export const Card = styled(BSCard)`
+export const StyledCard = styled(Card)`
 aspect-ratio: ${(props) => (props.aspect ? props.aspect : '5 / 4')};
     border-radius: 30px;
 

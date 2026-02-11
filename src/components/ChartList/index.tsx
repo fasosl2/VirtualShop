@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ListGroup as ListGroupBS, Spinner } from "react-bootstrap";
 import {
   ContentSection,
@@ -16,18 +16,25 @@ import {
   DropdownItem,
   ButtonLink,
 } from "./styles";
-import lixeira from "../../assets/lixeira.svg";
 import x from "../../assets/x.svg";
 import { CountButtonGroup } from "../CountButtonGroup";
-import { useLocation } from "react-router-dom";
+import type { IChartProduct } from "../../interfaces/Chart";
+import type { IChartList, ItemOnClick } from "./type";
 
-export const ChartList = ({ items = [], compact, ...props }) => {
+export const ChartList: React.FC<IChartList> = ({
+  items = [],
+  compact,
+}) => {
   let total = 0;
-  const location = useLocation();
+  
+  const [itemsLoading, setItemsLoading] = useState<Record<string, boolean>>({});
 
-  const [itemsLoading, setItemsLoading] = useState({});
-
-  const handleClick = async (field, element, total, onClick) => {
+  const handleClick = async (
+    field: string,
+    element: IChartProduct,
+    total: number,
+    onClick: ItemOnClick
+  ) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
     await onClick({ element, negativeValue: total, setItemsLoading, field });
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
@@ -144,7 +151,6 @@ export const ChartList = ({ items = [], compact, ...props }) => {
                         contentlabel: "Compra",
                       }}
                     />
-                    {/* console.log(item.date) */}
                   </ColListGroup>
                 )}
 
@@ -175,7 +181,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
         <DropdownItem as="div">
           <RowFooter compact={compact} className="m-0">
             <span>
-              <ButtonLink currentpath={location.pathname} to="/chart">
+              <ButtonLink to="/chart">
                 finalizar compra
               </ButtonLink>
             </span>
@@ -184,7 +190,7 @@ export const ChartList = ({ items = [], compact, ...props }) => {
       ) : (
         <RowFooter>
           <span>
-            <TextLink currentpath={location.pathname} to="/produtos">
+            <TextLink to="/produtos">
               Adicione {items?.length ? 'mais' : ''} produtos!
             </TextLink>
           </span>

@@ -1,9 +1,11 @@
+import type { FC } from 'react';
 import { Modal as ModalBS} from "react-bootstrap";
 import { Button } from "../Button";
 import { useAppContext } from "../../storage/AppContext";
-import { closeModalsAction, } from "../../actions/modalsActions";
+import { closeModalsAction } from "../../actions/modalsActions";
+import type { IModal } from './type';
 
-export const Modal = ({title, children, open, onHide, controls = []}) => {
+export const Modal: FC<IModal> = ({title, children, open, onHide, controls = []}) => {
 
     const { dispatch } = useAppContext();
     const HandleClose = () => {

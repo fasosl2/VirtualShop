@@ -2,25 +2,21 @@ import { useState } from "react";
 import { Button } from "../Button";
 import { Card as CardBS } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
-import { CountButtonGroup } from "../CountButtonGroup";
+import type { ICard } from "./type";
 
 export const Card = ({
-  id,
+  _id,
   image,
   title,
-  price,
-  total,
   subTitle,
-  onClick,
   controls,
   ...props
-}) => {
-  const product = { id, image, title, total, price };
+}: ICard) => {
 
-  const [itemsLoading, setItemsLoading] = useState({});
+  const [itemsLoading, setItemsLoading] = useState<{ [key: string]: boolean }>({});
   const { state } = useAppContext();
 
-  const handleItemLoading = async (field, onClick) => {
+  const handleItemLoading = async (field: string, onClick: () => void) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
     await onClick();
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
@@ -42,17 +38,6 @@ export const Card = ({
             style={props.styleFooter}
             className={props.classFooter}
           >
-            {props.groupControls && (
-              <CountButtonGroup
-                {...{
-                  total,
-                  onClick: props.groupControls.onClick,
-                  element: product,
-                  contentlabel: "Compra",
-                  emptyLabel: "Remove",
-                }}
-              />
-            )}
 
             {controls
               ? controls.map(
@@ -62,14 +47,14 @@ export const Card = ({
                         state?.currentUser?.type
                       )) && (
                       <Button
-                        key={button.label + (id || index)}
+                        key={button.label + (_id || index)}
                         variant={button.variant}
-                        loading={itemsLoading[button.label + (id || index)]}
+                        loading={itemsLoading[button.label + (_id || index)]}
                         {...{
                           ...button,
                           onClick: () =>
                             handleItemLoading(
-                              button.label + (id || index),
+                              (button.label + (_id || index)) as string,
                               button.onClick
                             ),
                         }}
