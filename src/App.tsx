@@ -18,7 +18,8 @@ const initialState: AppState = {
   activeProduct: null,
   activeUser: null,
   activeCalendar: null,
-  // activeItem: null,
+  activeItem: null,
+  activePurchase: null,
   // selectedItems: [],
   isLoading: 0,
   purchases: [],
@@ -27,10 +28,25 @@ const initialState: AppState = {
     products: []
   },
   type: null,
-  products: [],
-  users: [],
+  products: {
+    list: [],
+    total: 0,
+    page: 1,
+    pages: 1,
+  },
+  users: {
+    list: [],
+    total: 0,
+    page: 1,
+    pages: 1,
+  },
   calendars: [],
-  categories: [],
+  categories: {
+    list: [],
+    total: 0,
+    page: 1,
+    pages: 1,
+  },
   items: [],
   currentUser: null,
 };

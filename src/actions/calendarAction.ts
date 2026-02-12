@@ -4,8 +4,7 @@ import type { IAction } from "../interfaces/Context";
 import {
   deleteCalendar,
   getCalendars,
-  saveCalendar,
-  type ICalendar,
+  saveCalendar
   } from "../services/calendarServices";
 
 import {
@@ -16,6 +15,7 @@ import {
   saveCalendarsInitType,
   saveCalendarsSuccessType,
 } from "../storage/actionConstants";
+import type { ICalendar } from "../interfaces/Calendar";
 
 
 export const fetchCalendarsInitAction = () => ({
