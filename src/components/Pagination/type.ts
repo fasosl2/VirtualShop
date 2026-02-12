@@ -6,5 +6,5 @@ export interface IPagination {
   setPage: Dispatch<SetStateAction<number>>;
   limit: number;
   setLimit: Dispatch<SetStateAction<number>>;
-  itemsArray: any[];
+  itemsArray?: any[];
 }

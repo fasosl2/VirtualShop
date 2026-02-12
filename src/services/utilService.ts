@@ -17,10 +17,10 @@ const utilService = {
       fr.readAsDataURL(file);
     });
   },
-  imageToCompressedBase64: (file: File): Promise<string | Blob | File | ProgressEvent<FileReader>> => new Promise(resolve => {
+  imageToCompressedBase64: (file: File): Promise<string> => new Promise(resolve => {
       FileResizer.imageFileResizer(file, 500, 500, 'JPEG', 100, 0,
       uri => {
-        resolve(uri);
+        resolve(uri as string);
       }, 'base64' );
   }),
   base64ToFile: async (dataUrl: string, fileName: string): Promise<File> => {

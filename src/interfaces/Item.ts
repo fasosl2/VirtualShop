@@ -1,11 +1,9 @@
-export interface Item {
+export interface IItem {
   _id?: string;
   title: string;
   [key: string]: any;
 }
 
-export interface SelectedItem {
-  _id?: string;
-  title: string;
+export interface SelectedItem extends IItem {
   total: number;
 }

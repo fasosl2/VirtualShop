@@ -148,7 +148,7 @@ export const ChartList: React.FC<IChartList> = ({
                         count: item.total,
                         onClick: item.onClick,
                         element: item,
-                        contentlabel: "Compra",
+                        contentLabel: "Compra",
                       }}
                     />
                   </ColListGroup>

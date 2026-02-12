@@ -7,7 +7,7 @@ import {
 } from "../services/itemServices";
 import utilService from "../services/utilService";
 import React from "react";
-import type { Item, SelectedItem } from "../interfaces/Item";
+import type { IItem, SelectedItem } from "../interfaces/Item";
 import type { IAction } from "../interfaces/Context";
 
 import {
@@ -54,17 +54,12 @@ export const selectItemsSuccessAction = (items: SelectedItem[]) => ({
   payload: items,
 });
 
-interface SelectItemsParams {
-  dispatch: React.Dispatch<IAction>;
-  selectedItems: SelectedItem[];
-  item: Item;
-}
 
 export const selectItemsAction = async ({
   dispatch,
   selectedItems,
   item,
-}: SelectItemsParams) => {
+}) => {
   dispatch(selecttemsInitAction());
   const items = await selectItem(selectedItems, item);
   dispatch(selectItemsSuccessAction(items));
@@ -74,7 +69,7 @@ export const fetchItemsInitAction = () => ({
   type: fetchItemsInitType,
 });
 
-export const fetchItemsSuccessAction = (items: Item[]) => ({
+export const fetchItemsSuccessAction = (items: IItem[]) => ({
   type: fetchItemsSuccessType,
   payload: items,
 });
@@ -89,14 +84,14 @@ export const saveItemsInitAction = () => ({
   type: saveItemsInitType,
 });
 
-export const saveItemsSuccessAction = (item: Item[]) => ({
+export const saveItemsSuccessAction = (item: IItem[]) => ({
   type: saveItemsSuccessType,
   payload: item,
 });
 
 export const saveItemsAction = async (
   dispatch: React.Dispatch<IAction>,
-  itemData: Item
+  itemData: IItem
 ) => {
   dispatch(saveItemsInitAction());
   await utilService.sleep(1000);
@@ -108,7 +103,7 @@ export const deleteItemInitAction = () => ({
   type: deleteItemsInitType,
 });
 
-export const deleteItemSuccessAction = (items: Item[]) => ({
+export const deleteItemSuccessAction = (items: IItem[]) => ({
   type: deleteItemsSuccessType,
   payload: items,
 });

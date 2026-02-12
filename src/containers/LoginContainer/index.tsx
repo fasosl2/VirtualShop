@@ -22,23 +22,25 @@ import {
 } from "../../storage/actionConstants";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { ModalCreateUser } from "../../containers/ModalCreateUser";
+import type { PropertyMap } from "./type";
+import type { ILoginData } from "../../interfaces/User";
 
-export const LoginContainer = () => {
-  const initialLoginData = useMemo(
+export const LoginContainer: React.FC = () => {
+  const initialLoginData = useMemo<ILoginData>(
     () => ({
       email: "",
       password: "",
     }),
     []
   );
-  const [loginData, setLoginData] = useState(initialLoginData);
+  const [loginData, setLoginData] = useState<ILoginData>(initialLoginData);
   const { state, dispatch } = useAppContext();
 
-  const handleCreateUser = (productId) => {
-    dispatch(openModalCreateUserAction());
+  const handleCreateUser = (): void => {
+    dispatch(openModalCreateUserAction(null));
   };
 
-  const handleLoginSubmit = async (e) => {
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     const payload = { ...loginData };
     // Se não contiver letras, remove a formatação para enviar apenas os números
@@ -48,7 +50,7 @@ export const LoginContainer = () => {
     loginUsersAction(dispatch, payload);
   };
 
-  const handleLogoutSubmit = async (e) => {
+  const handleLogoutSubmit = async (e: React.FormEvent<HTMLButtonElement>): Promise<void> => {
     e.preventDefault();
     logoutUsersAction(dispatch);
   };
@@ -63,11 +65,11 @@ export const LoginContainer = () => {
     authUsersAction(dispatch);
   }, [dispatch]);
 
-  const handleChange = (e, field) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, field: keyof ILoginData): void => {
     let { value } = e.target;
 
-    if (field === "email") {
-      const onlyNumbers = value.replace(/\D/g, "");
+    // if (field === "email") {
+      //const onlyNumbers = value.replace(/\D/g, "");
 
       // Se o valor não contiver letras, consideramos que é um telefone
       // if (!/[a-zA-Z]/.test(value)) {
@@ -90,11 +92,11 @@ export const LoginContainer = () => {
       //     value = formatted;
       //   }
       // }
-    }
+    // }
     setLoginData((prevState) => ({ ...prevState, [field]: value }));
   };
 
-  const propertiesMap = [
+  const propertiesMap: PropertyMap[] = [
     {
       prop: "name",
       name: "nome",
@@ -126,7 +128,7 @@ export const LoginContainer = () => {
             <p>
               {propertiesMap.map((ele) => (
                 <span key={ele.prop}>
-                  {ele.name + ": " + state.currentUser[ele.prop]}
+                  {ele.name + ": " + state.currentUser![ele.prop]}
                   <br />
                 </span>
               ))}

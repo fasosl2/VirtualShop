@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, /* useMemo, */ useRef, useState, type ChangeEvent } from "react";
 import { Modal } from "../../components/Modal";
 import { Button, Form, InputGroup, ListGroup } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
@@ -6,7 +6,7 @@ import { saveProductsAction } from "../../actions/productActions";
 import {
   closeModalsAction,
   openModalCreateCategoriesAction,
-  openModalSaveItemsAction,
+  //openModalSaveItemsAction,
 } from "../../actions/modalsActions";
 import {
   closeModalsType,
@@ -16,22 +16,27 @@ import {
 import { fetchCategoriesAction } from "../../actions/categoriesActions";
 import { getProducts } from "../../services/productServices";
 import utilService from "../../services/utilService";
-import userLogo from "../../assets/user-logo.png";
 import rectangle from "../../assets/rectangle.png";
 import { Col, FormImg, Row } from "./styles";
 
-import { MultiRatio } from "../../components/MultiRatio";
-//import { InputTime } from "../../components/InputTime";
+import type { IProduct } from "../../interfaces/Product";
+import type { ICategory } from "../../interfaces/Category";
+//import type { SelectedItem } from "../../interfaces/Item";
 
-export const ModalCreateProduct = ({ open }) => {
+interface ModalCreateProductProps {
+  open: boolean;
+}
+
+export const ModalCreateProduct = ({ open }: ModalCreateProductProps) => {
   const { state, dispatch } = useAppContext();
   const { categories: categoriesData } = state;
   const [image, setImage] = useState(rectangle);
   const [categorySearch, setCategorySearch] = useState("");
-  const [baseProducts, setBaseProducts] = useState([]);
-  const [childList, setChildList] = useState([]);
+  const [baseProducts, setBaseProducts] = useState<IProduct[]>([]);
+  const [childList, setChildList] = useState<IProduct[]>([]);
   const [apiCategoryFilter, setApiCategoryFilter] = useState("");
-  const initialProduct = useRef({
+  const initialProduct = useRef<IProduct>({
+    _id: "",
     title: "",
     shortTitle: "",
     description: "",
@@ -48,14 +53,14 @@ export const ModalCreateProduct = ({ open }) => {
     startDate: new Date(),
     endDate: new Date(),
   });
-  const [productData, setProductData] = useState(initialProduct.current);
+  const [productData, setProductData] = useState<IProduct>(initialProduct.current);
 
-  const isEditing = useMemo(
-    () => !!state.activeProduct?._id,
-    [state.activeProduct]
-  );
+  // const isEditing = useMemo(
+  //   () => !!state.activeProduct?._id,
+  //   [state.activeProduct]
+  // );
 
-  const handleCategorySearch = (e) => {
+  const handleCategorySearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
       // Only trigger API call if the search term changes
@@ -64,7 +69,7 @@ export const ModalCreateProduct = ({ open }) => {
       }
     }
   };
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     saveProductsAction(dispatch, { ...productData, image: image });
@@ -91,10 +96,10 @@ export const ModalCreateProduct = ({ open }) => {
       }));
     }
 
-    if (productData?.image?.name) {
+    if (productData?.image instanceof File) {
       const newPreview = async () => {
         const preview = await utilService.imageToCompressedBase64(
-          productData.image
+          productData.image as File
         );
         setImage(preview);
       };
@@ -125,7 +130,7 @@ export const ModalCreateProduct = ({ open }) => {
 
   useEffect(() => {
     if (open) {
-      const fetchOpts = {};
+      const fetchOpts: { name?: string } = {};
       if (apiCategoryFilter) {
         fetchOpts.name = apiCategoryFilter;
       }
@@ -138,7 +143,7 @@ export const ModalCreateProduct = ({ open }) => {
 
           if(productData?._id && baseProducts?.length) {
             setChildList(
-              result.list?.filter(({ variant }) => productData?._id && variant?.baseID && variant?.baseID == productData._id) || []
+              result.list?.filter(({ variant } : IProduct) => productData?._id && variant?.baseID && variant?.baseID == productData._id) || []
             );
           }
         }
@@ -147,40 +152,31 @@ export const ModalCreateProduct = ({ open }) => {
     }
   }, [open, apiCategoryFilter, dispatch]);
 
-  const handleChange = (e, field, variantValue) =>
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>, field: keyof IProduct, variantValue?: any) =>
     setProductData((prevState) => ({
       ...prevState,
       [field]:
         field === "image"
-          ? e.target.files[0]
+          ? (e.target as HTMLInputElement).files?.[0]
           : field === "variant"
           ? variantValue
           : e.target.value,
     }));
 
-  const handleCreateOrUpdateCategories = (category) => {
+  const handleCreateOrUpdateCategories = (category: ICategory) => {
     dispatch(openModalCreateCategoriesAction(category));
   };
-  // const handleHours = (value, field) =>
-  //   setProductData((prevState) => ({
-  //     ...prevState,
-  //     [field]: value,
-  //   }));
 
-  const handleToggleCategory = ({ element, remove }) => {
-    // This logic reads the state at render time, making it resilient
-    // to a quick double-call event. Both calls will operate on the
-    // same initial state, preventing a double increment/decrement.
+  const handleToggleCategory = ({ element, remove }: { element: ICategory, remove?: boolean }) => {
     const { categories, ...restOfProductData } = productData;
-    const existingProduct = categories.find((p) => p._id === element._id);
+    //const existingProduct = categories.find((p: ICategory) => p._id === element._id);
 
     let newCategories;
 
     if (!remove) {
-      // Add new product
       newCategories = [...categories, { ...element }];
     } else {
-      let index = categories.findIndex((ele) => ele._id == element._id);
+      let index = categories.findIndex((ele: ICategory) => ele._id == element._id);
       if (index > -1) {
         categories.splice(index);
       }
@@ -188,18 +184,18 @@ export const ModalCreateProduct = ({ open }) => {
     }
     setProductData({ ...restOfProductData, categories: newCategories });
   };
-  const handleItemClick = () =>
-    dispatch(openModalSaveItemsAction(productData?.items));
+  // const handleItemClick = () =>
+  //   dispatch(openModalSaveItemsAction(productData?.items as SelectedItem[]));
 
-  const handleBlockedDays = (index) =>
-    setProductData((prevState) => {
-      let blockedDays = [...prevState.blockedDays];
-      blockedDays[index] = blockedDays[index] ? false : true;
-      return {
-        ...prevState,
-        blockedDays: blockedDays,
-      };
-    });
+  // const handleBlockedDays = (index: number) =>
+  //   setProductData((prevState) => {
+  //     let blockedDays = [...(prevState.blockedDays as boolean[])];
+  //     blockedDays[index] = !blockedDays[index];
+  //     return {
+  //       ...prevState,
+  //       blockedDays: blockedDays,
+  //     };
+  //   });
 
   return (
     <Modal
@@ -228,7 +224,7 @@ export const ModalCreateProduct = ({ open }) => {
               <FormImg src={image} alt="" />
               <Form.Control
                 type="file"
-                onChange={(e) => handleChange(e, "image")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, "image")}
               />
               </Row>
               <Row>
@@ -238,7 +234,7 @@ export const ModalCreateProduct = ({ open }) => {
                   required
                   placeholder=""
                   value={productData?.shortTitle}
-                  onChange={(e) => handleChange(e, "shortTitle")}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, "shortTitle")}
                 />
               </Row>
             </Col>
@@ -252,7 +248,7 @@ export const ModalCreateProduct = ({ open }) => {
                       required
                       placeholder=""
                       value={productData?.title}
-                      onChange={(e) => handleChange(e, "title")}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, "title")}
                     />
                   </Row>
                   <br />
@@ -263,7 +259,7 @@ export const ModalCreateProduct = ({ open }) => {
                       rows={10}
                       required
                       value={productData?.description}
-                      onChange={(e) => handleChange(e, "description")}
+                      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange(e, "description")}
                     />
                   </Row>
                   <br />
@@ -348,7 +344,7 @@ export const ModalCreateProduct = ({ open }) => {
                       type="number"
                       required
                       value={productData?.price || 0}
-                      onChange={(e) => handleChange(e, "price")}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, "price")}
                     />
                   </Row>
                   <br />
@@ -367,13 +363,13 @@ export const ModalCreateProduct = ({ open }) => {
                       </InputGroup>
                     </Col>
                     <Col md={2} style={{ padding: "2px" }}>
-                      <Button onClick={handleCreateOrUpdateCategories}>
+                      <Button onClick={() => handleCreateOrUpdateCategories({ name: "", description: ""})}>
                         +
                       </Button>
                     </Col>
                   </Row>
                   <ListGroup style={{ maxHeight: "150px", overflowY: "auto" }}>
-                    {categoriesData?.list?.map((category) => {
+                    {categoriesData?.list?.map((category: ICategory) => {
                       const isInProduct = productData.categories.some(
                         (currentCategory) => currentCategory._id === category._id
                       );
@@ -401,24 +397,25 @@ export const ModalCreateProduct = ({ open }) => {
                   <h5>Categorias Selecionadas</h5>
                   <div style={{ maxHeight: "150px", overflowY: "auto" }}>
                     <ListGroup variant="flush">
-                      {productData.categories.map((selectedCategory) => {
-                        selectedCategory =
-                          selectedCategory._id || selectedCategory;
-                        selectedCategory = categoriesData?.list.find(
-                          (ele) => ele._id == selectedCategory
-                        );
+                      {productData.categories.map((selectedCategory: ICategory | string) => {
+                        const category = typeof selectedCategory === 'string'
+                          ? categoriesData?.list.find((ele: ICategory) => ele._id === selectedCategory)
+                          : categoriesData?.list.find((ele: ICategory) => ele._id === selectedCategory._id);
+                        
+                        if (!category) return null;
+
                         return (
                           <ListGroup.Item
-                            key={selectedCategory._id}
+                            key={category._id}
                             className="d-flex justify-content-between align-items-center"
                           >
-                            <span>{selectedCategory?.name}</span>
+                            <span>{category?.name}</span>
                             <Button
                               variant="outline-success"
                               size="sm"
                               onClick={() =>
                                 handleToggleCategory({
-                                  element: selectedCategory,
+                                  element: category,
                                   remove: true,
                                 })
                               }
@@ -438,57 +435,6 @@ export const ModalCreateProduct = ({ open }) => {
                   <hr />
                 </Col>
               </Row>
-              {/* <Row>
-                <Col md={7}>
-                  <p>dias disponiveis</p>
-                  <MultiRatio
-                    onClick={handleBlockedDays}
-                    elements={productData?.blockedDays}
-                    controls={[
-                      {
-                        label: "D",
-                      },
-                      {
-                        label: "S",
-                      },
-                      {
-                        label: "T",
-                      },
-                      {
-                        label: "Q",
-                      },
-                      {
-                        label: "Q",
-                      },
-                      {
-                        label: "S",
-                      },
-                      {
-                        label: "S",
-                      },
-                    ]}
-                  />
-                </Col>
-                <Col md={5}>
-                  <p>horário disponiveis</p>
-                  <Row>
-                    <Col>
-                      <InputTime
-                        className="col-12"
-                        inputDate={productData?.startDate}
-                        setInputDate={(value) => handleHours(value, "startDate")}
-                      />
-                    </Col>
-                    <Col>
-                      <InputTime
-                        className="col-12"
-                        inputDate={productData?.endDate}
-                        setInputDate={(value) => handleHours(value, "endDate")}
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row> */}
             </Col>
           </Row>
         </Form.Group>

@@ -26,7 +26,7 @@ import { ModalCreateProduct } from "../../containers/ModalCreateProduct";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
 import { ProductCol, ProductContainer } from "./styles";
-import { ModalCreateSchedule } from "../../containers/ModalBuyProduct";
+import { ModalBuyProduct } from "../../containers/ModalBuyProduct";
 
 import { ContentDiv } from "../../styles/global";
 import { Pagination } from "../../components/Pagination";
@@ -138,7 +138,7 @@ const handleClearFilters = () => {
 
   return (
     <ContentDiv>
-      <ModalCreateSchedule open={state.mode === openModalBuyProductType} />
+      <ModalBuyProduct open={state.mode === openModalBuyProductType} />
       {/*<ModalCreateCategories open={state.mode === openModalCreateCategoriesType} />*/}
       <ModalCreateProduct open={state.mode === openModalCreateProductType} />
       <ModalCreateCategories open={state.mode === openModalCreateCategoriesType} />

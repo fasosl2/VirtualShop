@@ -13,19 +13,21 @@ import {
 } from "../../storage/actionConstants";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png"
+import type { IModal } from "../../components/Modal/type";
+import type { IItem } from "../../interfaces/Item";
 
-export const ModalCreateItem = ({ open }) => {
+export const ModalCreateItem = ({ open } : IModal) => {
   const { state, dispatch } = useAppContext();
-  const [image , setImage ] = useState(userLogo);
-  const initialItem = useRef({
+  const [image, setImage] = useState<string>(userLogo);
+  const initialItem = useRef<IItem>({
     title: "",
     description: "",
     stock: "",
     image: ""
   });
-  const [itemData, setItemData] = useState(initialItem.current);
+  const [itemData, setItemData] = useState<IItem>(initialItem.current);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     saveItemsAction(dispatch, { ...itemData, image: image });
@@ -44,20 +46,27 @@ export const ModalCreateItem = ({ open }) => {
       setItemData((prevState) => ({ ...prevState, ...state.activeItem }));
     }
     
-    if(itemData?.image?.name) {
+    if(itemData?.image && typeof itemData.image === 'object' && (itemData.image as File).name) {
       const newPreview = async () =>{
         const preview = await utilService.imageToCompressedBase64(itemData.image);
         setImage(preview);
       } 
       newPreview();
-    } else if (itemData?.image?.length){
+    } else if (typeof itemData?.image === 'string' && itemData.image.length){
       setImage(itemData?.image);
-    }else{
+    } else {
       setImage(userLogo);
     }
   }, [state.type, state.activeItem, dispatch, itemData.image]);
 
-  const handleChange = (e, field) => setItemData((prevState) => ({...prevState, [field]: field === 'image'? e.target.files[0] : e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, field: keyof IItem): void => {
+    if (field === 'image') {
+      const files = (e.target as HTMLInputElement).files;
+      setItemData((prevState) => ({...prevState, [field]: files?.[0] || "" }));
+    } else {
+      setItemData((prevState) => ({...prevState, [field]: (e.target as HTMLInputElement).value }));
+    }
+  };
 
   return (
     <Modal

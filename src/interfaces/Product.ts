@@ -1,17 +1,17 @@
 
 import type { ICategory } from "./Category";
-import type { Item } from "./Item";
+import type { IItem } from "./Item";
 
 export interface IProduct {
     id?: string;
     _id: string;
-    items?: string | Item[];
+    items?: IItem[];
     title: string;
     shortTitle?: string;
     description?: string;
     price?: number;
     stock: string;
-    image: string;
+    image: string | File;
     categories: ICategory[];
     variant: {
       isBase: "Não" | "Sim";

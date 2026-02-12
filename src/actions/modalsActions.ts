@@ -10,7 +10,7 @@ import {
   openModalCreateCategoriesType,
 } from "../storage/actionConstants";
 import type { IProduct } from "../interfaces/Product";
-import type { Item, SelectedItem } from "../interfaces/Item";
+import type { IItem, SelectedItem } from "../interfaces/Item";
 import type { ICategory } from "../interfaces/Category";
 import type { IUser } from "../interfaces/User";
 import type { IPurchase } from "../interfaces/Purchase";
@@ -25,7 +25,7 @@ export const openModalBuyProductAction = (product: IProduct | null) => ({
   activeProduct: product,
 });
 
-export const openModalCreateItemAction = (item: Item | null) => ({
+export const openModalCreateItemAction = (item: IItem | null) => ({
   type: openModalCreateItemType,
   activeItem: item,
 });

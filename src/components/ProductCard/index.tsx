@@ -6,7 +6,7 @@ import { CountButtonGroup } from "../CountButtonGroup";
 import { CardButtomContainer, CardHeader, CardImg, CardPrice } from "./styles";
 import utilService from "../../services/utilService";
 import type { IProduct } from "../../interfaces/Product";
-import type { Item } from "../../interfaces/Item";
+import type { IItem } from "../../interfaces/Item";
 
 
 export const ProductCard = ({
@@ -71,7 +71,7 @@ export const ProductCard = ({
               </p>
               {product?.items &&
               typeof product.items !== "string" &&
-              product.items.map((item: Item, index) => (
+              product.items.map((item: IItem, index) => (
                 <p key={index}>• {item.title}</p>
               ))}
             </Row>
@@ -83,7 +83,7 @@ export const ProductCard = ({
                       total: product.total,
                       onClick: product.groupControls.onClick,
                       element: product,
-                      contentlabel: "Compra",
+                      contentLabel: "Compra",
                       emptyLabel: "Remove",
                     }}
                   />

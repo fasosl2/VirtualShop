@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import type { ChangeEvent } from "react";
 import { Modal } from "../../components/Modal";
 import { Form, Row, Col, Button, Dropdown, InputGroup, ListGroup, FormControl } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
@@ -16,12 +17,36 @@ import { Calendar } from "../../components/Calendar";
 import { Pagination } from "../../components/Pagination";
 import utilService from "../../services/utilService";
 import { CountButtonGroup } from "../../components/CountButtonGroup";
+import type { IPurchase } from "../../interfaces/Purchase";
+import type { IUser } from "../../interfaces/User";
+import type { IProduct } from "../../interfaces/Product";
 
-export const ModalCreatePurchase = ({ open }) => {
+interface ModalCreatePurchaseProps {
+  open: boolean;
+}
+
+type ProductInPurchase = IProduct & { count: number };
+
+interface PurchaseData {
+  user: string;
+  deliveryDate: Date | null;
+  products: ProductInPurchase[];
+  paymentStatus: 'Pendente' | 'Pago' | 'Cancelado';
+  deliveryStatus: 'Pendente' | 'Em preparação' | 'Em rota de entrega' | 'Entregue' | 'Cancelado';
+  paymentMethod: 'A Combinar' | 'Pix' | 'Cartão de Crédito' | 'Cartão de Débito' | 'Dinheiro';
+  discount: number;
+  observations: string;
+  recurrence: {
+    isBase: 'Sim' | 'Não';
+    baseID: string;
+  };
+}
+
+export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
   const { state, dispatch } = useAppContext();
   const { users, products: productsData, activePurchase } = state;
 
-  const [purchaseData, setPurchaseData] = useState({
+  const [purchaseData, setPurchaseData] = useState<PurchaseData>({
     user: "",
     deliveryDate: null,
     products: [],
@@ -42,39 +67,39 @@ export const ModalCreatePurchase = ({ open }) => {
   const [apiProductFilter, setApiProductFilter] = useState('');
   const [productPage, setProductPage] = useState(1);
   const [productLimit, setProductLimit] = useState(5); // A smaller limit for the modal view
-  const [basePurchases, setBasePurchases] = useState([]);
+  const [basePurchases, setBasePurchases] = useState<IPurchase[]>([]);
 
-  const baseProducts = useMemo(() => {
-    if (!productsData?.list) return [];
-    return productsData.list.filter(p => p.recurrence?.isBase === 'Sim');
-  }, [productsData?.list]);
+  // const baseProducts = useMemo(() => {
+  //   if (!productsData?.list) return [];
+  //   return productsData.list.filter((p:IProduct) => p.recurrence?.isBase === 'Sim');
+  // }, [productsData?.list]);
 
   const deliveryDayOfWeek = useMemo(() => {
     if (!purchaseData.deliveryDate) return '';
     const days = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
-    // Garante que estamos trabalhando com um objeto Date
     const dateObject = new Date(purchaseData.deliveryDate);
     const dayIndex = dateObject.getDay();
     return days[dayIndex];
   }, [purchaseData.deliveryDate]);
+
   const isEditing = useMemo(() => !!activePurchase?._id, [activePurchase]);
 
   const selectedCustomerName = useMemo(() => {
     if (!purchaseData.user || !users?.list) return "Selecione um cliente";
-    return users.list.find(u => u._id === purchaseData.user)?.name || "Selecione um cliente";
+    return users.list.find((u:IUser) => u._id === purchaseData.user)?.name || "Selecione um cliente";
   }, [purchaseData.user, users?.list]);
 
   const filteredUsers = useMemo(() => {
     if (!users?.list) return [];
     if (!customerFilter) return users.list;
-    return users.list.filter(user =>
+    return users.list.filter((user:IUser) =>
       user.name.toLowerCase().includes(customerFilter.toLowerCase())
     );
   }, [users?.list, customerFilter]);
 
   const totalPrice = useMemo(() => {
     return purchaseData.products.reduce((acc, product) => {
-      const price = parseFloat(product.price || product._id?.price || 0);
+      const price = parseFloat(String(product?.price || 0));
       return acc + (price * product.count);
     }, 0);
   }, [purchaseData.products]);
@@ -93,23 +118,15 @@ export const ModalCreatePurchase = ({ open }) => {
   }, [purchaseData]);
 
   useEffect(() => {
-    // Fetch users and products if not available
     fetchUsersAction(dispatch, { limit: 0 });
-    // Populate form when editing
     if (isEditing) {
       setPurchaseData({
         user: activePurchase.user?._id || "",
         deliveryDate: activePurchase.deliveryDate
           ? new Date(activePurchase.deliveryDate)
           : null,
-        products:
-          activePurchase.products?.map((p) => ({
-            id: p.productDetails._id,
-            count: p.count,
-            title: p.productDetails.title,
-            image: p.productDetails.image,
-            price: p.productDetails.price,
-          })) || [],
+        products: activePurchase.products?.map((p) => 
+          ({...p.productDetails, count: p.count })) || [],
         paymentStatus: activePurchase.paymentStatus || 'Pendente',
         deliveryStatus: activePurchase.deliveryStatus || 'Pendente',
         paymentMethod: activePurchase.paymentMethod || 'A Combinar',
@@ -144,10 +161,9 @@ export const ModalCreatePurchase = ({ open }) => {
     }
   }, [open, isEditing, activePurchase, dispatch]);
 
-  // Fetch products when modal is open, page or filter changes
   useEffect(() => {
     if (open) {
-      const fetchOpts = {
+      const fetchOpts: { page: number, limit: number, title?: string } = {
         page: productPage,
         limit: productLimit,
       };
@@ -157,7 +173,6 @@ export const ModalCreatePurchase = ({ open }) => {
       fetchProductsAction(dispatch, fetchOpts);
 
       const fetchBasePurchases = async () => {
-        // limit: 0 para buscar todos, sem paginação
         const result = await getPurchases({ 'recurrence.isBase': 'Sim', limit: 0 });
         if (result?.list) {
           setBasePurchases(result.list);
@@ -173,12 +188,12 @@ export const ModalCreatePurchase = ({ open }) => {
     }
   }, [state.type, dispatch]);
 
-  const handleCustomerSelect = (userId) => {
-    const selectedUser = users?.list?.find(u => u._id === userId);
-    let newDeliveryDate = null;
+  const handleCustomerSelect = (userId: string) => {
+    const selectedUser = users?.list?.find((u:IUser) => u._id === userId);
+    let newDeliveryDate: Date | null = null;
 
     if (selectedUser?.deliveryDay) {
-      const dayMap = {
+      const dayMap: { [key: string]: number } = {
         Domingo: 0,
         "Segunda-feira": 1,
         "Terça-feira": 2,
@@ -193,7 +208,7 @@ export const ModalCreatePurchase = ({ open }) => {
         const currentDate = new Date();
         const currentDay = currentDate.getDay();
         let daysToAdd = (targetDayIndex - currentDay + 7) % 7;
-        if (daysToAdd === 0) daysToAdd = 7; // Sempre agenda para o próximo dia que ocorrer
+        if (daysToAdd === 0) daysToAdd = 7;
         const nextDate = new Date(currentDate);
         newDeliveryDate = new Date(nextDate.setDate(nextDate.getDate() + daysToAdd));
       }
@@ -201,10 +216,7 @@ export const ModalCreatePurchase = ({ open }) => {
     setPurchaseData(prev => ({ ...prev, user: userId, deliveryDate: newDeliveryDate }));
   };
 
-  const handleProductCountChange = ({ element, negativeValue }) => {
-    // This logic reads the state at render time, making it resilient
-    // to a quick double-call event. Both calls will operate on the
-    // same initial state, preventing a double increment/decrement.
+  const handleProductCountChange = ({ element, negativeValue = 0}: { element: IProduct, negativeValue: number}) => {
     const { products, ...restOfPurchaseData } = purchaseData;
     const existingProduct = products.find((p) => p._id === element._id);
 
@@ -213,54 +225,58 @@ export const ModalCreatePurchase = ({ open }) => {
     if (existingProduct) {
       const newCount = existingProduct.count + (negativeValue ? -1 : 1);
       if (newCount <= 0) {
-        // Remove product using filter for immutability
         newProducts = products.filter((p) => p._id !== element._id);
       } else {
-        // Update product count using map for immutability
         newProducts = products.map((p) =>
           p._id === element._id ? { ...p, count: newCount } : p
         );
       }
     } else if (!negativeValue) {
-      // Add new product
       newProducts = [...products, { ...element, count: 1 }];
     } else {
-      newProducts = products; // No change
+      newProducts = products;
     }
     setPurchaseData({ ...restOfPurchaseData, products: newProducts });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
       ...purchaseData,
-            // Garante que o backend receba apenas os campos necessários
-      products: purchaseData.products.map(({ id, count }) => ({ id, count })),
+      products: purchaseData.products.map(({ _id, count }) => ({ id: _id, count })),
       discount: Number(purchaseData.discount) || 0,
       observations: purchaseData.observations || '',
-
     };
     if (isEditing) {
-      payload._id = activePurchase._id;
+      (payload as any)._id = activePurchase._id;
     }
-    savePurchasesAction(dispatch, payload);
+    savePurchasesAction(dispatch, payload as any);
   };
 
-  const handleProductSearch = (e) => {
+  const handleProductSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      // Only trigger API call if the search term changes
       if (productSearch !== apiProductFilter) {
         setApiProductFilter(productSearch);
-        setProductPage(1); // Reset to first page on new search
+        setProductPage(1);
       }
     }
   };
 
-  const handleLimitChange = (newLimit) => {
+  const handleLimitChange = (newLimit: number) => {
     setProductLimit(newLimit);
     setProductPage(1);
   };
+  
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setPurchaseData(prev => ({ ...prev, [name]: value }));
+  }
+
+  const handleRecurrenceChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, [name]: value } }));
+  }
 
   return (
     <Modal
@@ -325,7 +341,7 @@ export const ModalCreatePurchase = ({ open }) => {
               <Form.Select
                 name="paymentStatus"
                 value={purchaseData.paymentStatus}
-                onChange={(e) => setPurchaseData(prev => ({ ...prev, paymentStatus: e.target.value }))}
+                onChange={handleInputChange}
               >
                 <option value="Pendente">Pendente</option>
                 <option value="Pago">Pago</option>
@@ -339,7 +355,7 @@ export const ModalCreatePurchase = ({ open }) => {
               <Form.Select
                 name="deliveryStatus"
                 value={purchaseData.deliveryStatus}
-                onChange={(e) => setPurchaseData(prev => ({ ...prev, deliveryStatus: e.target.value }))}
+                onChange={handleInputChange}
               >
                 <option value="Pendente">Pendente</option>
                 <option value="Em preparação">Em preparação</option>
@@ -355,7 +371,7 @@ export const ModalCreatePurchase = ({ open }) => {
               <Form.Select
                 name="paymentMethod"
                 value={purchaseData.paymentMethod}
-                onChange={(e) => setPurchaseData(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                onChange={handleInputChange}
               >
                 <option value="A Combinar">A Combinar</option>
                 <option value="Pix">Pix</option>
@@ -395,7 +411,7 @@ export const ModalCreatePurchase = ({ open }) => {
               <Form.Group as={Row} className="mb-2 align-items-center">
                 <Form.Label column sm="5" className="text-danger">Desconto (R$):</Form.Label>
                 <Col sm="7">
-                  <FormControl type="number" name="discount" value={purchaseData.discount} onChange={(e) => setPurchaseData(prev => ({ ...prev, discount: e.target.value }))} placeholder="0,00" />
+                  <FormControl type="number" name="discount" value={purchaseData.discount} onChange={handleInputChange} placeholder="0,00" />
                 </Col>
               </Form.Group>
               <h5 className="d-flex justify-content-between">
@@ -406,9 +422,10 @@ export const ModalCreatePurchase = ({ open }) => {
               <Form.Control
                 as="textarea"
                 rows={3}
+                name="observations"
                 placeholder="Observações"
                 value={purchaseData?.observations}
-                onChange={(e) => setPurchaseData(prev => ({ ...prev, observations: e.target.value }))}
+                onChange={handleInputChange}
               />
               <Row className="mt-3">
                 <Col md={4}>
@@ -417,13 +434,13 @@ export const ModalCreatePurchase = ({ open }) => {
                     <div>
                       <Form.Check
                         inline
-                        disabled={purchaseData?.recurrence?.baseID?.length}
+                        disabled={!!purchaseData?.recurrence?.baseID?.length}
                         type="radio"
                         label="Sim"
                         name="isBase"
                         value="Sim"
                         checked={purchaseData?.recurrence?.isBase === 'Sim'}
-                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, isBase: e.target.value } }))}
+                        onChange={handleRecurrenceChange}
                       />
                       <Form.Check
                         inline
@@ -432,7 +449,7 @@ export const ModalCreatePurchase = ({ open }) => {
                         name="isBase"
                         value="Não"
                         checked={purchaseData?.recurrence?.isBase === 'Não'}
-                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, isBase: e.target.value } }))}
+                        onChange={handleRecurrenceChange}
                       />
                     </div>
                   </Form.Group>
@@ -445,11 +462,11 @@ export const ModalCreatePurchase = ({ open }) => {
                         disabled={true}
                         name="baseID"
                         value={purchaseData?.recurrence?.baseID}
-                        onChange={(e) => setPurchaseData(prev => ({ ...prev, recurrence: { ...prev.recurrence, baseID: e.target.value } }))}
+                        onChange={handleRecurrenceChange}
                       >
                         <option value="">Nenhum</option>
                         {basePurchases.map(p => (
-                          <option key={p._id} value={p._id}>Pedido #{p._id} - {p.user.name}</option>
+                          <option key={p._id} value={p._id}>Pedido #{p._id} - {(p.user as IUser)?.name}</option>
                         ))}
                       </Form.Select>
                     </Form.Group>
@@ -470,7 +487,7 @@ export const ModalCreatePurchase = ({ open }) => {
               />
             </InputGroup>
             <ListGroup style={{maxHeight: '300px', overflowY: 'auto'}}>
-              {productsData?.list?.map(product => {
+              {productsData?.list?.map((product:IProduct) => {
                 const isInPurchase = purchaseData.products.some(p => p._id === product._id);
                 return (
                   <ListGroup.Item key={product._id} className="d-flex justify-content-between align-items-center">
@@ -478,7 +495,7 @@ export const ModalCreatePurchase = ({ open }) => {
                     <Button
                       variant="outline-success"
                       size="sm"
-                      onClick={() => handleProductCountChange({ element: product, negativeValue: false })}
+                      onClick={() => handleProductCountChange({ element: product, negativeValue: 0 })}
                       disabled={isInPurchase}
                     >+</Button>
                   </ListGroup.Item>

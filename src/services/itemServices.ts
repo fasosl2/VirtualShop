@@ -1,13 +1,13 @@
-import type { Item, SelectedItem } from "../interfaces/Item";
+import type { IItem, SelectedItem } from "../interfaces/Item";
 import api from "./apiService";
 
 
 
-export const getItems = async (): Promise<Item[]> => {
-  return await api.read({route: "items"}) as Item[];
+export const getItems = async (): Promise<IItem[]> => {
+  return await api.read({route: "items"}) as IItem[];
 };
 
-export const saveItem = async (itemData: Item): Promise<Item[]> => {
+export const saveItem = async (itemData: IItem): Promise<IItem[]> => {
   if(itemData._id){
     await api.put({body: itemData, route: "items", params: [itemData._id]})
   } else {
@@ -16,13 +16,13 @@ export const saveItem = async (itemData: Item): Promise<Item[]> => {
   return await getItems();
 };
 
-export const deleteItem = async (itemId: string): Promise<Item[]> => {
+export const deleteItem = async (itemId: string): Promise<IItem[]> => {
   await api.delete("items", itemId);
   //DELETE FROM ALL PRODUCTS
   return await getItems();
  };
 
-export const selectItem = (selectedItems: SelectedItem[], item: Item): SelectedItem[] => {
+export const selectItem = (selectedItems: SelectedItem[], item: IItem): SelectedItem[] => {
   const itemSelected = selectedItems.find(ele => ele._id === item._id);
   if(itemSelected){
     itemSelected.total += 1;
@@ -34,7 +34,7 @@ export const selectItem = (selectedItems: SelectedItem[], item: Item): SelectedI
   return selectedItems;
 };
 
-export const removeItem = (selectedItems: SelectedItem[], item: Item, negativeValue: number): SelectedItem[] => {
+export const removeItem = (selectedItems: SelectedItem[], item: IItem, negativeValue: number): SelectedItem[] => {
   const itemSelected = selectedItems.find(ele => ele._id === item._id);
   if(itemSelected){
     if(itemSelected.total > negativeValue){

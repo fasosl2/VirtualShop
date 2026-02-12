@@ -11,18 +11,20 @@ import {
   saveCalendarsInitType,
   saveCalendarsSuccessType,
 } from "../../storage/actionConstants";
+import type { ICalendar } from "../../interfaces/Calendar";
+import type { IModal } from "../../components/Modal/type";
 
-export const ModalCreateCalendar = ({ open }) => {
+export const ModalCreateCalendar = ({ open }:IModal) => {
   const { state, dispatch } = useAppContext();
-  const initialCalendar = useRef({
+  const initialCalendar = useRef<ICalendar>({
     title: "",
     description: "",
     type: "Evento",
     date: ""
   });
-  const [calendarData, setCalendarData] = useState(initialCalendar.current);
+  const [calendarData, setCalendarData] = useState<ICalendar>(initialCalendar.current);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
     saveCalendarsAction(dispatch, { ...calendarData});
@@ -37,12 +39,14 @@ export const ModalCreateCalendar = ({ open }) => {
       setCalendarData(initialCalendar.current);
     }
     if (state?.activeCalendar?._id && calendarData === initialCalendar.current) {
-      setCalendarData((prevState) => ({ ...prevState, ...state.activeCalendar, date: state.activeCalendar.date?.toISOString()?.slice(0,10)}));
+      setCalendarData((prevState) => ({ ...prevState, ...state.activeCalendar, date: state.activeCalendar.date instanceof Date ? state.activeCalendar.date.toISOString().slice(0,10) : state.activeCalendar.date || "" }));
     }
   }, [state.type, state.activeCalendar, dispatch, calendarData]);
     
   
-  const handleChange = (e, field) => setCalendarData((prevState) => ({...prevState, [field]: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, field: keyof ICalendar): void => {
+    setCalendarData((prevState) => ({...prevState, [field]: e.target.value }));
+  };
 
   return (
     <Modal
@@ -92,7 +96,7 @@ export const ModalCreateCalendar = ({ open }) => {
           <Form.Control
             type="date"
             required
-            value={calendarData?.date}
+            value={typeof calendarData?.date === "string" ? calendarData?.date : calendarData?.date?.toISOString().slice(0,10) || ""}
             onChange={(e) => handleChange(e, "date")}
           />
         </Form.Group>

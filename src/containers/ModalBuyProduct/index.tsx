@@ -1,27 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "../../components/Modal";
-import { Col, Form, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import {
   deleteProductsFromChartAction,
-  saveProductsAction,
   saveProductsInChartAction,
 } from "../../actions/productActions";
 import {
   closeModalsAction,
   openModalBuyProductAction,
-  openModalSaveItemsAction,
 } from "../../actions/modalsActions";
 import {
   closeModalsType,
   saveProductsInChartInitType,
-  saveProductsInitType,
-  saveProductsSuccessType,
 } from "../../storage/actionConstants";
 import utilService from "../../services/utilService";
-import userLogo from "../../assets/user-logo.png";
-import { Calendar } from "../../components/Calendar";
-import { Button } from "../../components/Button";
 import { CountButtonGroup } from "../../components/CountButtonGroup";
 import {
   GalleryContainer,
@@ -33,22 +26,24 @@ import {
   ThumbnailWrapper,
 } from "./styles";
 import { getProducts } from "../../services/productServices";
+import type { IProduct } from "../../interfaces/Product";
+import type { IChartProduct } from "../../interfaces/Chart";
+import type { IModal } from "../../components/Modal/type";
+import type { IChartItemClickParams } from "../../components/CountButtonGroup/type";
 
-export const ModalCreateSchedule = ({ open }) => {
+export const ModalBuyProduct = ({ open }: IModal) => {
   const { state, dispatch } = useAppContext();
-  const [startDate, setStartDate] = useState(new Date());
   const [count, setCount] = useState(0);
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState<IProduct[]>([]);
 
   useEffect(() => {
     if (state.type === closeModalsType) {
-      setStartDate(new Date());
       setCount(0);
       setRelatedProducts([]);
     } else {
       setCount(
         state.chart?.products?.find(
-          (chart) => chart._id === state.activeProduct?._id
+          (chart: IChartProduct) => chart._id === state.activeProduct?._id
         )?.count || 0
       );
     }
@@ -64,46 +59,21 @@ export const ModalCreateSchedule = ({ open }) => {
       };
       fetchRelated();
     }
-  }, [state.type, state.activeProduct, dispatch]);
+  }, [state.type, state.activeProduct, open, dispatch]);
 
   const handleChartClick = async ({
     element,
     negativeValue,
     setItemsLoading,
     field,
-  }) => {
+  }: IChartItemClickParams) => {
     setItemsLoading((prevState) => ({ ...prevState, [field]: true }));
-    dispatch(
-      negativeValue
-        ? await deleteProductsFromChartAction(dispatch, element, negativeValue)
-        : await saveProductsInChartAction(dispatch, element)
-    );
+    if(negativeValue){
+      await deleteProductsFromChartAction(dispatch, element as IChartProduct, negativeValue);
+    } else{
+      await saveProductsInChartAction(dispatch, element as IChartProduct);
+    }
     setItemsLoading((prevState) => ({ ...prevState, [field]: false }));
-  };
-
-  const handleClick = async (field, element, total, onClick) => {
-    setCount((prevState) => ({ ...prevState, [field]: true }));
-    await onClick({ element, negativeValue: total, setCount, field });
-    setCount((prevState) => ({ ...prevState, [field]: false }));
-  };
-
-  const filterPassedDate = (date) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(date);
-    const day = date.getDay();
-    return (
-      !state?.activeProduct?.blockedDays[day] && currentDate <= selectedDate
-    );
-  };
-  const filterPassedTime = (time) => {
-    const currentDate = new Date();
-    const selectedDate = new Date(time);
-
-    return (
-      currentDate.getTime() < selectedDate.getTime() &&
-      selectedDate.getHours() >= 8 &&
-      selectedDate.getHours() < 23
-    );
   };
 
   return (
@@ -127,7 +97,7 @@ export const ModalCreateSchedule = ({ open }) => {
           onClick: async () => {
             if (state.activeProduct && state.chart?.products) {
               const productInChart = state.chart.products.find(
-                (p) => p._id === state.activeProduct._id
+                (p: IChartProduct) => p._id === state.activeProduct?._id
               );
               const quantityToRemove = productInChart
                 ? productInChart.count
@@ -137,7 +107,7 @@ export const ModalCreateSchedule = ({ open }) => {
                 await handleChartClick({
                   element: state.activeProduct,
                   negativeValue: quantityToRemove,
-                  setItemsLoading: () => {},
+                  field: `chart-card-btn-${state.activeProduct._id}`
                 });
               }
             }
@@ -161,7 +131,7 @@ export const ModalCreateSchedule = ({ open }) => {
             {relatedProducts.length > 0 && (
               <GalleryContainer>
                 <ThumbnailContainer>
-                  {relatedProducts.map((prod) => (
+                  {relatedProducts.map((prod: IProduct) => (
                     <ThumbnailWrapper
                       key={prod._id}
                       onClick={() => dispatch(openModalBuyProductAction(prod))}
@@ -188,8 +158,7 @@ export const ModalCreateSchedule = ({ open }) => {
                 total: count,
                 onClick: handleChartClick,
                 element: state.activeProduct,
-                contentlabel: "Compra",
-                //emptyLabel: "Remove",
+                contentLabel: "Compra",
               }}
             />
           </Col>

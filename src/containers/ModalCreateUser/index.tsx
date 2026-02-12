@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { type ChangeEvent, useEffect, useRef, useState } from "react";
 import { Modal } from "../../components/Modal";
 import { Form, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
@@ -11,11 +11,14 @@ import {
 import { closeModalsAction } from "../../actions/modalsActions";
 import utilService from "../../services/utilService";
 import userLogo from "../../assets/user-logo.png";
+import type { IUser } from "../../interfaces/User";
+import type { IModal } from "../../components/Modal/type";
 
-export const ModalCreateUser = ({ open }) => {
+
+export const ModalCreateUser = ({ open }: IModal) => {
   const { state, dispatch } = useAppContext();
   const [image, setImage] = useState(userLogo);
-  const initialUser = useRef({
+  const initialUser = useRef<IUser>({
     name: "",
     cpf: "",
     phone: "",
@@ -36,9 +39,9 @@ export const ModalCreateUser = ({ open }) => {
     frequency: "Semanal",
     status: "Ativo",
   });
-  const [userData, setUserData] = useState(initialUser.current);
+  const [userData, setUserData] = useState<IUser>(initialUser.current);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { address, ...rest } = userData;
     const payload = {
@@ -71,21 +74,21 @@ export const ModalCreateUser = ({ open }) => {
         ...prevState,
         ...rest,
         address: {
-          street: address?.street || address?.rua || "",
-          number: address?.number || address?.numero || "",
-          neighborhood: address?.neighborhood || address?.bairro || "",
-          city: address?.city || address?.cidade || "",
-          uf: address?.uf || address?.estado || "",
+          street: address?.street || "",
+          number: address?.number || "",
+          neighborhood: address?.neighborhood || "",
+          city: address?.city || "",
+          uf: address?.uf || "",
           referencePoint:
-            address?.referencePoint || address?.pontoReferencia || "",
+            address?.referencePoint || "",
         },
       }));
     }
 
-    if (userData?.image?.name) {
+    if (userData?.image instanceof File) {
       const newPreview = async () => {
         const preview = await utilService.imageToCompressedBase64(
-          userData.image
+          userData.image as File
         );
         setImage(preview);
       };
@@ -97,18 +100,25 @@ export const ModalCreateUser = ({ open }) => {
     }
   }, [state.type, state.activeUser, dispatch, userData.image]);
 
-  const handleChange = (e, field, subField = null) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+    field: keyof IUser,
+    subField: keyof IUser["address"] | null = null
+  ) => {
     const { value } = e.target;
     setUserData((prevState) => {
-      if (subField) {
+      if (subField && field === "address") {
         return {
           ...prevState,
-          [field]: { ...prevState[field], [subField]: value },
+          address: { ...prevState.address, [subField]: value },
         };
       }
       return {
         ...prevState,
-        [field]: field === "image" ? e.target.files[0] : value,
+        [field]:
+          field === "image" && e.target instanceof HTMLInputElement && e.target.files
+            ? e.target.files[0]
+            : value,
       };
     });
   };
@@ -140,7 +150,9 @@ export const ModalCreateUser = ({ open }) => {
           <br />
           <Form.Control
             type="file"
-            onChange={(e) => handleChange(e, "image")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "image")
+            }
           />
           <br />
           <Form.Control
@@ -148,7 +160,9 @@ export const ModalCreateUser = ({ open }) => {
             required
             placeholder="Nome do Usuário"
             value={userData?.name}
-            onChange={(e) => handleChange(e, "name")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "name")
+            }
           />
           <br />
           <Form.Control
@@ -156,7 +170,9 @@ export const ModalCreateUser = ({ open }) => {
             required
             placeholder="CPF"
             value={userData?.cpf}
-            onChange={(e) => handleChange(e, "cpf")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "cpf")
+            }
           />
           <br />
           <Form.Control
@@ -164,7 +180,9 @@ export const ModalCreateUser = ({ open }) => {
             required
             placeholder="Telefone"
             value={userData?.phone}
-            onChange={(e) => handleChange(e, "phone")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "phone")
+            }
           />
           <br />
           <Form.Control
@@ -172,7 +190,9 @@ export const ModalCreateUser = ({ open }) => {
             placeholder="E-mail"
             value={userData?.email}
             disabled={state?.activeUser?._id ? true : false}
-            onChange={(e) => handleChange(e, "email")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "email")
+            }
           />
           <br />
           <Form.Control
@@ -181,7 +201,9 @@ export const ModalCreateUser = ({ open }) => {
             disabled={state?.activeUser?._id ? true : false}
             placeholder="Senha"
             value={userData?.password}
-            onChange={(e) => handleChange(e, "password")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "password")
+            }
           />
           <br />
           <Row className="w-100">
@@ -191,7 +213,9 @@ export const ModalCreateUser = ({ open }) => {
                 required
                 placeholder="Rua"
                 value={userData?.address?.street}
-                onChange={(e) => handleChange(e, "address", "street")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChange(e, "address", "street")
+                }
               />
             </Col>
             <Col>
@@ -200,7 +224,9 @@ export const ModalCreateUser = ({ open }) => {
                 required
                 placeholder="Número"
                 value={userData?.address?.number}
-                onChange={(e) => handleChange(e, "address", "number")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChange(e, "address", "number")
+                }
               />
             </Col>
           </Row>
@@ -212,7 +238,9 @@ export const ModalCreateUser = ({ open }) => {
                 required
                 placeholder="Bairro"
                 value={userData?.address?.neighborhood}
-                onChange={(e) => handleChange(e, "address", "neighborhood")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChange(e, "address", "neighborhood")
+                }
               />
             </Col>
             <Col md={7}>
@@ -221,7 +249,9 @@ export const ModalCreateUser = ({ open }) => {
                 required
                 placeholder="Cidade"
                 value={userData?.address?.city}
-                onChange={(e) => handleChange(e, "address", "city")}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleChange(e, "address", "city")
+                }
               />
             </Col>
             <Col>
@@ -229,7 +259,10 @@ export const ModalCreateUser = ({ open }) => {
                 name="uf"
                 required
                 value={userData?.address?.uf}
-                onChange={(e) => handleChange(e, "address", "uf")}>
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                  handleChange(e, "address", "uf")
+                }
+              >
                 <option value="AC">AC</option>
                 <option value="AL">AL</option>
                 <option value="AP">AP</option>
@@ -265,7 +298,9 @@ export const ModalCreateUser = ({ open }) => {
             type="text"
             placeholder="Ponto de Referência"
             value={userData?.address?.referencePoint}
-            onChange={(e) => handleChange(e, "address", "referencePoint")}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, "address", "referencePoint")
+            }
           />
           <br />
           {["Master", "Gestor"].includes(state?.currentUser?.type) && (
@@ -274,7 +309,9 @@ export const ModalCreateUser = ({ open }) => {
               rows={3}
               placeholder="Observações"
               value={userData?.observations}
-              onChange={(e) => handleChange(e, "observations")}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                handleChange(e, "observations")
+              }
             />
           )}
           <br />
@@ -284,7 +321,9 @@ export const ModalCreateUser = ({ open }) => {
                 <Form.Label>Dia de Entrega</Form.Label>
                 <Form.Select
                   value={userData?.deliveryDay}
-                  onChange={(e) => handleChange(e, "deliveryDay")}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    handleChange(e, "deliveryDay")
+                  }
                 >
                   <option value="">Selecione um dia</option>
                   <option value="Domingo">Domingo</option>
@@ -300,7 +339,9 @@ export const ModalCreateUser = ({ open }) => {
                 <Form.Label>Frequência</Form.Label>
                 <Form.Select
                   value={userData?.frequency}
-                  onChange={(e) => handleChange(e, "frequency")}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    handleChange(e, "frequency")
+                  }
                 >
                   <option value="">Nenhuma</option>
                   <option value="Semanal">Semanal</option>
@@ -317,7 +358,9 @@ export const ModalCreateUser = ({ open }) => {
                 <Form.Label>Status</Form.Label>
                 <Form.Select
                   value={userData?.status || "Ativo"}
-                  onChange={(e) => handleChange(e, "status")}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    handleChange(e, "status")
+                  }
                 >
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
@@ -328,7 +371,9 @@ export const ModalCreateUser = ({ open }) => {
                 <Form.Select
                   required
                   value={userData?.type}
-                  onChange={(e) => handleChange(e, "type")}
+                  onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                    handleChange(e, "type")
+                  }
                 >
                   <option>Master</option>
                   <option>Gestor</option>

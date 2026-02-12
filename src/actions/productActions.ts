@@ -22,11 +22,7 @@ import React from "react";
 import type { IProduct } from "../interfaces/Product";
 import type { IChart } from "../interfaces/Chart";
 import type { IPaginatedResponse } from "../interfaces/Response";
-
-interface Action {
-  type: string;
-  payload?: any;
-}
+import type { IAction } from "../interfaces/Context";
 
 export const saveProductsInChartInitAction = () => ({
   type: saveProductsInChartInitType,
@@ -38,12 +34,12 @@ export const saveProductsInChartSuccessAction = (chart: IChart) => ({
 });
 
 export const saveProductsInChartAction = async (
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<IAction>,
   product: IProduct
 ) => {
   dispatch(saveProductsInChartInitAction());
-  await utilService.sleep(100);
   const chart = await saveProductInChart(product);
+  await utilService.sleep(100);
   dispatch(saveProductsInChartSuccessAction(chart));
 };
 
@@ -57,13 +53,13 @@ export const deleteProductsFromChartSuccessAction = (chart: IChart) => ({
 });
 
 export const deleteProductsFromChartAction = async (
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<IAction>,
   product: IProduct,
   negativeValue: number
 ) => {
   dispatch(deleteProductsFromChartInitAction());
   const chart = await deleteProductsFromChart(product, negativeValue);
-  await utilService.sleep(1000);
+  await utilService.sleep(100);
   dispatch(deleteProductsFromChartSuccessAction(chart));
 };
 
@@ -77,7 +73,7 @@ export const fetchProductsSuccessAction = (products: IPaginatedResponse<IProduct
 });
 
 export const fetchProductsAction = async (
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<IAction>,
   opts?: any
 ) => {
   dispatch(fetchProductsInitAction());
@@ -95,11 +91,11 @@ export const saveProductsSuccessAction = (product: IPaginatedResponse<IProduct>)
 });
 
 export const saveProductsAction = async (
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<IAction>,
   productData: IProduct
 ) => {
   dispatch(saveProductsInitAction());
-  await utilService.sleep(1000);
+  await utilService.sleep(500);
   const newProduct = await saveProduct(productData);
   dispatch(saveProductsSuccessAction(newProduct));
 };
@@ -114,11 +110,11 @@ export const deleteProductSuccessAction = (products: IPaginatedResponse<IProduct
 });
 
 export const deleteProductAction = async (
-  dispatch: React.Dispatch<Action>,
+  dispatch: React.Dispatch<IAction>,
   product_id: string
 ) => {
   dispatch(deleteProductInitAction());
-  await utilService.sleep(1000);
+  await utilService.sleep(500);
   const products = await deleteProduct(product_id);
   dispatch(deleteProductSuccessAction(products));
 };

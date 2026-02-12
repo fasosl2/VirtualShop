@@ -1,11 +1,6 @@
+import type { ICalendar } from "../interfaces/Calendar";
 import api from "./apiService";
 
-export interface ICalendar {
-  id?: string;
-  _id?: string;
-  date: Date | string | null;
-  [key: string]: any;
-}
 
 export const getCalendars = async (): Promise<ICalendar[]> => {
   const result: any = await api.read({route: "calendars"});

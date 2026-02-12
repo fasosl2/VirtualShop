@@ -1,27 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Modal } from "../../components/Modal";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import {
   closeModalsAction,
 } from "../../actions/modalsActions";
 import { saveCategoriesAction } from "../../actions/categoriesActions";
+import type { IModal } from "../../components/Modal/type";
+import type { ICategory } from "../../interfaces/Category";
 
-export const ModalCreateCategories = ({ open }) => {
-  const { state, dispatch } = useAppContext();
-  const initialCategory = useRef({ 
+export const ModalCreateCategories = ({ open } : IModal) => {
+  const { dispatch } = useAppContext();
+  const initialCategory = useRef<ICategory>({ 
     name: "", 
     description: "" 
   })
-  const [categoryData, setCategoryData] = useState(initialCategory.current);
+  const [categoryData, setCategoryData] = useState<ICategory>(initialCategory.current);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     await saveCategoriesAction(dispatch, categoryData);
     dispatch(closeModalsAction());
   };
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     const { name, value } = e.target;
     setCategoryData({ ...categoryData, [name]: value });
   };

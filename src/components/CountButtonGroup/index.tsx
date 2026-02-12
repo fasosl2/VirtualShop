@@ -8,7 +8,7 @@ export const CountButtonGroup: React.FC<ICountButtonGroup> = ({
   total,
   onClick,
   element,
-  contentlabel,
+  contentLabel,
   emptyLabel,
 }) => {
   const [itemsLoading, setItemsLoading] = useState<Record<string, boolean>>({});
@@ -18,8 +18,8 @@ export const CountButtonGroup: React.FC<ICountButtonGroup> = ({
       {emptyLabel ? (
         <Button
           variant={total ? "danger" : "primary"}
-          label={(total ? emptyLabel : contentlabel) + "r"}
-          loadingLabel={(total ? emptyLabel : contentlabel) + "ndo"}
+          label={(total ? emptyLabel : contentLabel) + "r"}
+          loadingLabel={(total ? emptyLabel : contentLabel) + "ndo"}
           loading={itemsLoading["groupPrimary"]}
           onClick={() =>
             onClick({
