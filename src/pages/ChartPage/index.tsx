@@ -114,11 +114,11 @@ export const ChartPage = () => {
       handleShowFeedback("warning");
     } else {
       savePurchasesAction(dispatch, {
-        user: state?.currentUser?._id,
-        deliveryDate: deliveryDate,
+        user: state?.currentUser,
+        deliveryDate: deliveryDate?.toDate(),
         paymentStatus: "Pendente",
         deliveryStatus: "Pendente",
-        paymentMethod: paymentMethod,
+        paymentMethod,
         // Envia para o backend apenas os campos necessários
         products: state.chart?.products?.map(({ _id, count }: IChartProduct) => ({
           _id,

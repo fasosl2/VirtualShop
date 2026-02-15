@@ -6,7 +6,7 @@ export interface IProduct {
     id?: string;
     _id: string;
     items?: IItem[];
-    title: string;
+    title?: string;
     shortTitle?: string;
     description?: string;
     price?: number;
