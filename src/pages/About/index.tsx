@@ -152,6 +152,7 @@ export const AboutPage = () => {
                 <SwiperSlide key={index}>
                   <SlideContainer>
                     <Card
+                      _id={`${index}`}
                       image={item.img}
                       title={item.title}
                       style={{ height: "100%", borderRadius: "16px" }}
@@ -160,7 +161,7 @@ export const AboutPage = () => {
                       controls={[
                         {
                           label: "saiba+",
-                          freeshow: 'true',
+                          freeShow: true,
                           loadingLabel: "saiba+",
                           variant: "primary",
                           onClick: () => {},

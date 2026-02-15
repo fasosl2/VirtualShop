@@ -8,9 +8,9 @@ import collaborators from "../../assets/collaborators.png";
 import {
   BannerImage,
   ContentSection,
-  HomeSwiperContainer,
-  SlideContainer,
-  SlideContainerLogo,
+  // HomeSwiperContainer,
+  // SlideContainer,
+  // SlideContainerLogo,
   Container,
   H2,
   H4,
@@ -18,19 +18,19 @@ import {
   BannerH2,
 } from "./styles";
 import { Frame } from "../../components/Frame";
-import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
+// import { SwiperContainer, SwiperSlide } from "../../components/Swiper";
 import image1 from "../../assets/home-img1.png";
-import ufpeLogo from "../../assets/client-ufpe-logo.png";
-import oi from "../../assets/telenofia-oi.png";
-import metropoleLogo from "../../assets/client-metropole-logo.png";
-import prefeituraRecifeLogo from "../../assets/client-prefeitura-recife-logo.png";
-import unicapLogo from "../../assets/client-unicap-logo.png";
-import { SwiperImage } from "../../components/Swiper/styles";
+// import ufpeLogo from "../../assets/client-ufpe-logo.png";
+// import oi from "../../assets/telenofia-oi.png";
+// import metropoleLogo from "../../assets/client-metropole-logo.png";
+// import prefeituraRecifeLogo from "../../assets/client-prefeitura-recife-logo.png";
+// import unicapLogo from "../../assets/client-unicap-logo.png";
+// import { SwiperImage } from "../../components/Swiper/styles";
 import { useNavigate } from "react-router-dom";
 
 // ...
 import { Card } from "../../components/Card";
-import logo00 from "../../assets/homeCarrossel/logo00.png";
+// import logo00 from "../../assets/homeCarrossel/logo00.png";
 import comida01 from "../../assets/homeCarrossel/comida01.png";
 import comida02 from "../../assets/homeCarrossel/comida02.png";
 import comida04 from "../../assets/homeCarrossel/comida04.png";
@@ -42,8 +42,14 @@ import { ContentDiv } from "../../styles/global";
 
 // ...
 
+interface SwiperItem {
+  img: string;
+  title: string;
+  text: string;
+}
+
 export const HomePage = () => {
-  const swiperArray = [
+  const swiperArray: SwiperItem[] = [
     {
       img: comida01,
       title: "Ovos de Capoeira",
@@ -119,7 +125,7 @@ export const HomePage = () => {
                       controls={[
                         {
                           label: "saiba+",
-                          freeshow: 'true',
+                          freeShow: 'true',
                           loadingLabel: "saiba+",
                           variant: "primary",
                           onClick: () => {},
@@ -145,7 +151,7 @@ export const HomePage = () => {
               {swiperArray.map((item, index) => (
                 <Col key={index} xs={12} md={6}>
                   <Card
-                    index={index}
+                    _id={`${index}`}
                     image={item.img}
                     title={item.title}
                     style={{
@@ -161,12 +167,12 @@ export const HomePage = () => {
                     controls={[
                       {
                         label: "saiba+",
-                        freeshow: 'true',
+                        freeShow: true,
                         loadingLabel: "saiba+",
                         variant: "primary",
                         onClick: async () => {
                           navigate("/produtos");
-                        }
+                        },
                       },
                     ]}
                   >
@@ -182,10 +188,10 @@ export const HomePage = () => {
       <Container>
         <Row className="">
           <Col className="p-0" md={6}>
-            <BannerImage image={collaborators} compact></BannerImage>
+            <BannerImage image={collaborators} compactChart></BannerImage>
           </Col>
           <Col className="p-0" md={6}>
-            <BannerImage compact style={{ background: "#475C6D" }}>
+            <BannerImage compactChart style={{ background: "#475C6D" }}>
               <H2 white>
                 quer um orçamento <br /> personalizado?
               </H2>
@@ -194,7 +200,7 @@ export const HomePage = () => {
                   label: "fale com a gente no whatsapp",
                   variant: "secondary",
                   onClick: async () => {
-                    window.open('https://wa.me/558181083818', '_blank');
+                    window.open("https://wa.me/558181083818", "_blank");
                   },
                 }}
               />
@@ -221,7 +227,7 @@ export const HomePage = () => {
                   marginLeft: "5%",
                 }}
               ></Circle>
-              <Frame image={image1} radius={'true'}></Frame>
+              <Frame image={image1} radius={"true"}></Frame>
             </Container>
           </Col>
           <Col xs={12} md={6}>
@@ -232,12 +238,12 @@ export const HomePage = () => {
               </h6>{" "}
               <br />
               <p>
-                A Chácara Japiá é um refúgio de cultivo natural
-                localizado em Recife, dedicado à produção de alimentos
-                saudáveis, éticos e sustentáveis. Aqui, cada ovo 🥚 é 100%
-                natural, vindo de 🐓 galinhas criadas livres, que se alimentam
-                de forma verde e diversificada — com acesso a insetos, frutas e
-                vegetais 🌽🥑🪱🦗🐜.
+                A Chácara Japiá é um refúgio de cultivo natural localizado em
+                Recife, dedicado à produção de alimentos saudáveis, éticos e
+                sustentáveis. Aqui, cada ovo 🥚 é 100% natural, vindo de 🐓
+                galinhas criadas livres, que se alimentam de forma verde e
+                diversificada — com acesso a insetos, frutas e vegetais
+                🌽🥑🪱🦗🐜.
               </p>
               <p>
                 Nosso compromisso é com a vida: 🚫 livre de hormônios e
@@ -296,7 +302,6 @@ export const HomePage = () => {
             </SlideContainerLogo>
           </HomeSwiperContainer>
       </ContentSection> */}
-
     </ContentDiv>
   );
 };

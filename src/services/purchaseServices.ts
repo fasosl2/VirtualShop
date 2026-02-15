@@ -32,15 +32,15 @@ export const deletePurchase = async (purchaseId: string): Promise<IPaginatedResp
   return await getPurchases();
  };
 
-export const selectPurchase = (selectedPurchases: IPurchase[], purchase: IPurchase): IPurchase[] => {
-  const purchaseSelected = selectedPurchases.find(ele => ele._id === purchase._id);
-  if(purchaseSelected){
-    purchaseSelected.total += 1;
-    return selectedPurchases;
-  }
-  selectedPurchases.push({id:purchase._id, title: purchase.title, total:1});
-  return selectedPurchases;
-};
+// export const selectPurchase = (selectedPurchases: IPurchase[], purchase: IPurchase): IPurchase[] => {
+//   const purchaseSelected = selectedPurchases.find(ele => ele._id === purchase._id);
+//   if(purchaseSelected){
+//     purchaseSelected.total += 1;
+//     return selectedPurchases;
+//   }
+//   selectedPurchases.push({id:purchase._id, title: purchase.title, total:1});
+//   return selectedPurchases;
+// };
 
 export const removePurchase = (selectedPurchases: IPurchase[], purchase: IPurchase, negativeValue: number): IPurchase[] => {
   const purchaseSelected = selectedPurchases.find(ele => ele._id === purchase._id);

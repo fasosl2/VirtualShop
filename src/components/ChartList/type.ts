@@ -10,5 +10,5 @@ export type ItemOnClick = (args: {
 
 export interface IChartList {
   items?: IChartProduct[];
-  compact?: boolean;
+  compactChart?: boolean;
 }

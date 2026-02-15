@@ -3,14 +3,20 @@ import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
 import { logoutUsersSuccessType, saveUsersSuccessType } from "../../storage/actionConstants";
 import { Notification } from "../../components/Notification";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { deleteUserAction, fetchUsersAction } from "../../actions/userActions";
 import { openModalCreateUserAction } from "../../actions/modalsActions";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
-import { ModalCreateUser } from "../../containers/ModalCreateUser";
 import utilService from "../../services/utilService";
 import { ContentDiv } from "../../styles/global";
 import { Pagination } from "../../components/Pagination";
+import type { IUser } from "../../interfaces/User";
+
+type UserFilters = {
+  neighborhood: string;
+  status: string;
+  hasOpenDeliveries: string;
+};
 
 export const Users = () => {
   const { state, dispatch } = useAppContext();
@@ -19,17 +25,16 @@ export const Users = () => {
   const [page, setPage] = useState(state.users?.page || 1);
   const [pages, setPages] = useState(state.users?.pages || 1);
   const [limit, setLimit] = useState(10);
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<UserFilters>({
     neighborhood: "",
     status: "",
     hasOpenDeliveries: "",
   });
-  const [apiFilters, setApiFilters] = useState({});
+  const [apiFilters, setApiFilters] = useState<Partial<UserFilters>>({});
 
-  const usersArray = state.users?.list || [];
-  const usersTotalized = usersArray.map(user => user);
+  const usersArray: IUser[] = state.users?.list || [];
+  const usersTotalized = usersArray.map((user) => user);
 
-  // Efeito para a busca inicial de usuários
   useEffect(() => {
     fetchUsersAction(dispatch, { page: 1, limit: 10 });
   }, [dispatch]);
@@ -43,18 +48,16 @@ export const Users = () => {
   }, [state.users?.pages]);
 
   const handleShowFeedback = async () => {
-      setShowFeedback(true);
-      await utilService.sleep(5000);
-      setShowFeedback(false);
-  }
+    setShowFeedback(true);
+    await utilService.sleep(5000);
+    setShowFeedback(false);
+  };
 
-  
-   const handlePlusButtonClick = (productId) => {
-    dispatch(openModalCreateUserAction())
-  }
+  const handlePlusButtonClick = () => {
+    dispatch(openModalCreateUserAction(null));
+  };
 
-  
-  const handleCreateOrUpdate = (user) => {
+  const handleCreateOrUpdate = (user: IUser) => {
     dispatch(openModalCreateUserAction(user));
   };
 
@@ -66,18 +69,24 @@ export const Users = () => {
     }
   }, [state.type]);
 
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleApplyFilters = () => {
-    const newFilters = Object.entries(filters).reduce((acc, [key, value]) => {
-      if (value) {
-        acc[key] = value;
-      }
-      return acc;
-    }, {});
+    const newFilters = Object.entries(filters).reduce<Partial<UserFilters>>(
+      (acc, [key, value]) => {
+        if (value) {
+          acc[key as keyof UserFilters] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
     setPage(1);
     setApiFilters(newFilters);
   };
@@ -90,7 +99,7 @@ export const Users = () => {
 
   return (
     <ContentDiv>
-      <FloatingPillButton label="+"  onClick={handlePlusButtonClick}/>
+      <FloatingPillButton label="+" onClick={handlePlusButtonClick} />
       {showFeedback && (
         <Notification
           message="Criado com sucesso"
@@ -122,7 +131,11 @@ export const Users = () => {
             <Col md={3}>
               <Form.Group>
                 <Form.Label>Status</Form.Label>
-                <Form.Select name="status" value={filters.status} onChange={handleFilterChange}>
+                <Form.Select
+                  name="status"
+                  value={filters.status}
+                  onChange={handleFilterChange}
+                >
                   <option value="">Todos</option>
                   <option value="Ativo">Ativo</option>
                   <option value="Inativo">Inativo</option>
@@ -132,7 +145,11 @@ export const Users = () => {
             <Col md={3}>
               <Form.Group>
                 <Form.Label>Entregas em aberto</Form.Label>
-                <Form.Select name="hasOpenDeliveries" value={filters.hasOpenDeliveries} onChange={handleFilterChange}>
+                <Form.Select
+                  name="hasOpenDeliveries"
+                  value={filters.hasOpenDeliveries}
+                  onChange={handleFilterChange}
+                >
                   <option value="">Todos</option>
                   <option value="true">Sim</option>
                   <option value="false">Não</option>
@@ -140,41 +157,60 @@ export const Users = () => {
               </Form.Group>
             </Col>
             <Col md={3} className="d-flex gap-2 ms-auto">
-              <Button type="submit" className="w-100">Filtrar</Button>
-              <Button variant="secondary" onClick={handleClearFilters} className="w-100">Limpar</Button>
+              <Button type="submit" className="w-100">
+                Filtrar
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={handleClearFilters}
+                className="w-100"
+              >
+                Limpar
+              </Button>
             </Col>
           </Row>
         </Form>
       </Container>
       <Container fluid>
-        <Row >
-        {usersTotalized.map((user) =>(
-          <Col key={user._id} xs={13} md={4} style={{marginTop:'1em'}}>
-            <Card
+        <Row>
+          {usersTotalized.map((user, index) => (
+            <Col
+              key={user._id ?? `user-${index}`}
+              xs={13}
+              md={4}
+              style={{ marginTop: "1em" }}
+            >
+              <Card
                 {...{
                   ...user,
                   title: user.name,
                   subTitle: user.email,
-                  controls: [{
-                    label: 'Editar',
-                    loadingLabel: 'Editando',
-                    variant: 'warning',
-                    onClick: async () => {
-                      handleCreateOrUpdate(user);
-                    }
-                  },{
-                    label: 'Excluir',
-                    loadingLabel: 'Excluindo',
-                    variant: 'danger',
-                    onClick: async () => {
-                      await deleteUserAction(dispatch, user._id);
-                    }
-                  }
-                ]
+                  image: user.image as string,
+                  controls: [
+                    {
+                      label: "Editar",
+                      loadingLabel: "Editando",
+                      variant: "warning",
+                      onClick: async () => {
+                        handleCreateOrUpdate(user);
+                      },
+                    },
+                    {
+                      label: "Excluir",
+                      loadingLabel: "Excluindo",
+                      variant: "danger",
+                      onClick: async () => {
+                        if (!user._id) {
+                          return;
+                        }
+                        await deleteUserAction(dispatch, user._id);
+                      },
+                    },
+                  ],
                 }}
-            />
-          </Col>
-        ))}
+              />
+            </Col>
+          ))}
         </Row>
       </Container>
       <Pagination

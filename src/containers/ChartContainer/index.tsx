@@ -49,7 +49,7 @@ export const ChartContainer: React.FC = () => {
       <Dropdown.Toggle variant="light">Carrinho</Dropdown.Toggle>
       <Dropdown.Menu>
         <Container>
-          <ChartList items={chartItems as any} compact={true} />
+          <ChartList items={chartItems as any} compactChart={true} />
         </Container>
       </Dropdown.Menu>
     </Dropdown>

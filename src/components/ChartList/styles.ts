@@ -40,10 +40,10 @@ export const DropdownItem = styled(Dropdown.Item).attrs({
 `
 
 export const ListGroupBSItem = styled(ListGroup.Item).attrs((props) => ({
-  className: props.compact ? "border-0 " : "border-0 border-bottom",
+  className: props.$compactChart ? "border-0 " : "border-0 border-bottom",
 }))`
   ${(props) =>
-    props.compact
+    props.$compactChart
       ? "padding: 4% 0;" : ""}
 
   boder-radius: 0;
@@ -51,7 +51,7 @@ export const ListGroupBSItem = styled(ListGroup.Item).attrs((props) => ({
 
 export const Image = styled(ImageBS)`
   ${(props) =>
-    props.compact
+    props.$compactChart
       ? `
   
   border-radius: 13px;
@@ -95,9 +95,9 @@ export const ColListGroup = styled(ColBS).attrs({
 `;
 
 export const RowTitle = styled(RowBS).attrs((props) => ({
-  className: props.compact ? " pt-3 pl-2 mb-2" : "border-bottom  pt-3 pb-3 pl-2  m-0",
+  className: props.$compactChart ? " pt-3 pl-2 mb-2" : "border-bottom  pt-3 pb-3 pl-2  m-0",
 }))`
-  ${(props) => props.compact ? 
+  ${(props) => props.$compactChart ? 
     `
   border-bottom: 1px solid rgba(0, 142, 204, 0.5);
   margin: 0;
@@ -111,18 +111,18 @@ export const RowBody = styled(RowBS).attrs({
 })``;
 
 export const RowFooter = styled(RowBS).attrs((props) => ({
-  className: props.compact
+  className: props.$compactChart
     ? `
     `
     : "p-0 m-0 d-flex justify-content-center align-items-center",
 }))`
   ${(props) =>
-    props.compact ? "border-top: 1px solid rgba(0, 142, 204, 0.5);" : "background-color: rgba(71, 91, 109, 0.1);"}
+    props.$compactChart ? "border-top: 1px solid rgba(0, 142, 204, 0.5);" : "background-color: rgba(71, 91, 109, 0.1);"}
 `;
 
 export const ContentSection = styled.div`
   ${(props) =>
-    props.compact
+    props.$compactChart
       ? ""
       : `
   border: 1px solid rgba(71, 91, 109, 0.3);

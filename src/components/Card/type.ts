@@ -2,16 +2,17 @@ import type { CSSProperties, ReactNode } from "react";
 
 export interface ControlButton {
   label: string;
+  loadingLabel: string;
   variant: string;
   onClick: () => void;
-  freeshow?: boolean;
+  freeShow?: boolean;
 }
 
 export interface ICard {
-  _id: string;
+  _id?: string;
   image?: string;
   title?: string;
-  subTitle?: string;
+  subTitle?: string | ReactNode;
   onClick?: () => void;
   controls?: ControlButton[];
   style?: CSSProperties;

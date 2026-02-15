@@ -20,34 +20,14 @@ import { CountButtonGroup } from "../../components/CountButtonGroup";
 import type { IPurchase } from "../../interfaces/Purchase";
 import type { IUser } from "../../interfaces/User";
 import type { IProduct } from "../../interfaces/Product";
+import type { IModal } from "../../components/Modal/type";
 
-interface ModalCreatePurchaseProps {
-  open: boolean;
-}
-
-type ProductInPurchase = IProduct & { count: number };
-
-interface PurchaseData {
-  user: string;
-  deliveryDate: Date | null;
-  products: ProductInPurchase[];
-  paymentStatus: 'Pendente' | 'Pago' | 'Cancelado';
-  deliveryStatus: 'Pendente' | 'Em preparação' | 'Em rota de entrega' | 'Entregue' | 'Cancelado';
-  paymentMethod: 'A Combinar' | 'Pix' | 'Cartão de Crédito' | 'Cartão de Débito' | 'Dinheiro';
-  discount: number;
-  observations: string;
-  recurrence: {
-    isBase: 'Sim' | 'Não';
-    baseID: string;
-  };
-}
-
-export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
+export const ModalCreatePurchase = ({ open }: IModal) => {
   const { state, dispatch } = useAppContext();
   const { users, products: productsData, activePurchase } = state;
 
-  const [purchaseData, setPurchaseData] = useState<PurchaseData>({
-    user: "",
+  const [purchaseData, setPurchaseData] = useState<IPurchase>({
+    user: {} as IUser,
     deliveryDate: null,
     products: [],
     paymentStatus: 'Pendente',
@@ -86,7 +66,7 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
 
   const selectedCustomerName = useMemo(() => {
     if (!purchaseData.user || !users?.list) return "Selecione um cliente";
-    return users.list.find((u:IUser) => u._id === purchaseData.user)?.name || "Selecione um cliente";
+    return users.list.find((u:IUser) => u._id === purchaseData.user._id)?.name || "Selecione um cliente";
   }, [purchaseData.user, users?.list]);
 
   const filteredUsers = useMemo(() => {
@@ -121,7 +101,7 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
     fetchUsersAction(dispatch, { limit: 0 });
     if (isEditing) {
       setPurchaseData({
-        user: activePurchase.user?._id || "",
+        user: activePurchase?.user,
         deliveryDate: activePurchase.deliveryDate
           ? new Date(activePurchase.deliveryDate)
           : null,
@@ -139,7 +119,7 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
       });
     } else if (state.type === closeModalsType) {
       setPurchaseData({
-        user: "",
+        user: {} as IUser,
         deliveryDate: null,
         products: [],
         paymentStatus: 'Pendente',
@@ -188,8 +168,8 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
     }
   }, [state.type, dispatch]);
 
-  const handleCustomerSelect = (userId: string) => {
-    const selectedUser = users?.list?.find((u:IUser) => u._id === userId);
+  const handleCustomerSelect = (user: IUser) => {
+    const selectedUser = users?.list?.find((u:IUser) => u._id === user._id);
     let newDeliveryDate: Date | null = null;
 
     if (selectedUser?.deliveryDay) {
@@ -213,7 +193,7 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
         newDeliveryDate = new Date(nextDate.setDate(nextDate.getDate() + daysToAdd));
       }
     }
-    setPurchaseData(prev => ({ ...prev, user: userId, deliveryDate: newDeliveryDate }));
+    setPurchaseData(prev => ({ ...prev, user: user, deliveryDate: newDeliveryDate }));
   };
 
   const handleProductCountChange = ({ element, negativeValue = 0}: { element: IProduct, negativeValue: number}) => {
@@ -316,8 +296,8 @@ export const ModalCreatePurchase = ({ open }: ModalCreatePurchaseProps) => {
                 {filteredUsers.map((user) => (
                   <Dropdown.Item 
                     key={user._id} 
-                    onClick={() => handleCustomerSelect(user._id)}
-                    active={purchaseData.user === user._id}
+                    onClick={() => handleCustomerSelect(user)}
+                    active={purchaseData.user._id === user._id}
                   >
                     {user.name}
                   </Dropdown.Item>

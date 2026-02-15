@@ -1,30 +1,31 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { useAppContext } from "../../storage/AppContext";
 import { Card } from "../../components/Card";
-import { openModalCreateCalendarType, saveCalendarsSuccessType } from "../../storage/actionConstants";
+import { openModalCreateItemType, saveItemsSuccessType } from "../../storage/actionConstants";
 import { Notification } from "../../components/Notification";
 import { useEffect, useState } from "react";
 import {
-  deleteCalendarAction,
-  fetchCalendarsAction,
-} from "../../actions/calendarAction";
+  deleteItemAction,
+  fetchItemsAction,
+} from "../../actions/itemsAction";
 import {
-  openModalCreateCalendarAction,
+  openModalCreateItemAction,
 } from "../../actions/modalsActions";
-import { ModalCreateCalendar } from "../../containers/ModalCreateCalendar";
+import { ModalCreateItem } from "../../containers/ModalCreateItem";
 import { FloatingPillButton } from "../../components/FloatingPillButton";
 import utilService from "../../services/utilService";
+import type { IItem } from "../../interfaces/Item";
 
-export const Calendar = () => {
+export const Items = () => {
   const { state, dispatch } = useAppContext();
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [showFeedback, setShowFeedback] = useState<boolean>(false);
 
-  const calendarsProcessed = state.calendars.map((calendar) => ({
-    ...calendar,
+  const itemsProcessed: IItem[] = state.items.map((item) => ({
+    ...item,
   }));
 
   useEffect(() => {
-    fetchCalendarsAction(dispatch);
+    fetchItemsAction(dispatch);
   }, [dispatch]);
 
   const handleShowFeedback = async () => {
@@ -33,21 +34,21 @@ export const Calendar = () => {
     setShowFeedback(false);
   };
 
-  const handleCreateOrUpdate = (calendar) => {
-    dispatch(openModalCreateCalendarAction(calendar));
+  const handleCreateOrUpdate = (item: IItem) => {
+    dispatch(openModalCreateItemAction(item));
   };
 
   useEffect(() => {
-    if (state.type === saveCalendarsSuccessType) {
+    if (state.type === saveItemsSuccessType) {
       handleShowFeedback();
     }
   }, [state.type]);
 
   return (
     <div>
-      <ModalCreateCalendar open={state.mode === openModalCreateCalendarType} />
+      <ModalCreateItem open={state.mode === openModalCreateItemType} />
       {['Master','Gestor'].includes(state?.currentUser?.type) && 
-            (<FloatingPillButton label="+" onClick={handleCreateOrUpdate} />) }
+            (<FloatingPillButton label="+" onClick={() => handleCreateOrUpdate(null)} />) }
       
       {showFeedback && (
         <Notification
@@ -59,29 +60,26 @@ export const Calendar = () => {
       )}
       <Container fluid>
           <Row>
-          {calendarsProcessed.map((calendar) => (
-            <Col key={calendar._id} xs={13} md={4} style={{ marginTop: "1em" }}>
+          {itemsProcessed.map((item) => (
+            <Col key={item._id} xs={13} md={4} style={{ marginTop: "1em" }}>
               <Card
                 {...{
-                  ...calendar,
-                  subTitle: <div>
-                    <p>Descrição: {calendar.description}</p>
-                    <p>Data:  {calendar?.date?.toLocaleDateString()}</p>
-                    <p>Tipo: {calendar.type}</p>
-                  </div>,
+                  ...item,
+                  subTitle: "Estoque: " + item.stock,
                   controls: [{
                       label: 'Editar',
                       loadingLabel: 'Editando',
                       variant: 'warning',
                       onClick: async () => {
-                        handleCreateOrUpdate(calendar);
+                        handleCreateOrUpdate(item);
                       }
                     },{
                       label: 'Excluir',
                       loadingLabel: 'Excluindo',
                       variant: 'danger',
                       onClick: async () => {
-                        await deleteCalendarAction(dispatch, calendar._id);
+                        if (item._id)
+                          await deleteItemAction(dispatch, item._id);
                       }
                   },
                 ],

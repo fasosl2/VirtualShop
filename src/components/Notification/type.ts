@@ -2,7 +2,7 @@
 import type { AlertProps } from "react-bootstrap";
 
 export interface INotification {
-  variant?: AlertProps['variant']
+  variant?: string | AlertProps['variant'];
   message: string;
   onClose: () => void;
 }

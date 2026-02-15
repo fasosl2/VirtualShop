@@ -76,7 +76,7 @@ export const BannerH2 =  styled.h2`
 `
 export const BannerImage = styled.div`
 ${(props) =>
-    props.compact
+    props.compactChart
       ? `
       background: linear-gradient( 180deg, transparent 70% , rgb(71, 92, 109)  ),  url(${props.image});
       background-blend-mode: multiply, normal, normal;

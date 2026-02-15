@@ -44,7 +44,7 @@ export const savePurchasesInitAction = () => ({
   type: savePurchasesInitType,
 });
 
-export const savePurchasesSuccessAction = (purchase: IPurchase) => ({
+export const savePurchasesSuccessAction = (purchase: IPaginatedResponse<IPurchase>) => ({
   type: savePurchasesSuccessType,
   payload: purchase,
 });

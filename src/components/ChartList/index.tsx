@@ -23,7 +23,7 @@ import type { IChartList, ItemOnClick } from "./type";
 
 export const ChartList: React.FC<IChartList> = ({
   items = [],
-  compact,
+  compactChart,
 }) => {
   let total = 0;
   
@@ -41,9 +41,9 @@ export const ChartList: React.FC<IChartList> = ({
   };
 
   return (
-    <ContentSection compact={compact}>
-      <RowTitle compact={compact}>
-        {compact ? (
+    <ContentSection $compactChart={compactChart}>
+      <RowTitle $compactChart={compactChart}>
+        {compactChart ? (
           <Title5>itens no seu carrinho</Title5>
         ) : (
           <Title5>Produtos</Title5>
@@ -53,12 +53,12 @@ export const ChartList: React.FC<IChartList> = ({
       <RowBody>
         <ListGroupBS className="p-0">
           {items.map((item) => (
-            <ListGroupBSItem compact={compact} key={item._id}>
+            <ListGroupBSItem $compactChart={compactChart} key={item._id}>
               <noscript>{(total += item.value * item.total)}</noscript>
               <Row className="g-4 d-flex justify-content-center align-items-center">
                 {/* Botão excluir e img para o pop ou so img */}
-                <ColListGroup xs={compact ? 6 : 4} md={compact ? 6 : 2}>
-                  {!compact ? (
+                <ColListGroup xs={compactChart ? 6 : 4} md={compactChart ? 6 : 2}>
+                  {!compactChart ? (
                     ""
                   ) : (
                     <Col style={{ paddingLeft: "0" }}>
@@ -81,20 +81,20 @@ export const ChartList: React.FC<IChartList> = ({
                   )}
                   <Col>
                     <Image
-                      compact={compact}
+                      $compactChart={compactChart}
                       src={item.image}
-                      thumbnail={!compact}
+                      thumbnail={!compactChart}
                     />
                   </Col>
                 </ColListGroup>
 
                 {/* nome e botão de excluir*/}
-                <Col xs={compact ? 6 : 8} md={compact ? 6 : 4} className="">
+                <Col xs={compactChart ? 6 : 8} md={compactChart ? 6 : 4} className="">
                   <Row>
                     <Col className="pl-3">{item.title}</Col>
                   </Row>
                   <Row>
-                    {compact ? (
+                    {compactChart ? (
                       <Col>
                         {" R$ " +
                           String(
@@ -138,7 +138,7 @@ export const ChartList: React.FC<IChartList> = ({
                 </Col>
 
                 {/* botões de quantidade  do produto */}
-                {compact ? (
+                {compactChart ? (
                   ""
                 ) : (
                   <ColListGroup xs={6} md={3}>
@@ -155,7 +155,7 @@ export const ChartList: React.FC<IChartList> = ({
                 )}
 
                 {/* valor x quantidade */}
-                {compact ? (
+                {compactChart ? (
                   ""
                 ) : (
                   <ColListGroup xs={6} md={3} style={{ fontSize: "1rem" }}>
@@ -177,9 +177,9 @@ export const ChartList: React.FC<IChartList> = ({
         </ListGroupBS>
       </RowBody>
 
-      {compact ? (
+      {compactChart ? (
         <DropdownItem as="div">
-          <RowFooter compact={compact} className="m-0">
+          <RowFooter $compactChart={compactChart} className="m-0">
             <span>
               <ButtonLink to="/chart">
                 finalizar compra

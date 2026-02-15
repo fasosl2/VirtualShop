@@ -10,10 +10,10 @@ export interface IProduct {
     shortTitle?: string;
     description?: string;
     price?: number;
-    stock: string;
-    image: string | File;
-    categories: ICategory[];
-    variant: {
+    stock?: string;
+    image?: string | File;
+    categories?: ICategory[];
+    variant?: {
       isBase: "Não" | "Sim";
       baseID: string;
     }
