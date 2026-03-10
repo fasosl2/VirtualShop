@@ -54,7 +54,7 @@ export const ChartList: React.FC<IChartList> = ({
         <ListGroupBS className="p-0">
           {items.map((item) => (
             <ListGroupBSItem $compactChart={compactChart} key={item._id}>
-              <noscript>{(total += item.value * item.total)}</noscript>
+              <noscript>{(total += item.price * item.total)}</noscript>
               <Row className="g-4 d-flex justify-content-center align-items-center">
                 {/* Botão excluir e img para o pop ou so img */}
                 <ColListGroup xs={compactChart ? 6 : 4} md={compactChart ? 6 : 2}>
@@ -98,7 +98,7 @@ export const ChartList: React.FC<IChartList> = ({
                       <Col>
                         {" R$ " +
                           String(
-                            (Number(item.value) * Number(item.total)).toFixed(2)
+                            (Number(item.price) * Number(item.total)).toFixed(2)
                           ) +
                           " "}
                       </Col>
@@ -162,7 +162,7 @@ export const ChartList: React.FC<IChartList> = ({
                     {" R$ " +
                       String(
                         (
-                          Number(item.value) * Number(item.total)
+                          Number(item.price) * Number(item.total)
                         ).toLocaleString("pt-BR", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,

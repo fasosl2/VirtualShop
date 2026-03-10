@@ -39,7 +39,7 @@ export const ChartContainer: React.FC = () => {
 
   const chartItems = state.chart?.products.map((product) => ({
     ...product,
-    value: product.price || 0,
+    price: product.price || 0,
     total: product.count,
     onClick: handleChartClick,
   }));

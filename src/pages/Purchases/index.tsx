@@ -367,17 +367,12 @@ export const Purchases = () => {
       <Container fluid>
         <Row>
           {purchasesProcessed.map((purchase, index) => {
-            const subtotal =
-              purchase?.products?.reduce(
-                (total, item) => Number(item?.productDetails?.price || 0) + total,
-                0
-              ) || 0;
 
             return (
               <Col key={purchase._id ?? `purchase-${index}`} xs={13} md={4} style={{ marginTop: "1em" }}>
                 <Card
                   {...(() => {
-                    const { user } = purchase;
+                    const { user, totalValue } = purchase;
                     const { street, number, neighborhood, city, uf, referencePoint } = user?.address || {};
                     const addressParts = [street, number, neighborhood, city, uf].filter(Boolean);
                     let fullAddress = addressParts.join(", ");
@@ -405,7 +400,7 @@ export const Purchases = () => {
                             <p><b>Forma de Pagamento:</b> {purchase.paymentMethod}</p>
                           )}
                           <p>
-                            <b>Subtotal:</b> {utilService.formatCurrency(subtotal || 0)}
+                            <b>Subtotal:</b> {utilService.formatCurrency(totalValue || 0)}
                           </p>
                           {(purchase.discount || 0) > 0 && (
                             <p className="text-danger">
@@ -413,7 +408,7 @@ export const Purchases = () => {
                             </p>
                           )}
                           <p>
-                            <b>Total:</b> {utilService.formatCurrency((subtotal || 0) - Number(purchase.discount || 0))}
+                            <b>Total:</b> {utilService.formatCurrency((totalValue || 0) - Number(purchase.discount || 0))}
                           </p>
                           <Row className="mt-2">
                             <Col>

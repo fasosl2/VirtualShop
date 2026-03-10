@@ -36,6 +36,7 @@ export const ChartPage = () => {
 
   const [deliveryDate, setDeliveryDate] = useState<moment.Moment | null>(null);
   const [paymentMethod, setPaymentMethod] = useState("A Combinar");
+  const [totalValue, setTotalValue] = useState(0);
 
   useEffect(() => {
     if (state.currentUser?.deliveryDay) {
@@ -58,6 +59,21 @@ export const ChartPage = () => {
       }
     }
   }, [state.currentUser]);
+
+  useEffect(() => {
+    setTotalValue(Number(
+      state.chart?.products?.reduce(
+        (total: number, product: IProduct) =>
+          (product.price || 0) * (product.count || 0) + total,
+        0
+      )
+    ));
+  }, [state?.chart?.products]);
+  
+  useEffect(() => {
+    fetchChartsAction(dispatch);
+  }, [dispatch]);
+
   const [showFeedback, setShowFeedback] = useState<string>(null);
   const handleShowFeedback = async (message: string) => {
     setShowFeedback(message);
@@ -70,9 +86,6 @@ export const ChartPage = () => {
     success: "Compra efetuada com sucesso!",
   };
 
-  useEffect(() => {
-    fetchChartsAction(dispatch);
-  }, [dispatch]);
 
   // const handleClick = async ({
   //   element,
@@ -119,10 +132,12 @@ export const ChartPage = () => {
         paymentStatus: "Pendente",
         deliveryStatus: "Pendente",
         paymentMethod,
+        totalValue,
         // Envia para o backend apenas os campos necessários
-        products: state.chart?.products?.map(({ _id, count }: IChartProduct) => ({
+        products: state.chart?.products?.map(({ _id, count, price }: IChartProduct) => ({
           _id,
           count,
+          price
         })),
       });
       deleteChartAction(dispatch);
@@ -147,7 +162,7 @@ export const ChartPage = () => {
             <ChartList
               items={state.chart?.products?.map((product: IChartProduct) => ({
                 _id: product._id,
-                value: product.price || 0,
+                price: product.price || 0,
                 title: product.title,
                 total: product.count,
                 image: product.image,
@@ -177,14 +192,7 @@ export const ChartPage = () => {
                   <Col className="col-7">
                     R${" "}
                     {state.chart?.products.length
-                      ? Number(
-                          state.chart?.products.reduce(
-                            (total: number, product: IProduct) =>
-                              (product.price || 0) * (product.count || 0) +
-                              total,
-                            0
-                          )
-                        ).toLocaleString("pt-BR", {
+                      ? totalValue.toLocaleString("pt-BR", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
                         })
